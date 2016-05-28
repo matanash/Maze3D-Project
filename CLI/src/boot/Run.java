@@ -11,7 +11,6 @@ public class Run
 	{
 		try 
 		{
-			//test
 			MyController ctrl = new MyController();
 			MyModel model= new MyModel(ctrl);
 			MyView view = new MyView(ctrl);
