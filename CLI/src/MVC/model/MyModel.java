@@ -139,6 +139,7 @@ public class MyModel implements Model
 	{
 		try 
 		{
+			//test
 			byte b[] = new byte[3];
 			InputStream in  = new FileInputStream(fileName);
 			in.read(b, 0, b.length);
