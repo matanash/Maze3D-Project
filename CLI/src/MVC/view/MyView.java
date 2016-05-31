@@ -19,6 +19,7 @@ public class MyView implements View
 		this.setCtrl(ctrl);
 		HashMap<String, Command> commandsMap = ctrl.initializeCommands();
 		this.cli = new CLI(new BufferedReader(new InputStreamReader(System.in)),new PrintWriter(new OutputStreamWriter(System.out)),commandsMap);
+		
 	}
 	@Override
 	public void start() throws Exception {

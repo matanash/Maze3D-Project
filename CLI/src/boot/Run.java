@@ -17,8 +17,8 @@ public class Run
 			ctrl.setModel(model);
 			ctrl.setView(view);
 			ctrl.setCommands();
-			view.getCli().setCommands(ctrl.getCommands());
 			view.start();
+			
 		} catch (Exception e) 
 		{
 			// TODO Auto-generated catch block

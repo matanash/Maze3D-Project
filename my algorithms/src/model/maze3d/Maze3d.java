@@ -1,6 +1,6 @@
 package model.maze3d;
 
-import java.nio.ByteBuffer;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -46,18 +46,25 @@ public class Maze3d
 	 */
 	public Maze3d(byte[] array) throws Exception
 	{
-		ByteBuffer buf = ByteBuffer.wrap(array,0,array.length);
+		int c=-1;
 		
-		this.height = buf.getInt();
-		this.length = buf.getInt();
-		this.width  = buf.getInt();
-		
-		if (this.height<3 || this.length <4 || this.width<4)
+		if ((int)array[++c]<3)
 			throw new Exception ("Invalid Dimensions");
+		this.height = (int)array[c];
+		System.out.println(this.height);
 		
-		this.startPosition = new Position(buf.getInt(),buf.getInt(),buf.getInt());
-		this.goalPosition = new Position(buf.getInt(),buf.getInt(),buf.getInt());
+		if ((int)array[++c]<4)
+			throw new Exception ("Invalid Dimensions");
+		this.length = (int)array[c];
+		System.out.println(this.length);
 		
+		if ((int)array[++c]<4)
+			throw new Exception ("Invalid Dimensions");
+		this.width = (int)array[c++];
+		System.out.println(this.width);
+		
+		this.startPosition = new Position((int)array[c++],(int)array[c++],(int)array[c++]); 
+		this.goalPosition =  new Position((int)array[c++],(int)array[c++],(int)array[c++]); 
 
 		this.maze3d = new int[height][length][width];	
 		
@@ -67,13 +74,12 @@ public class Maze3d
 			{
 				for (int z=0;z<this.width;z++)
 				{
-					this.maze3d[y][x][z] = buf.getInt();
+					this.maze3d[y][x][z] = (int)array[c];
+					c++;
 				}
 			}
 		}
-		
 	}
-	
 	/**
 	 * This method get the maze height
 	 * @return Maze height

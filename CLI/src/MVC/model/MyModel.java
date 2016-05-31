@@ -22,6 +22,7 @@ import algorithms.search.demo.Maze3dAdapter;
 import io.MyCompressorOutputStream;
 import io.MyDecompressorInputStream;
 import model.maze3d.Maze3d;
+import model.maze3d.Position;
 
 /**
  *  
@@ -89,27 +90,28 @@ public class MyModel implements Model
 	}
 	
 	@Override
-	public int [][] displayCrossSectionByY(String name,int yLayer)
+	public int [][] displayCrossSectionByY(int yLayer,String name) throws Exception
 	{
-		if (mazesMap.containsKey(name)) 
+		if (mazesMap.containsKey(name) && mazesMap.get(name).isInMaze(new Position(yLayer,0,0))) 
 			return mazesMap.get(name).getCrossSectionByY(yLayer);
-		return null;
+		throw new Exception("Maze " +name+ " doesn't exist or yLayer invalid");
+		
 	}
 	
 	@Override
-	public int [][] displayCrossSectionByX(String name, int xLayer)
+	public int [][] displayCrossSectionByX(int xLayer,String name) throws Exception
 	{
-		if (mazesMap.containsKey(name)) 
+		if (mazesMap.containsKey(name) && mazesMap.get(name).isInMaze(new Position(0,xLayer,0)))
 			return mazesMap.get(name).getCrossSectionByX(xLayer);
-		return null;
+		throw new Exception("Maze " +name+ " doesn't exist or xLayer invalid");
 	}
 	
 	@Override
-	public int [][] displayCrossSectionByZ(String name,int zLayer)
+	public int [][] displayCrossSectionByZ(int zLayer,String name) throws Exception
 	{
-		if (mazesMap.containsKey(name)) 
+		if (mazesMap.containsKey(name) && mazesMap.get(name).isInMaze(new Position(0,0,zLayer))) 
 			return mazesMap.get(name).getCrossSectionByZ(zLayer);
-		return null;
+		throw new Exception("Maze " +name+ " doesn't exist or zLayer invalid");
 	}
 	
 	@Override
@@ -137,15 +139,13 @@ public class MyModel implements Model
 	{
 		try 
 		{
-			InputStream in = new MyDecompressorInputStream(
-					new FileInputStream(new File(fileName)));
 			byte b[] = new byte[3];
+			InputStream in  = new FileInputStream(fileName);
 			in.read(b, 0, b.length);
-			int mazeSize= ((int)b[0]*(int)b[1]*(int)b[2])+9;
-			System.out.println(mazeSize);
-			b = new byte[mazeSize];
+			b = new byte[((int)b[0]*(int)b[1]*(int)b[2])+9];
+			in.close();
+			in = new MyDecompressorInputStream(new FileInputStream(fileName));
 			in.read(b);
-			
 			mazesMap.put(name,new Maze3d(b));
 			in.close();
 			System.out.println("Maze "+name+" loaded from file "+fileName);

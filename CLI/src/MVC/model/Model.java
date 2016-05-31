@@ -17,11 +17,11 @@ public interface Model {
 
 	Maze3d display(String name);
 	
-	int [][] displayCrossSectionByY(String name, int yLayer);
+	int[][] displayCrossSectionByY(int yLayer, String name) throws Exception;
 	
-	int [][] displayCrossSectionByX(String name, int xLayer);
-	
-	int [][] displayCrossSectionByZ(String name, int zLayer);
+	int [][] displayCrossSectionByX(int xLayer,String name) throws Exception;
+
+	int [][] displayCrossSectionByZ(int zLayer,String name) throws Exception;
 	
 	void saveMazeToFile(String name, String fileName);
 	
@@ -34,6 +34,8 @@ public interface Model {
 	Solution displaySolution(String name);
 	
 	boolean mazeExists(String name);
+
+	
 	
 	
 	

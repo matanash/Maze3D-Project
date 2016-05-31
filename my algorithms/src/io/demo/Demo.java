@@ -24,7 +24,7 @@ public class Demo
 	{
 		try{
 			
-			Maze3d maze = mg.generate(3, 4, 4); //... generate it
+			Maze3d maze = mg.generate(3,4,4); //... generate it
 
 			// save it to a file
 			OutputStream out=new MyCompressorOutputStream(new FileOutputStream("1.maz"));
@@ -34,10 +34,10 @@ public class Demo
 			
 			// read it from a file
 			InputStream in=new MyDecompressorInputStream(new FileInputStream("1.maz"));
+			
 			byte b[]=new byte[maze.toByteArray().length];
 			in.read(b);
 			in.close();
-			
 			Maze3d loaded=new Maze3d(b);
 			System.out.println(loaded);
 			System.out.println(maze.equals(loaded));

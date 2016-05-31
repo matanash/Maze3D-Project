@@ -3,23 +3,23 @@ package MVC.controller;
 import java.util.HashMap;
 
 import MVC.model.Model;
-import MVC.view.View;
+import MVC.view.MyView;
 
 public class MyController implements Controller 
 {
 
-	private View view;
+	private MyView view;
 	private Model model;
 	HashMap<String, Command> commands;
 	
 	public MyController() {}
 	
-	public View getView() 
+	public MyView getView() 
 	{
 		return this.view;
 	}
 
-	public void setView(View view) 
+	public void setView(MyView view) 
 	{
 		this.view = view;
 	}
@@ -46,7 +46,7 @@ public class MyController implements Controller
 	 */
 	public void setCommands() {
 		this.commands = initializeCommands();
-		
+		this.view.getCli().setCommands(commands);
 	}
 	
 

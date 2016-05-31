@@ -16,11 +16,19 @@ public class DisplayCrossSectionByYCommand extends CommonCommand
 	@Override
 	public void doCommand(String[] args)
 	{
-		if (!model.mazeExists(args[0]))
+		if (!model.mazeExists(args[1]))
 			System.out.println("This maze isn't exists");
 		else
 		{
-			printMaze2dBySection(model.displayCrossSectionByY(args[0],Integer.parseInt(args[1])));
+			try {
+				printMaze2dBySection(model.displayCrossSectionByY(Integer.parseInt(args[0]),args[1]));
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 	}
@@ -40,7 +48,7 @@ public class DisplayCrossSectionByYCommand extends CommonCommand
 	@Override
 	public void help() 
 	{
-		System.out.println("display cross section by Y for <name> by <yLayer> (dispay cross section by Y Layer for maze)");
+		System.out.println("display cross section by Y <ySection> for maze <name> (dispay cross section by Y Layer for maze)");
 
 	}
 
