@@ -11,7 +11,7 @@ public class LoadMazeFromFileCommand extends CommonCommand
 	}
 
 	@Override
-	public void doCommand(String[] args) 
+	public void doCommand(String[] args) throws Exception
 	{
 		model.loadMazeFromFile(args[0],args[1]);
 		

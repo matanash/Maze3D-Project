@@ -3,6 +3,7 @@ package MVC.view;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -13,8 +14,6 @@ public class CLI implements Runnable
 	private BufferedReader in;
 	private PrintWriter out;
 	private HashMap<String, Command> commands;
-	
-	
 
 	/**
 	 * CLI Constructor
@@ -29,6 +28,7 @@ public class CLI implements Runnable
 		this.in = in;
 		this.out = out;
 		this.commands = commands;
+		
 	}
 	/**
 	 * @param commands the commands to set
@@ -110,6 +110,10 @@ public class CLI implements Runnable
 							}
 				}			
 				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				catch (Exception e)
+				{
 					e.printStackTrace();
 				}
 				}

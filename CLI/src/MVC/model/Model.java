@@ -11,9 +11,9 @@ public interface Model {
 	
 	String dir(String path);
 	
-	Maze3d generate3dMaze(String name,int height, int length, int width) throws Exception;
+	void generate3dMaze(String name,int height, int length, int width) throws Exception;
 	
-	Solution solveMaze(String name,String method);
+	void solveMaze(String name,String method);
 
 	Maze3d display(String name);
 	

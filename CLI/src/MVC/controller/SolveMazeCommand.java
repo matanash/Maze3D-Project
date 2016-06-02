@@ -1,7 +1,7 @@
 package MVC.controller;
 import MVC.model.Model;
 import MVC.view.View;
-import algorithms.search.Solution;
+
 
 public class SolveMazeCommand extends CommonCommand 
 {
@@ -12,22 +12,19 @@ public class SolveMazeCommand extends CommonCommand
 	}
 
 	@Override
-	public void doCommand(String[] args) 
+	public void doCommand(String[] args) throws Exception
 	{
-		new Thread(new Runnable() 
+		if (args.length==2)
+			model.solveMaze(args[0], args[1]);
+		else
 		{
-
-			@Override
-			public void run() 
-			{
-				Solution solution = model.solveMaze(args[0], args[1]);
-				if (solution == null)
-					System.out.println("The solving proccess could not have been complete.");
-				else
-					System.out.println("The maze " + args[0] + "'s solution is ready");
-			}
-		}).start();
-
+			System.out.println("Invalid arguments");
+			this.help();
+		}
+		/*if (solution == null)
+			System.out.println("The solving proccess could not have been complete.");
+		/*else
+			System.out.println("The maze " + args[0] + "'s solution is ready");*/
 	}
 
 	@Override

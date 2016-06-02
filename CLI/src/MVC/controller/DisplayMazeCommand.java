@@ -11,10 +11,12 @@ public class DisplayMazeCommand extends CommonCommand {
 	}
 
 	@Override
-	public void doCommand(String[] args) 
+	public void doCommand(String[] args) throws Exception
 	{
-		if (!model.mazeExists(args[0]))
-			System.out.println("This maze is already exists");
+		if (args.length!=1){
+			System.out.println("Invalid arguments");
+			this.help();
+		}
 		else
 		{
 			System.out.println("The requested maze is:");

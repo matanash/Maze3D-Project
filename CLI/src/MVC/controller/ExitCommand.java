@@ -12,7 +12,7 @@ public class ExitCommand extends CommonCommand{
 	}
 
 	@Override
-	public void doCommand(String[] args) 
+	public void doCommand(String[] args) throws Exception
 	{
 		System.out.println("|----------------------------|");
 		System.out.println("|   Thank you for playing!   |");

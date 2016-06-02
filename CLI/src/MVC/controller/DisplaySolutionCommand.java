@@ -12,7 +12,7 @@ public class DisplaySolutionCommand extends CommonCommand
 	}
 
 	@Override
-	public void doCommand(String[] args) 
+	public void doCommand(String[] args) throws Exception
 	{
 		if (model.displaySolution(args[0]) == null) 
 			System.out.println("There is no maze in that name.");

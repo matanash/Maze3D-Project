@@ -14,10 +14,13 @@ public class DisplayCrossSectionByZCommand extends CommonCommand
 	}
 
 	@Override
-	public void doCommand(String[] args)
+	public void doCommand(String[] args) throws Exception
 	{
-		if (!model.mazeExists(args[1]))
-			System.out.println("This maze isn't exists");
+		if (args.length != 2) 
+		{
+			System.out.println("Invalid arguments");
+			this.help();
+		} 
 		else
 		{
 			try {

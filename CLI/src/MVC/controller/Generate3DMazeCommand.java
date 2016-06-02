@@ -11,7 +11,8 @@ public class Generate3DMazeCommand extends CommonCommand {
 	}
 
 	@Override
-	public void doCommand(String[] args) {
+	public void doCommand(String[] args) throws Exception 
+	{
 		try {
 			if (model.mazeExists(args[0]))
 				System.out.println("This maze isn't exists");	

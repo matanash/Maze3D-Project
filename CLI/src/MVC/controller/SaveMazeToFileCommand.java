@@ -10,7 +10,7 @@ public class SaveMazeToFileCommand extends CommonCommand {
 	}
 
 	@Override
-	public void doCommand(String[] args) 
+	public void doCommand(String[] args) throws Exception 
 	{
 		if (!model.mazeExists(args[0]))
 			System.out.println("This maze isn't exists");

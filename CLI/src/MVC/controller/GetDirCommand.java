@@ -12,7 +12,7 @@ public class GetDirCommand extends CommonCommand {
 	}
 
 	@Override
-	public void doCommand(String[] args) 
+	public void doCommand(String[] args) throws Exception
 	{
 		String path = args[0];
 		File file = new File(path);
