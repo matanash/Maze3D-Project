@@ -106,7 +106,7 @@ public class MyModel implements Model {
 
 	@Override
 	public Maze3d display(String name) {
-		if (mazeExists(name) )
+		if (mazeExists(name))
 			return mazesMap.get(name);
 		else
 			System.out.println("Couldn't find maze!");
@@ -137,38 +137,52 @@ public class MyModel implements Model {
 
 	@Override
 	public void saveMazeToFile(String name, String fileName) {
+		OutputStream out = null ;
 		try {
-			OutputStream out = new MyCompressorOutputStream(new FileOutputStream(fileName));
+			out = new MyCompressorOutputStream(new FileOutputStream(fileName));
 			out.write(mazesMap.get(name).toByteArray());
 			out.flush();
-			out.close();
 			System.out.println("Maze " + name + " save to file " + fileName);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				out.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
 	@Override
 	public void loadMazeFromFile(String fileName, String name) {
+		InputStream in = null;
 		try {
 			byte b[] = new byte[3];
-			InputStream in = new FileInputStream(fileName);
+			in = new FileInputStream(fileName);
 			in.read(b, 0, b.length);
 			b = new byte[((int) b[0] * (int) b[1] * (int) b[2]) + 9];
 			in.close();
 			in = new MyDecompressorInputStream(new FileInputStream(fileName));
 			in.read(b);
 			mazesMap.put(name, new Maze3d(b));
-			in.close();
-			System.out.println("Maze " + name + " loaded from file " + fileName);
+			System.out.println("Maze " + name + " loaded from file: " + fileName);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
+		} finally {
+			if (in != null)
+				try {
+					in.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 		}
 	}
 
@@ -182,6 +196,7 @@ public class MyModel implements Model {
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
+
 		return -1;
 	}
 
@@ -246,6 +261,12 @@ public class MyModel implements Model {
 		if (mazesMap.containsKey(name))
 			return true;
 		return false;
+	}
+
+	public void exitModel() {
+		for (Thread t : threads)
+			t.interrupt();
+		System.exit(0);
 	}
 
 }

@@ -10,26 +10,17 @@ public class DisplayCrossSectionByXCommand extends CommonCommand {
 	}
 
 	@Override
-	public void doCommand(String[] args) throws Exception 
-	{
-		if (args.length != 2) 
-		{
+	public void doCommand(String[] args) throws Exception {
+		if (args.length != 2) {
 			System.out.println("Invalid arguments");
 			this.help();
-		} 
-		else 
-		{
-			try 
-			{
+		} else {
+			try {
 				printMaze2dBySection(model.displayCrossSectionByX(Integer.parseInt(args[0]), args[1]));
-			} 
-			catch (NumberFormatException e) 
-			{
+			} catch (NumberFormatException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} 
-			catch (Exception e) 
-			{
+			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -49,8 +40,8 @@ public class DisplayCrossSectionByXCommand extends CommonCommand {
 
 	@Override
 	public void help() {
-		System.out.println(
-				"display cross section by X <xSection> for maze <name>  (dispay cross section by X Layer for maze)");
+		System.out.println("Displays cross section by <xSection> for maze3d <name> ." + '\n' + '\t'
+				+ "--> Syntax: display cross section by X <xSection> <name>");
 
 	}
 

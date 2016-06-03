@@ -15,9 +15,9 @@ public class ExitCommand extends CommonCommand{
 	public void doCommand(String[] args) throws Exception
 	{
 		System.out.println("|----------------------------|");
-		System.out.println("|   Thank you for playing!   |");
+		System.out.println("|---Thank you for playing!---|");
 		System.out.println("|----------------------------|");
-		System.exit(0);
+		model.exitModel();
 	}
 
 	@Override

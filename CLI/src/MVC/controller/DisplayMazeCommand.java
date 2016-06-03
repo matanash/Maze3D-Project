@@ -11,23 +11,19 @@ public class DisplayMazeCommand extends CommonCommand {
 	}
 
 	@Override
-	public void doCommand(String[] args) throws Exception
-	{
-		if (args.length!=1){
+	public void doCommand(String[] args) throws Exception {
+		if (args.length != 1) {
 			System.out.println("Invalid arguments");
 			this.help();
-		}
-		else
-		{
+		} else {
 			System.out.println("The requested maze is:");
 			System.out.println(model.display(args[0]));
 		}
 	}
 
 	@Override
-	public void help() 
-	{
-		System.out.println("display <name> (Displaying the whole maze)");
+	public void help() {
+		System.out.println("Displays the whole maze <maze name>. " + '\n' + '\t' + "--> Syntax: display <maze name>");
 
 	}
 

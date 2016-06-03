@@ -26,7 +26,7 @@ public class DisplayFileSizeCommand extends CommonCommand {
 
 	@Override
 	public void help() {
-		System.out.println("file size <name> (Display the size of the saved file)");
+		System.out.println("Displays the maze's file size ." + '\n' + '\t' + "--> Syntax: file size <name>");
 
 	}
 

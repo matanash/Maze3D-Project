@@ -51,17 +51,14 @@ public class Maze3d
 		if ((int)array[++c]<3)
 			throw new Exception ("Invalid Dimensions");
 		this.height = (int)array[c];
-		System.out.println(this.height);
 		
 		if ((int)array[++c]<4)
 			throw new Exception ("Invalid Dimensions");
 		this.length = (int)array[c];
-		System.out.println(this.length);
 		
 		if ((int)array[++c]<4)
 			throw new Exception ("Invalid Dimensions");
 		this.width = (int)array[c++];
-		System.out.println(this.width);
 		
 		this.startPosition = new Position((int)array[c++],(int)array[c++],(int)array[c++]); 
 		this.goalPosition =  new Position((int)array[c++],(int)array[c++],(int)array[c++]); 

@@ -34,7 +34,8 @@ public interface Model {
 	Solution displaySolution(String name);
 	
 	boolean mazeExists(String name);
-
+	
+	void exitModel();
 	
 	
 	

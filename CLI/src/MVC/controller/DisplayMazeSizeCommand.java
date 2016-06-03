@@ -11,27 +11,24 @@ public class DisplayMazeSizeCommand extends CommonCommand {
 	}
 
 	@Override
-	public void doCommand(String[] args) throws Exception
-	{
-		if (args.length!=1){
+	public void doCommand(String[] args) throws Exception {
+		if (args.length != 1) {
 			System.out.println("Invalid arguments");
 			this.help();
-		}
-		else
-		{
+		} else {
 			int size = model.sizeInMemory(args[0]);
 			if (size == -1)
 				System.out.println("There is no such maze!");
 			else
 				System.out.println("The size of the maze in the memory is " + size + " bytes.");
 		}
-		
+
 	}
 
 	@Override
-	public void help() 
-	{
-		System.out.println("maze size <name> (Display the size of the maze in the memory)");
+	public void help() {
+		System.out
+				.println("Displays the maze size in the memory. " + '\n' + '\t' + "--> Syntax: maze size <maze name>");
 
 	}
 
