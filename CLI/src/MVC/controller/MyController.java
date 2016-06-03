@@ -53,6 +53,7 @@ public class MyController implements Controller
 	public HashMap<String, Command> initializeCommands() 
 	{
 		HashMap<String, Command> commandsMap = new HashMap<String, Command>();
+		
 		commandsMap.put("dir", new GetDirCommand(this.view,this.model));
 		commandsMap.put("generate 3d maze", new Generate3DMazeCommand(this.view,this.model));
 		commandsMap.put("display", new DisplayMazeCommand(this.view, this.model));

@@ -15,14 +15,14 @@ public class ExitCommand extends CommonCommand{
 	public void doCommand(String[] args) throws Exception
 	{
 		System.out.println("|----------------------------|");
-		System.out.println("|---Thank you for playing!---|");
+		System.out.println("|   Thank you for playing!   |");
 		System.out.println("|----------------------------|");
 		model.exitModel();
 	}
 
 	@Override
 	public void help() {
-		System.out.println("Exit and close the maze game");
+		System.out.println("Exit and close the maze game"+'\n'+'\t'+"--> exit");
 		
 	}
 

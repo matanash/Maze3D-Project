@@ -17,7 +17,7 @@ public class LoadMazeFromFileCommand extends CommonCommand {
 
 	@Override
 	public void help() {
-		System.out.println("Loads a maze from file path ." + '\n' + '\t' + "--> Syntax: loads a new maze from <file name> preserve under <maze name> ");
+		System.out.println("Loads a 3d maze from <file name path> that preserve under <maze name> ." + '\n' + '\t' + "--> Syntax: load maze <file name path> <maze name> ");
 	}
 
 }

@@ -30,7 +30,7 @@ public class Generate3DMazeCommand extends CommonCommand {
 	@Override
 	public void help() {
 		System.out.println("Generates a new 3D Maze. " + '\n' + '\t'
-				+ "--> Syntax: generates 3d maze <maze name> <height> <length> <width>");
+				+ "--> Syntax: generate 3d maze <maze name> <height> <length> <width>");
 
 	}
 
