@@ -1,4 +1,4 @@
-package MVC.model;
+package MVP.model;
 
 import algorithms.search.Solution;
 import model.maze3d.Maze3d;
@@ -13,7 +13,7 @@ public interface Model {
 	
 	void generate3dMaze(String name,int height, int length, int width) throws Exception;
 	
-	void solveMaze(String name,String method);
+	void solveMaze(String name,String algorithm);
 
 	Maze3d display(String name);
 	
@@ -27,15 +27,19 @@ public interface Model {
 	
 	void loadMazeFromFile(String name, String fileName);
 	
-	int sizeInFile(String name);
+	int sizeInFile(String filename);
 	
 	int sizeInMemory(String name);
 	
 	Solution displaySolution(String name);
 	
+	boolean mazeExists(String name);
+	
 	void exitModel();
 
-	boolean mazeExists(String string);
+	String getMessage();
+	
+	Maze3d getMaze3d (String name);
 	
 	
 	

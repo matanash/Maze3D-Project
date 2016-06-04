@@ -57,9 +57,9 @@ public class MyController implements Controller
 		commandsMap.put("dir", new GetDirCommand(this.view,this.model));
 		commandsMap.put("generate 3d maze", new Generate3DMazeCommand(this.view,this.model));
 		commandsMap.put("display", new DisplayMazeCommand(this.view, this.model));
-		commandsMap.put("display cross section by Y", new DisplayCrossSectionByYCommand(this.view, this.model));
-		commandsMap.put("display cross section by X", new DisplayCrossSectionByXCommand(this.view, this.model));
-		commandsMap.put("display cross section by Z", new DisplayCrossSectionByZCommand(this.view, this.model));
+		commandsMap.put("display cross section by y", new DisplayCrossSectionByYCommand(this.view, this.model));
+		commandsMap.put("display cross section by x", new DisplayCrossSectionByXCommand(this.view, this.model));
+		commandsMap.put("display cross section by z", new DisplayCrossSectionByZCommand(this.view, this.model));
 		commandsMap.put("save maze", new SaveMazeToFileCommand(this.view, this.model));
 		commandsMap.put("load maze", new LoadMazeFromFileCommand(this.view, this.model));
 		commandsMap.put("maze size", new DisplayMazeSizeCommand(this.view, this.model));
