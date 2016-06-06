@@ -7,7 +7,9 @@ public interface View {
 	/**
 	 * start the program
 	 */
-	public void start() throws Exception;
+	public void startView() throws Exception;
+	
+	public void exitView();
 
 	void displayMaze(Maze3d maze);
 	

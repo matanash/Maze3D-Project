@@ -9,13 +9,13 @@ import model.maze3d.Maze3d;
  */
 public interface Model {
 	
-	String dir(String path);
+	void dir(String path);
 	
 	void generate3dMaze(String name,int height, int length, int width) throws Exception;
 	
 	void solveMaze(String name,String algorithm);
 
-	Maze3d display(String name);
+	Maze3d getMaze(String name);
 	
 	int[][] displayCrossSectionByY(int yLayer, String name) throws Exception;
 	
@@ -40,6 +40,8 @@ public interface Model {
 	String getMessage();
 	
 	Maze3d getMaze3d (String name);
+
+	
 	
 	
 	

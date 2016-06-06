@@ -11,18 +11,21 @@ import MVP.view.Maze3DCLIView;
 public class Run {
 
 	public static void main(String[] args) {
-		// MVP Demo
+		
+		/* ********
+		 * MVP Demo
+		 * ********/
+		
 		Maze3DModel model = new Maze3DModel();
-		
-		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-		PrintWriter writer = new PrintWriter(System.out);
-		Maze3DCLIView view = new Maze3DCLIView(reader, writer);
-		
+		Maze3DCLIView view = new Maze3DCLIView(new BufferedReader(new InputStreamReader(System.in)),new PrintWriter(System.out));
 		Presenter presenter = new Presenter(view,model);
+		
+		//register view and model objects as observable of presenter
 		view.addObserver(presenter);
 		model.addObserver(presenter);
 		
-		view.start();	
+		//start the CLI View
+		view.startView();	
 	}
 
 }

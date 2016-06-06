@@ -60,13 +60,11 @@ public class MyModel implements Model {
 			Process p = builder.start();
 			BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
 			String line;
-			while (true) {
+			do {
 				line = r.readLine();
-				if (line == null) {
-					break;
-				}
-				System.out.println(line);
-			}
+				if (line!=null)
+					System.out.println(line);
+			}while (line!=null);
 		} catch (IOException e) {
 			e.getStackTrace();
 		}

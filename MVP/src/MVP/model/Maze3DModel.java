@@ -10,9 +10,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Observable;
+import java.util.concurrent.TimeUnit;
+
 import algorithms.mazeGenerators.MyMaze3dGenerator;
 import algorithms.search.BFSSearcher;
 import algorithms.search.BreadthFirstSearcher;
@@ -29,18 +29,10 @@ import model.maze3d.Position;
  * @author Matan Ashkenazi & Noee Cohen
  *
  */
-public class Maze3DModel extends Observable implements Model {
+public class Maze3DModel extends CommonMaze3DModel {
 
-	HashMap<String, Maze3d> mazesMap;
-	HashMap<String, Solution> solutionMap;
-	private ArrayList<Thread> threads;
 	private String message;
 
-	public Maze3DModel() {
-		this.mazesMap = new HashMap<String, Maze3d>();
-		this.solutionMap = new HashMap<String, Solution>();
-		this.threads = new ArrayList<Thread>();
-	}
 	public HashMap<String, Maze3d> getMazeMap() {
 		return mazesMap;
 	}
@@ -48,6 +40,7 @@ public class Maze3DModel extends Observable implements Model {
 	public void setMazeMap(HashMap<String, Maze3d> mazeMap) {
 		this.mazesMap = mazeMap;
 	}
+
 	public HashMap<String, Solution> getSolutionMap() {
 		return solutionMap;
 	}
@@ -55,36 +48,39 @@ public class Maze3DModel extends Observable implements Model {
 	public void setSolutionMap(HashMap<String, Solution> solutionMap) {
 		this.solutionMap = solutionMap;
 	}
+
 	public String getMessage() {
 		return message;
 	}
-	
+
 	@Override
-	public String dir(String path) 
-	{
+	public void dir(String path) {
 		try {
 			ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", "dir", path);
 			builder.redirectErrorStream(true);
 			Process p = builder.start();
 			BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
-			String line;
+			String bufferLine = "";
+			message = "";
 			while (true) {
-				line = r.readLine();
-				if (line == null) {
+				bufferLine = r.readLine();
+				if (bufferLine == null) {
 					break;
 				}
-				System.out.println(line);
+				message += '\n' + bufferLine;
 			}
+			setChanged();
+			notifyObservers("display_message");
 		} catch (IOException e) {
 			e.getStackTrace();
 		}
-		return null;
+
 	}
-	
+
 	@Override
 	public void generate3dMaze(String name, int height, int length, int width) throws Exception {
 
-		Thread t = new Thread(new Runnable() {
+		threadPool.execute(new Runnable() {
 			Maze3d currentMaze3d;
 
 			@Override
@@ -98,71 +94,75 @@ public class Maze3DModel extends Observable implements Model {
 				message = "Maze " + name + " is ready to use.";
 				setChanged();
 				notifyObservers("display_message");
-			}
-		}, "generateMazeThread");
-		t.start();
-		this.threads.add(t);
 
+			}
+
+		});
 	}
-	
+
 	@Override
-	public Maze3d display(String name) 
-	{
-		if (mazeExists(name)){
+	public Maze3d getMaze(String name) {
+		if (mazeExists(name)) {
 			message = "Maze3D " + name + ": ";
 			setChanged();
 			notifyObservers("display");
 			return mazesMap.get(name);
+		} else {
+			message = "There isn't such maze called " + name;
+			setChanged();
+			notifyObservers("display_message");
 		}
-		else
-			//System.out.println("Couldn't find maze!");
 		return null;
 	}
-	public Maze3d getMaze3d (String name)
-	{
+
+	public Maze3d getMaze3d(String name) {
 		return mazesMap.get(name);
 	}
+
 	@Override
 	public int[][] displayCrossSectionByY(int yLayer, String name) throws Exception {
-		if (mazeExists(name) && mazesMap.get(name).isInMaze(new Position(yLayer, 0, 0)))
-		{
+		if (mazeExists(name) && mazesMap.get(name).isInMaze(new Position(yLayer, 0, 0))) {
 			setChanged();
 			return mazesMap.get(name).getCrossSectionByY(yLayer);
 		}
 		throw new Exception("Maze " + name + " doesn't exist or yLayer invalid");
 	}
+
 	@Override
 	public int[][] displayCrossSectionByX(int xLayer, String name) throws Exception {
-		if (mazeExists(name) && mazesMap.get(name).isInMaze(new Position(0, xLayer, 0)))
-		{
+		if (mazeExists(name) && mazesMap.get(name).isInMaze(new Position(0, xLayer, 0))) {
 			setChanged();
 			return mazesMap.get(name).getCrossSectionByX(xLayer);
-		}	
+		}
 		throw new Exception("Maze " + name + " doesn't exist or xLayer invalid");
 	}
+
 	@Override
-	public int[][] displayCrossSectionByZ(int zLayer, String name) throws Exception 
-	{
-		if (mazeExists(name) && mazesMap.get(name).isInMaze(new Position(0, 0, zLayer)))
-		{
+	public int[][] displayCrossSectionByZ(int zLayer, String name) throws Exception {
+		if (mazeExists(name) && mazesMap.get(name).isInMaze(new Position(0, 0, zLayer))) {
 			setChanged();
 			return mazesMap.get(name).getCrossSectionByZ(zLayer);
 		}
 		throw new Exception("Maze " + name + " doesn't exist or zLayer invalid");
 	}
+
 	@Override
 	public void saveMazeToFile(String name, String fileName) {
-		OutputStream out = null ;
+		OutputStream out = null;
 		try {
 			out = new MyCompressorOutputStream(new FileOutputStream(fileName));
 			out.write(mazesMap.get(name).toByteArray());
 			out.flush();
-			System.out.println("Maze " + name + " save to file " + fileName);
+
+			message = "Maze " + name + " saved to file " + fileName;
+			setChanged();
+			notifyObservers("display_message");
+
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				out.close();
 			} catch (IOException e) {
@@ -170,8 +170,9 @@ public class Maze3DModel extends Observable implements Model {
 				e.printStackTrace();
 			}
 		}
-		
+
 	}
+
 	@Override
 	public void loadMazeFromFile(String name, String fileName) {
 		InputStream in = null;
@@ -184,7 +185,11 @@ public class Maze3DModel extends Observable implements Model {
 			in = new MyDecompressorInputStream(new FileInputStream(fileName));
 			in.read(b);
 			mazesMap.put(name, new Maze3d(b));
-			System.out.println("Maze " + name + " loaded from file: " + fileName);
+			
+			message = "Maze " + name + " loaded from file: " + fileName;
+			setChanged();
+			notifyObservers("display_message");
+			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -199,14 +204,15 @@ public class Maze3DModel extends Observable implements Model {
 					e.printStackTrace();
 				}
 		}
-		
+
 	}
+
 	@Override
 	public int sizeInFile(String filename) {
 		File file;
 		try {
-			file = new File(Maze3DModel.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath() + "\\"
-					+ filename);
+			file = new File(Maze3DModel.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath()
+					+ "\\" + filename);
 			return ((int) file.length());
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
@@ -214,6 +220,7 @@ public class Maze3DModel extends Observable implements Model {
 
 		return -1;
 	}
+
 	@Override
 	public int sizeInMemory(String name) {
 		if (mazeExists(name))
@@ -221,17 +228,23 @@ public class Maze3DModel extends Observable implements Model {
 		else
 			return -1;
 	}
+
 	@Override
-	public void solveMaze(String name, String algorithm) 
-	{
-		if (!mazeExists(name))
-			System.out.println("There isn't such maze called " + name + " try solve another one.");
+	public void solveMaze(String name, String algorithm) {
+		if (!mazeExists(name)){
+			message = "There isn't such maze called " + name + " try solve another one .";
+			setChanged();
+			notifyObservers("display_message");
+		}	
 		else if (!(algorithm.toUpperCase().equals("BFS") || algorithm.toUpperCase().equals("BREADTHFIRSTSEARCH")
-				|| algorithm.toUpperCase().equals("DFS")))
-			System.out.println("There isn't such algorithm called " + algorithm + ", try another one");
-		else 
-		{
-			Thread t = new Thread(new Runnable() {
+				|| algorithm.toUpperCase().equals("DFS"))){
+				message = "There isn't such algorithm called " + algorithm + ", try another one .";
+				setChanged();
+				notifyObservers("display_message");
+			}
+		else {
+
+			threadPool.execute(new Runnable() {
 
 				@Override
 				public void run() {
@@ -241,29 +254,34 @@ public class Maze3DModel extends Observable implements Model {
 							sol = new DFSSearcher().search(new Maze3dAdapter(mazesMap.get(name)));
 							if (sol != null) {
 								solutionMap.put(name, sol);
-								System.out.println("The maze3d DFS based Solution is ready");
+								message = "The maze3d DFS based Solution is ready";
+								setChanged();
+								notifyObservers("display_message");
 							}
 						} else if (algorithm.toUpperCase().equals("BREADTHFIRSTSEARCH")) {
 							sol = new BreadthFirstSearcher().search(new Maze3dAdapter(mazesMap.get(name)));
 							if (sol != null) {
 								solutionMap.put(name, sol);
-								System.out.println("The maze3d BreadthFirstSearch Solution based is ready");
+								message = "The maze3d BreadthFirstSearch Solution based is ready";
+								setChanged();
+								notifyObservers("display_message");
 							}
 						} else if (algorithm.toUpperCase().equals("BFS")) {
 							sol = new BFSSearcher().search(new Maze3dAdapter(mazesMap.get(name)));
 							if (sol != null) {
 								solutionMap.put(name, sol);
-								System.out.println("The maze3d BFS Solution based is ready");
+								message = "The maze3d BFS Solution based is ready";
+								setChanged();
+								notifyObservers("display_message");
 							}
 						}
 					}
 				}
-			}, "solveMazeThread");
-			t.start();
-			this.threads.add(t);
+			});
 		}
-		
+
 	}
+
 	@Override
 	public Solution displaySolution(String name) {
 		if (solutionMap.containsKey(name))
@@ -277,11 +295,18 @@ public class Maze3DModel extends Observable implements Model {
 			return true;
 		return false;
 	}
+
 	@Override
 	public void exitModel() {
-		for (Thread t : threads)
-			t.interrupt();
-		System.exit(0);
-		
+		threadPool.shutdown();
+		try {
+			if (!threadPool.awaitTermination(3, TimeUnit.SECONDS)) {
+				threadPool.shutdownNow();
+
+			}
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

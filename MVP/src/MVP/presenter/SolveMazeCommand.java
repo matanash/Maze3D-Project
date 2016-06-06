@@ -8,8 +8,10 @@ public class SolveMazeCommand extends CommonCommand {
 
 	@Override
 	public void doCommand(String[] args) throws Exception {
-		if (args.length == 2)
+		if (args.length == 2){
 			presenter.getModel().solveMaze(args[0], args[1]);
+		}
+				
 		else {
 			presenter.getView().displayMessage("Invalid arguments");
 			this.help();

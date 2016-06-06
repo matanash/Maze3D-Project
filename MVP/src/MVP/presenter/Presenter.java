@@ -95,6 +95,7 @@ public class Presenter implements Observer {
 	public void initCommandsMaps() 
 	{
 		this.viewCommandsMap = new HashMap<String, Command>();
+		viewCommandsMap.put("dir", new GetDirCommand(this));
 		viewCommandsMap.put("generate 3d maze", new Generate3DMazeCommand(this));
 		viewCommandsMap.put("display", new DisplayMazeCommand(this));
 		viewCommandsMap.put("display cross section by y", new DisplayCrossSectionByYCommand(this));

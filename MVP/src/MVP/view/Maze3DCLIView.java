@@ -9,11 +9,14 @@ import model.maze3d.Maze3d;
 
 public class Maze3DCLIView extends CommonMaze3DCLIView {
 
+	boolean flag;
+
 	public Maze3DCLIView(BufferedReader in, PrintWriter out) {
-		super(in,out);
+		super(in, out);
 	}
 
-	public void start() {
+	public void startView() {
+		flag = false;
 		new Thread(new Runnable() {
 
 			@Override
@@ -27,7 +30,7 @@ public class Maze3DCLIView extends CommonMaze3DCLIView {
 						bufferLine = in.readLine().toLowerCase();
 						setChanged();
 						notifyObservers(bufferLine);
-					} while (!(bufferLine.equals("exit")));
+					} while (!flag);
 					setChanged();
 					notifyObservers("exit");
 					out.close();
@@ -43,11 +46,11 @@ public class Maze3DCLIView extends CommonMaze3DCLIView {
 
 	@Override
 	public void displayMaze(Maze3d maze3d) {
-		try{
-			out.write("The requested maze is: "+'\n');
+		try {
+			out.write("The requested maze is: " + '\n');
 			out.write(maze3d.toString());
 			out.flush();
-		}catch (Exception e){
+		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 
@@ -55,7 +58,7 @@ public class Maze3DCLIView extends CommonMaze3DCLIView {
 
 	@Override
 	public void displaySolution(Solution sol) {
-		out.write("The requested Solution is: "+'\n');
+		out.write("The requested Solution is: " + '\n');
 		out.write(sol.toString());
 		out.flush();
 
@@ -63,8 +66,8 @@ public class Maze3DCLIView extends CommonMaze3DCLIView {
 
 	@Override
 	public void displayCrossSectionByCommand(int[][] matrix) {
-		try{
-			out.write("The requested Maze Section is: "+'\n');
+		try {
+			out.write("The requested Maze Section is: " + '\n');
 			for (int i = 0; i < matrix.length; i++) {
 				for (int j = 0; j < matrix[0].length; j++) {
 					out.write(matrix[i][j] + " ");
@@ -73,8 +76,7 @@ public class Maze3DCLIView extends CommonMaze3DCLIView {
 			}
 			out.append('\n');
 			out.flush();
-		}catch(Exception e)
-		{
+		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 
@@ -83,7 +85,13 @@ public class Maze3DCLIView extends CommonMaze3DCLIView {
 	@Override
 	public void displayMessage(String message) {
 		out.write(message);
-		out.flush();	
+		out.flush();
+	}
+
+	@Override
+	public void exitView() {
+		flag = true;
+
 	}
 
 }
