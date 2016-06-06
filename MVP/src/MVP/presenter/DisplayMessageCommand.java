@@ -1,17 +1,14 @@
 package MVP.presenter;
 
-import MVP.model.Model;
-import MVP.view.View;
-
 public class DisplayMessageCommand extends CommonCommand {
 
-	public DisplayMessageCommand(View v,Model m) {
-		super(v,m);
+	public DisplayMessageCommand(Presenter p) {
+		super(p);
 	}
-	
+
 	@Override
 	public void doCommand(String[] args) throws Exception {
-		view.displayMessage(model.getMessage());
+		presenter.getView().displayMessage(presenter.getModel().getMessage());
 
 	}
 

@@ -1,18 +1,13 @@
 package MVP.presenter;
 
-import MVP.model.Model;
-import MVP.view.View;
-
 public class LoadMazeFromFileCommand extends CommonCommand {
-	public LoadMazeFromFileCommand(View v, Model m) {
-		super(v, m);
-		// TODO Auto-generated constructor stub
+	public LoadMazeFromFileCommand(Presenter p) {
+		super(p);
 	}
 
 	@Override
 	public void doCommand(String[] args) throws Exception {
-		model.loadMazeFromFile(args[0], args[1]);
-
+		presenter.getModel().loadMazeFromFile(args[0], args[1]);
 	}
 
 	@Override

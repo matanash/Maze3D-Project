@@ -95,21 +95,21 @@ public class Presenter implements Observer {
 	public void initCommandsMaps() 
 	{
 		this.viewCommandsMap = new HashMap<String, Command>();
-		viewCommandsMap.put("generate 3d maze", new Generate3DMazeCommand(this.view, this.model));
-		viewCommandsMap.put("display", new DisplayMazeCommand(this.view,this.model));
-		viewCommandsMap.put("display cross section by y", new DisplayCrossSectionByYCommand(this.view, this.model));
-		viewCommandsMap.put("display cross section by x", new DisplayCrossSectionByXCommand(this.view, this.model));
-		viewCommandsMap.put("display cross section by z", new DisplayCrossSectionByZCommand(this.view, this.model));
-		viewCommandsMap.put("save maze", new SaveMazeToFileCommand(this.view, this.model));
-		viewCommandsMap.put("load maze", new LoadMazeFromFileCommand(this.view, this.model));
-		viewCommandsMap.put("maze size", new DisplayMazeSizeCommand(this.view, this.model));
-		viewCommandsMap.put("file size", new DisplayFileSizeCommand(this.view, this.model));
-		viewCommandsMap.put("solve", new SolveMazeCommand(this.view,this.model));
-		viewCommandsMap.put("display solution", new DisplaySolutionCommand(this.view, this.model));
-		viewCommandsMap.put("exit", new ExitCommand(this.view,this.model));
+		viewCommandsMap.put("generate 3d maze", new Generate3DMazeCommand(this));
+		viewCommandsMap.put("display", new DisplayMazeCommand(this));
+		viewCommandsMap.put("display cross section by y", new DisplayCrossSectionByYCommand(this));
+		viewCommandsMap.put("display cross section by x", new DisplayCrossSectionByXCommand(this));
+		viewCommandsMap.put("display cross section by z", new DisplayCrossSectionByZCommand(this));
+		viewCommandsMap.put("save maze", new SaveMazeToFileCommand(this));
+		viewCommandsMap.put("load maze", new LoadMazeFromFileCommand(this));
+		viewCommandsMap.put("maze size", new DisplayMazeSizeCommand(this));
+		viewCommandsMap.put("file size", new DisplayFileSizeCommand(this));
+		viewCommandsMap.put("solve", new SolveMazeCommand(this));
+		viewCommandsMap.put("display solution", new DisplaySolutionCommand(this));
+		viewCommandsMap.put("exit", new ExitCommand(this));
 		
 		this.modelCommandsMap = new HashMap<String, Command>();
-		modelCommandsMap.put("display_message", new DisplayMessageCommand(this.view,this.model));
+		modelCommandsMap.put("display_message", new DisplayMessageCommand(this));
 		
 	}
 

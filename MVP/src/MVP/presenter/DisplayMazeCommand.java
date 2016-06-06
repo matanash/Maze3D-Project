@@ -1,12 +1,9 @@
 package MVP.presenter;
 
-import MVP.model.Model;
-import MVP.view.View;
-
 public class DisplayMazeCommand extends CommonCommand {
 
-	public DisplayMazeCommand(View v, Model m) {
-		super(v, m);
+	public DisplayMazeCommand(Presenter p) {
+		super(p);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -15,11 +12,11 @@ public class DisplayMazeCommand extends CommonCommand {
 		
 		if (args.length != 1) 
 		{
-			view.displayMessage("Invalid arguments");
+			presenter.getView().displayMessage("Invalid arguments");
 			this.help();
 		} else 
 		{
-			view.displayMaze(model.getMaze3d(args[0]));
+			presenter.getView().displayMaze(presenter.getModel().getMaze3d(args[0]));
 		}
 		
 	}

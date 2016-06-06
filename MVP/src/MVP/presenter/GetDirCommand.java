@@ -2,13 +2,10 @@ package MVP.presenter;
 
 import java.io.File;
 
-import MVP.model.Model;
-import MVP.view.View;
-
 public class GetDirCommand extends CommonCommand {
 
-	public GetDirCommand(View v, Model m) {
-		super(v, m);
+	public GetDirCommand(Presenter p) {
+		super(p);
 	}
 
 	@Override
@@ -19,10 +16,10 @@ public class GetDirCommand extends CommonCommand {
 		} else {
 			String path = args[0];
 			File file = new File(path);
-			if (this.view == null)
+			if (this.presenter.getView() == null)
 				System.out.println("123");
 			if (file.isDirectory())
-				model.dir(path);
+				this.presenter.getModel().dir(path);
 			else
 				System.out.println("There is no such directory");
 		}

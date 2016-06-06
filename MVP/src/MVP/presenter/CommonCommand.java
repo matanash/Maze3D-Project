@@ -1,18 +1,19 @@
 package MVP.presenter;
 
-import MVP.model.Model;
-import MVP.view.View;
+
+/**
+ * Implementing what every Command must have.
+ */
 
 public abstract class CommonCommand implements Command 
 {
-
-	protected View view;
-	protected Model model;
-	public CommonCommand(View v, Model m) 
+	protected Presenter presenter;
+	public CommonCommand(Presenter p) 
 	{
-		this.view = v;
-		this.model= m;
+		this.presenter =p;
 	}
+	
+	//Remains abstract
 	@Override
 	public abstract void doCommand(String[] args) throws Exception;
 

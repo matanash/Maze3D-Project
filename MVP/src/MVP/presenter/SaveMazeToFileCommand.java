@@ -1,20 +1,17 @@
 package MVP.presenter;
 
-import MVP.model.Model;
-import MVP.view.View;
-
 public class SaveMazeToFileCommand extends CommonCommand {
 
-	public SaveMazeToFileCommand(View v, Model m) {
-		super(v, m);
+	public SaveMazeToFileCommand(Presenter p) {
+		super(p);
 	}
 
 	@Override
 	public void doCommand(String[] args) throws Exception {
-		if (!model.mazeExists(args[0]))
+		if (!presenter.getModel().mazeExists(args[0]))
 			System.out.println("This maze isn't exists");
 		else
-			model.saveMazeToFile(args[0], args[1]);
+			presenter.getModel().saveMazeToFile(args[0], args[1]);
 	}
 
 	@Override

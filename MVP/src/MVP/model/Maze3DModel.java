@@ -29,14 +29,14 @@ import model.maze3d.Position;
  * @author Matan Ashkenazi & Noee Cohen
  *
  */
-public class MyModel extends Observable implements Model {
+public class Maze3DModel extends Observable implements Model {
 
 	HashMap<String, Maze3d> mazesMap;
 	HashMap<String, Solution> solutionMap;
 	private ArrayList<Thread> threads;
 	private String message;
 
-	public MyModel() {
+	public Maze3DModel() {
 		this.mazesMap = new HashMap<String, Maze3d>();
 		this.solutionMap = new HashMap<String, Solution>();
 		this.threads = new ArrayList<Thread>();
@@ -205,7 +205,7 @@ public class MyModel extends Observable implements Model {
 	public int sizeInFile(String filename) {
 		File file;
 		try {
-			file = new File(MyModel.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath() + "\\"
+			file = new File(Maze3DModel.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath() + "\\"
 					+ filename);
 			return ((int) file.length());
 		} catch (URISyntaxException e) {

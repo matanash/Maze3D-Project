@@ -1,25 +1,22 @@
 package MVP.presenter;
 
-import MVP.model.Model;
-import MVP.view.View;
-
 public class DisplaySolutionCommand extends CommonCommand {
 
-	public DisplaySolutionCommand(View v, Model m) {
-		super(v, m);
+	public DisplaySolutionCommand(Presenter p) {
+		super(p);
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void doCommand(String[] args) throws Exception {
 		if (args.length!=1){
-			view.displayMessage("Invalid arguments");
+			presenter.getView().displayMessage("Invalid arguments");
 			help();
 		}	
-		else if (model.displaySolution(args[0]) == null)
-			view.displayMessage("There is no maze in that name .");
+		else if (presenter.getModel().displaySolution(args[0]) == null)
+			presenter.getView().displayMessage("There is no maze in that name .");
 		else
-			view.displaySolution(model.displaySolution(args[0]));
+			presenter.getView().displaySolution(presenter.getModel().displaySolution(args[0]));
 	}
 
 	@Override

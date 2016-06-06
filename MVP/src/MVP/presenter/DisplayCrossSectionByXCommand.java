@@ -1,24 +1,20 @@
 package MVP.presenter;
 
-import MVP.model.Model;
-import MVP.view.View;
-
 public class DisplayCrossSectionByXCommand extends CommonCommand {
 	
-	public DisplayCrossSectionByXCommand(View v, Model m) {
-		super(v, m);
-		// TODO Auto-generated constructor stub
+	public DisplayCrossSectionByXCommand(Presenter p) {
+		super(p);
 	}
 
 	@Override
 	public void doCommand(String[] args) throws Exception {
 		if (args.length != 2) {
-			view.displayMessage("Invalid arguments");
+			presenter.getView().displayMessage("Invalid arguments");
 			this.help();
 		} else {
 			try {
-				view.displayCrossSectionByCommand(model.displayCrossSectionByX(Integer.parseInt(args[0]), args[1]));
-				view.displayMessage(model.getMessage());
+				presenter.getView().displayCrossSectionByCommand(presenter.getModel().displayCrossSectionByX(Integer.parseInt(args[0]), args[1]));
+				presenter.getView().displayMessage(presenter.getModel().getMessage());
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 			} catch (Exception e) {

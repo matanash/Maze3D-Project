@@ -1,20 +1,17 @@
 package MVP.presenter;
 
-import MVP.model.Model;
-import MVP.view.View;
-
 public class SolveMazeCommand extends CommonCommand {
 
-	public SolveMazeCommand(View v, Model m) {
-		super(v, m);
+	public SolveMazeCommand(Presenter p) {
+		super(p);
 	}
 
 	@Override
 	public void doCommand(String[] args) throws Exception {
 		if (args.length == 2)
-			model.solveMaze(args[0], args[1]);
+			presenter.getModel().solveMaze(args[0], args[1]);
 		else {
-			view.displayMessage("Invalid arguments");
+			presenter.getView().displayMessage("Invalid arguments");
 			this.help();
 		}
 	}

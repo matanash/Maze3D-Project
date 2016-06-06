@@ -1,13 +1,10 @@
 package MVP.presenter;
 
-import MVP.model.Model;
-import MVP.view.View;
-
 public class ExitCommand extends CommonCommand{
 
 	
-	public ExitCommand(View v, Model m) {
-		super(v, m);
+	public ExitCommand(Presenter p) {
+		super(p);
 		
 	}
 
@@ -17,7 +14,7 @@ public class ExitCommand extends CommonCommand{
 		System.out.println("|----------------------------|");
 		System.out.println("|   Thank you for playing!   |");
 		System.out.println("|----------------------------|");
-		model.exitModel();
+		presenter.getModel().exitModel();
 	}
 
 	@Override
