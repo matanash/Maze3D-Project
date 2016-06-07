@@ -40,7 +40,11 @@ public interface Model {
 	String getMessage();
 	
 	Maze3d getMaze3d (String name);
-
+	
+	void saveGZipMaps();
+	
+	void loadGZipMaps();
+	
 	
 	
 	

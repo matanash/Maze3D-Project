@@ -1,12 +1,15 @@
 package model.maze3d;
 
+import java.io.Serializable;
+
 /**
  * This class Represents a 3D Position in the 3D maze
  * @author MatanA
  */
 
-public class Position 
+public class Position implements Serializable
 {
+	private static final long serialVersionUID = 1L;
 	private int y; // height coordinate
 	private int x; // length coordinate
 	private int z; // width coordinate	

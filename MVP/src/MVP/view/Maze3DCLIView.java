@@ -33,7 +33,9 @@ public class Maze3DCLIView extends CommonMaze3DCLIView {
 					} while (!flag);
 					setChanged();
 					notifyObservers("exit");
+					in.close();
 					out.close();
+					
 
 				} catch (IOException e) {
 					System.out.println(e.getMessage());

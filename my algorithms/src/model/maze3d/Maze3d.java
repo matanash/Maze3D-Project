@@ -1,6 +1,7 @@
 package model.maze3d;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -8,8 +9,10 @@ import java.util.Collections;
  * This class represents a 3D Maze
  * @author MatanA
  */
-public class Maze3d 
+public class Maze3d implements Serializable
 {
+
+	private static final long serialVersionUID = 1L;
 	private int [][][] maze3d; // 3d array represent the maze
 	private int height; // Y coordinate size
 	private int length; // X coordinate size

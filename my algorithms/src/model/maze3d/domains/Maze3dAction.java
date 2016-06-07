@@ -1,5 +1,7 @@
 package model.maze3d.domains;
 
+import java.io.Serializable;
+
 import domains.Action;
 import model.maze3d.Direction;
 
@@ -9,8 +11,9 @@ import model.maze3d.Direction;
  * @author MatanA
  */
 
-public class Maze3dAction extends Action {
-	
+public class Maze3dAction extends Action implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 	public static final double mazeMovementCost = 1;
 	private Direction dir;
 	

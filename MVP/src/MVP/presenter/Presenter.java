@@ -19,6 +19,7 @@ public class Presenter implements Observer {
 
 		this.view = view;
 		this.model = model;
+		this.model.loadGZipMaps();
 		initCommandsMaps();
 	}
 

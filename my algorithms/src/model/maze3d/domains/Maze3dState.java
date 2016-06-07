@@ -1,5 +1,7 @@
 package model.maze3d.domains;
 
+import java.io.Serializable;
+
 import domains.State;
 import model.maze3d.Position;
 
@@ -8,8 +10,9 @@ import model.maze3d.Position;
  * based on Object Adapter Design Pattern
  * @author MatanA
  */
-public class Maze3dState extends State {
+public class Maze3dState extends State implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
 	private Position currPos;
 	
 	/**

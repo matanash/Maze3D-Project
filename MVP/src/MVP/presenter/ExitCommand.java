@@ -13,6 +13,7 @@ public class ExitCommand extends CommonCommand {
 		System.out.println("|   Thank you for playing!   |");
 		System.out.println("|----------------------------|");
 
+		this.presenter.getModel().saveGZipMaps();
 		this.presenter.getModel().exitModel();
 		this.presenter.getView().exitView();
 		// close presenter thread ?

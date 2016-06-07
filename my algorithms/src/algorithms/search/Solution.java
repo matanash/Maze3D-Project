@@ -1,4 +1,5 @@
 package algorithms.search;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import domains.State;
@@ -8,7 +9,11 @@ import domains.State;
  * @author MatanA
  *
  */
-public class Solution {
+public class Solution implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private ArrayList<State> states;
 
 	/**
