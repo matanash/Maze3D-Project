@@ -1,5 +1,6 @@
 package MVP.view;
 
+import MVP.presenter.Properties;
 import algorithms.search.Solution;
 import model.maze3d.Maze3d;
 
@@ -18,4 +19,6 @@ public interface View {
 	void displayCrossSectionByCommand(int[][] matrix);
 
 	void displayMessage(String message);
+	
+	public void setProperties(Properties prop);
 }

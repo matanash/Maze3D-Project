@@ -13,11 +13,13 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.util.HashMap;
+import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 import algorithms.mazeGenerators.MyMaze3dGenerator;
+import algorithms.mazeGenerators.SimpleMaze3dGenerator;
 import algorithms.search.BFSSearcher;
 import algorithms.search.BreadthFirstSearcher;
 import algorithms.search.DFSSearcher;
@@ -83,26 +85,34 @@ public class Maze3DModel extends CommonMaze3DModel {
 
 	@Override
 	public void generate3dMaze(String name, int height, int length, int width) throws Exception {
-
-		threadPool.execute(new Runnable() {
+		
+		threadPool.submit(new Callable<Maze3d>() {
 			Maze3d currentMaze3d;
-
 			@Override
-			public void run() {
-				if(!mazeExists(name)){
-					try {
-						currentMaze3d = new MyMaze3dGenerator().generate(height, length, width);
+			public Maze3d call() throws Exception {
+				if (height > properties.getMazeMaxHeight() || length > properties.getMazeMaxLength()
+						|| width > properties.getMazeMaxWidth())
+					message = "Maze3D Dimensions is above the threshold as possible .";
+				else if (!mazeExists(name)) 
+				{
+					try 
+					{
+						if (properties.getGenerateAlgorithm().toLowerCase().equals("mymaze3dgenerator"))
+							currentMaze3d = new MyMaze3dGenerator().generate(height, length, width);
+						else if(properties.getGenerateAlgorithm().toLowerCase().equals("simplemaze3dgenerator"))
+							currentMaze3d = new SimpleMaze3dGenerator().generate(height, length, width);
+						message = "Maze " + name + " is ready to use.";
+						mazesMap.put(name, currentMaze3d);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-					mazesMap.put(name, currentMaze3d);
-				}
-				message = "Maze " + name + " is ready to use.";
+				} 
+				else 
+					message = "Maze3D " + name + " is already exists .";
 				setChanged();
 				notifyObservers("display_message");
-
+				return currentMaze3d;
 			}
-
 		});
 	}
 
@@ -191,11 +201,11 @@ public class Maze3DModel extends CommonMaze3DModel {
 			in = new MyDecompressorInputStream(new FileInputStream(fileName));
 			in.read(b);
 			mazesMap.put(name, new Maze3d(b));
-			
+
 			message = "Maze " + name + " loaded from file: " + fileName;
 			setChanged();
 			notifyObservers("display_message");
-			
+
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -237,50 +247,43 @@ public class Maze3DModel extends CommonMaze3DModel {
 
 	@Override
 	public void solveMaze(String name, String algorithm) {
-		if (!mazeExists(name)){
+		if (!mazeExists(name)) {
 			message = "There isn't such maze called " + name + " try solve another one .";
 			setChanged();
 			notifyObservers("display_message");
-		}	
-		else if (!(algorithm.toUpperCase().equals("BFS") || algorithm.toUpperCase().equals("BREADTHFIRSTSEARCH")
-				|| algorithm.toUpperCase().equals("DFS"))){
-				message = "There isn't such algorithm called " + algorithm + ", try another one .";
-				setChanged();
-				notifyObservers("display_message");
-			}
-		else if(maze2sol.containsKey(mazesMap.get(name))){
+		} else if (!(algorithm.toUpperCase().equals("BFS") || algorithm.toUpperCase().equals("BREADTHFIRSTSEARCH")
+				|| algorithm.toUpperCase().equals("DFS"))) {
+			message = "There isn't such algorithm called " + algorithm + ", try another one .";
+			setChanged();
+			notifyObservers("display_message");
+		} else if (maze2sol.containsKey(mazesMap.get(name))) {
 			message = "Maze3D " + name + " solution is already exists .";
 			setChanged();
 			notifyObservers("display_message");
-		}
-		else {
+		} else {
 
-			threadPool.submit(new Runnable() {
-
+			threadPool.submit(new Callable<Solution>() {
 				@Override
-				public void run() {
+				public Solution call() throws Exception {
 					Solution sol = null;
-					switch(algorithm.toLowerCase()){
-						case "dfs":
-						{
-							sol = new DFSSearcher().search(new Maze3dAdapter(mazesMap.get(name)));
-							message = "The maze3d DFS based Solution is ready";
-							break;
-						}
-						case "breadthfirstsearch":
-						{
-							sol = new BreadthFirstSearcher().search(new Maze3dAdapter(mazesMap.get(name)));
-							message = "The maze3d BreadthFirstSearch Solution based is ready";
-							break;
-						}
-						case "bfs":
-						{
-							sol = new BFSSearcher().search(new Maze3dAdapter(mazesMap.get(name)));
-							message = "The maze3d BFS Solution based is ready";
-							break;
-						}
-						default:
-							break;
+					switch (algorithm.toLowerCase()) {
+					case "dfs": {
+						sol = new DFSSearcher().search(new Maze3dAdapter(mazesMap.get(name)));
+						message = "The maze3d DFS based Solution is ready";
+						break;
+					}
+					case "breadthfirstsearch": {
+						sol = new BreadthFirstSearcher().search(new Maze3dAdapter(mazesMap.get(name)));
+						message = "The maze3d BreadthFirstSearch Solution based is ready";
+						break;
+					}
+					case "bfs": {
+						sol = new BFSSearcher().search(new Maze3dAdapter(mazesMap.get(name)));
+						message = "The maze3d BFS Solution based is ready";
+						break;
+					}
+					default:
+						break;
 					}
 					if (sol != null) {
 						solutionMap.put(name, sol);
@@ -288,7 +291,9 @@ public class Maze3DModel extends CommonMaze3DModel {
 						setChanged();
 						notifyObservers("display_message");
 					}
+					return sol;
 				}
+
 			});
 		}
 
@@ -296,9 +301,11 @@ public class Maze3DModel extends CommonMaze3DModel {
 
 	@Override
 	public Solution displaySolution(String name) {
-		if (solutionMap.containsKey(name))
+		if (maze2sol.containsKey(mazesMap.get(name)))
+			return maze2sol.get(mazesMap.get(name));
+		else if (solutionMap.containsKey(name)) {
 			return solutionMap.get(name);
-		else
+		} else
 			return null;
 	}
 
@@ -307,67 +314,70 @@ public class Maze3DModel extends CommonMaze3DModel {
 			return true;
 		return false;
 	}
-	
+
 	public boolean solutionExists(Maze3d m3d) {
 		if (mazesMap.containsKey(m3d))
 			return true;
 		return false;
 	}
-	public void saveGZipMaps(){
-		
+
+	public void saveGZipMaps() {
+
 		FileOutputStream fos = null;
 		GZIPOutputStream gos = null;
 		ObjectOutputStream oos = null;
-		
+
 		try {
 			fos = new FileOutputStream("cache_Maps");
 			gos = new GZIPOutputStream(fos);
 			oos = new ObjectOutputStream(gos);
-			
-			/*oos.writeObject(mazesMap);
-			oos.writeObject(solutionMap);*/
+
+			oos.writeObject(mazesMap);
+			oos.writeObject(solutionMap);
 			oos.writeObject(maze2sol);
-			
+
 			oos.flush();
 			oos.close();
 			gos.close();
 			fos.close();
-			
-		} catch(IOException ioe) {
+
+		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
 	}
+
 	@SuppressWarnings("unchecked")
 	public void loadGZipMaps() {
-		
+
 		FileInputStream fis = null;
 		GZIPInputStream gis = null;
 		ObjectInputStream ois = null;
-		
+
 		File f = new File("cache_Maps");
-		if (!f.exists()) 
+		if (!f.exists())
 			return;
-		
+
 		try {
-			
+
 			fis = new FileInputStream("cache_Maps");
 			gis = new GZIPInputStream(fis);
 			ois = new ObjectInputStream(gis);
-			
-			/*mazesMap = (HashMap<String,Maze3d>)ois.readObject();
-			solutionMap= (HashMap<String,Solution>)ois.readObject();*/
-			maze2sol = (HashMap<Maze3d,Solution>)ois.readObject();
-			
+
+			mazesMap = (HashMap<String, Maze3d>) ois.readObject();
+			solutionMap = (HashMap<String, Solution>) ois.readObject();
+			maze2sol = (HashMap<Maze3d, Solution>) ois.readObject();
+
 			ois.close();
 			gis.close();
 			fis.close();
-			
-		} catch(IOException ioe) {
+
+		} catch (IOException ioe) {
 			ioe.printStackTrace();
-		} catch(ClassNotFoundException cnfe) {
+		} catch (ClassNotFoundException cnfe) {
 			cnfe.printStackTrace();
 		}
 	}
+
 	@Override
 	public void exitModel() {
 		threadPool.shutdown();
@@ -379,4 +389,5 @@ public class Maze3DModel extends CommonMaze3DModel {
 			e.printStackTrace();
 		}
 	}
+
 }

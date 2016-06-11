@@ -1,5 +1,6 @@
 package MVP.model;
 
+import MVP.presenter.Properties;
 import algorithms.search.Solution;
 import model.maze3d.Maze3d;
 /**
@@ -45,6 +46,7 @@ public interface Model {
 	
 	void loadGZipMaps();
 	
+	void setProperties(Properties properties);
 	
 	
 	

@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import MVP.presenter.Properties;
 import algorithms.search.Solution;
 import model.maze3d.Maze3d;
 
@@ -94,6 +95,16 @@ public class Maze3DCLIView extends CommonMaze3DCLIView {
 	public void exitView() {
 		flag = true;
 
+	}
+	@Override
+	public void setProperties(Properties prop) {
+		if (!prop.getUi().equals("CLI"))
+		{
+			setChanged();
+			notifyObservers("switchUi switch");
+		}
+		
+		
 	}
 
 }

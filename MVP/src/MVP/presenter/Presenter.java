@@ -9,12 +9,13 @@ import MVP.view.View;
 
 
 public class Presenter implements Observer {
-	View view;
-	Model model;
+	private View view;
+	private Model model;
 	
-	HashMap<String, Command> modelCommandsMap;
-	HashMap<String, Command> viewCommandsMap;
-
+	private HashMap<String, Command> modelCommandsMap;
+	private HashMap<String, Command> viewCommandsMap;
+	private Properties properties ;
+	
 	public Presenter(View view, Model model) {
 
 		this.view = view;
@@ -158,5 +159,18 @@ public class Presenter implements Observer {
 	public void setViewCommandsMap(HashMap<String, Command> viewCommandsMap) {
 		this.viewCommandsMap = viewCommandsMap;
 	}
+	
+	public Properties getProperties() {
+		return properties;
+	}
+
+	public void setProperties(Properties prop) {
+		this.properties = prop;
+		if (model != null)
+			this.model.setProperties(prop);
+		if (view!=null)
+			this.view.setProperties(prop);
+	}
+
 
 }
