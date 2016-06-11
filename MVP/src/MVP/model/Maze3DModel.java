@@ -248,42 +248,45 @@ public class Maze3DModel extends CommonMaze3DModel {
 				setChanged();
 				notifyObservers("display_message");
 			}
+		else if(maze2sol.containsKey(mazesMap.get(name))){
+			message = "Maze3D " + name + " solution is already exists .";
+			setChanged();
+			notifyObservers("display_message");
+		}
 		else {
 
-			threadPool.execute(new Runnable() {
+			threadPool.submit(new Runnable() {
 
 				@Override
 				public void run() {
 					Solution sol = null;
-					if (mazeExists(name)) {
-						if (algorithm.toUpperCase().equals("DFS")) {
+					switch(algorithm.toLowerCase()){
+						case "dfs":
+						{
 							sol = new DFSSearcher().search(new Maze3dAdapter(mazesMap.get(name)));
-							if (sol != null) {
-								
-								solutionMap.put(name, sol);
-								message = "The maze3d DFS based Solution is ready";
-								setChanged();
-								notifyObservers("display_message");
-							}
-						} else if (algorithm.toUpperCase().equals("BREADTHFIRSTSEARCH")) {
-							sol = new BreadthFirstSearcher().search(new Maze3dAdapter(mazesMap.get(name)));
-							if (sol != null) {
-								
-								solutionMap.put(name, sol);
-								message = "The maze3d BreadthFirstSearch Solution based is ready";
-								setChanged();
-								notifyObservers("display_message");
-							}
-						} else if (algorithm.toUpperCase().equals("BFS")) {
-							sol = new BFSSearcher().search(new Maze3dAdapter(mazesMap.get(name)));
-							if (sol != null) {
-								
-								solutionMap.put(name, sol);
-								message = "The maze3d BFS Solution based is ready";
-								setChanged();
-								notifyObservers("display_message");
-							}
+							message = "The maze3d DFS based Solution is ready";
+							break;
 						}
+						case "breadthfirstsearch":
+						{
+							sol = new BreadthFirstSearcher().search(new Maze3dAdapter(mazesMap.get(name)));
+							message = "The maze3d BreadthFirstSearch Solution based is ready";
+							break;
+						}
+						case "bfs":
+						{
+							sol = new BFSSearcher().search(new Maze3dAdapter(mazesMap.get(name)));
+							message = "The maze3d BFS Solution based is ready";
+							break;
+						}
+						default:
+							break;
+					}
+					if (sol != null) {
+						solutionMap.put(name, sol);
+						maze2sol.put(mazesMap.get(name), sol);
+						setChanged();
+						notifyObservers("display_message");
 					}
 				}
 			});
@@ -321,8 +324,9 @@ public class Maze3DModel extends CommonMaze3DModel {
 			gos = new GZIPOutputStream(fos);
 			oos = new ObjectOutputStream(gos);
 			
-			oos.writeObject(mazesMap);
-			oos.writeObject(solutionMap);
+			/*oos.writeObject(mazesMap);
+			oos.writeObject(solutionMap);*/
+			oos.writeObject(maze2sol);
 			
 			oos.flush();
 			oos.close();
@@ -350,8 +354,9 @@ public class Maze3DModel extends CommonMaze3DModel {
 			gis = new GZIPInputStream(fis);
 			ois = new ObjectInputStream(gis);
 			
-			mazesMap = (HashMap<String,Maze3d>)ois.readObject();
-			solutionMap= (HashMap<String,Solution>)ois.readObject();
+			/*mazesMap = (HashMap<String,Maze3d>)ois.readObject();
+			solutionMap= (HashMap<String,Solution>)ois.readObject();*/
+			maze2sol = (HashMap<Maze3d,Solution>)ois.readObject();
 			
 			ois.close();
 			gis.close();

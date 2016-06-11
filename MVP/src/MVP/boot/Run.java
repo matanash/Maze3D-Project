@@ -20,7 +20,7 @@ public class Run {
 		Maze3DCLIView view = new Maze3DCLIView(new BufferedReader(new InputStreamReader(System.in)),new PrintWriter(System.out));
 		Presenter presenter = new Presenter(view,model);
 		
-		//register view and model objects as observable of presenter
+		//register view and model objects as observable objects of presenter
 		view.addObserver(presenter);
 		model.addObserver(presenter);
 		

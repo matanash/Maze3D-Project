@@ -18,6 +18,7 @@ import model.maze3d.domains.Maze3dState;
 public class Maze3dAdapter implements Searchable {
 	
 	private Maze3d maze3d ;
+
 	private static final double MOVEMENT_COST = 1.0;
 	
 	/**
@@ -28,7 +29,20 @@ public class Maze3dAdapter implements Searchable {
 	{
 		this.maze3d=maze3d;
 	}
-	
+	/**
+	 * get the wrapped maze3d object
+	 * @return
+	 */
+	public Maze3d getMaze3d() {
+		return maze3d;
+	}
+	/**
+	 * set and wrap maze3d object in the adapter
+	 * @param maze3d
+	 */
+	public void setMaze3d(Maze3d maze3d) {
+		this.maze3d = maze3d;
+	}
 	@Override
 	public State getStartState() 
 	{

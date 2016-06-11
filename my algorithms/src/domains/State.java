@@ -1,11 +1,15 @@
 package domains;
 
+import java.io.Serializable;
+
 /**
- * This class represents State in searchable problem
+ * This class represents State in Searchable problem
  * @author MatanA
  */
-public class State implements Comparable<State> 
+public class State implements Comparable<State>, Serializable
 {
+
+	private static final long serialVersionUID = 1L;
 	private String description;
 	private double cost;
 	private State cameFromState;

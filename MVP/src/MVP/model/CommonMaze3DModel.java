@@ -12,11 +12,13 @@ public abstract class CommonMaze3DModel extends Observable implements Model {
 
 	protected HashMap<String, Maze3d> mazesMap;
 	protected HashMap<String, Solution> solutionMap;
+	protected HashMap<Maze3d,Solution> maze2sol;
 	protected ExecutorService threadPool;
 	
 	public CommonMaze3DModel() {
 		mazesMap = new HashMap<String, Maze3d>();	
 		solutionMap = new HashMap<String, Solution>();
+		maze2sol = new HashMap<Maze3d,Solution>();
 		threadPool = Executors.newCachedThreadPool();
 
 	}
