@@ -489,12 +489,12 @@ public class Maze3d implements Serializable
 	{
 		StringBuilder sb = new StringBuilder();
 		
-		for( int y=0 ; y< this.getHeight();y++) // floors
+		for( int y=0 ; y< this.getHeight();y++) // Floors
 		{
 			sb.append("{\n");
-			for(int x=0; x<this.getLength(); x++) // rows
+			for(int x=0; x<this.getLength(); x++) // Rows
 			{
-				for(int z=0;z<this.getWidth();z++) // cols
+				for(int z=0;z<this.getWidth();z++) // Cols
 				{
 					if (z==0)
 						sb.append("\t");

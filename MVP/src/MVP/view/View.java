@@ -1,24 +1,24 @@
 package MVP.view;
 
+import java.io.PrintWriter;
+
 import MVP.presenter.Properties;
-import algorithms.search.Solution;
-import model.maze3d.Maze3d;
+import MVP.view.commands.DisplayCLICommand;
 
 public interface View {
 	/**
 	 * start the program
 	 */
-	public void startView() throws Exception;
 	
-	public void exitView();
-
-	void displayMaze(Maze3d maze);
+	void startView() throws Exception;
 	
-	void displaySolution(Solution sol);
+	void exitView();
 	
-	void displayCrossSectionByCommand(int[][] matrix);
-
-	void displayMessage(String message);
+	PrintWriter getOut();
 	
-	public void setProperties(Properties prop);
+	void display(Object obj , DisplayCLICommand dc);
+	
+	void setProperties(Properties prop);
+	
+	
 }

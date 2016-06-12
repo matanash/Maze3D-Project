@@ -2,16 +2,18 @@ package MVP.presenter;
 
 import java.io.File;
 
+import MVP.view.commands.DisplayMessageCLICommand;
+
 public class GetDirCommand extends CommonCommand {
 
-	public GetDirCommand(Presenter p) {
-		super(p);
+	public GetDirCommand(Presenter presenter) {
+		super(presenter);
 	}
 
 	@Override
 	public void doCommand(String[] args) throws Exception {
 		if (args.length != 1) {
-			this.presenter.getView().displayMessage("Invalid arguments");
+			presenter.getView().display("Invalid arguments", new DisplayMessageCLICommand(this.presenter.getView()));
 			this.help();
 		} else {
 			String path = args[0];
@@ -19,18 +21,15 @@ public class GetDirCommand extends CommonCommand {
 			if (file.isDirectory()){
 				this.presenter.getModel().dir(path);
 			}
-				
-			
 			else
-				this.presenter.getView().displayMessage("There is no such directory");
+				presenter.getView().display("There is no such directory", new DisplayMessageCLICommand(this.presenter.getView()));
 		}
 
 	}
 
 	@Override
 	public void help() {
-		this.presenter.getView().displayMessage(
-				"Displays a list of files and subdirectories in a directory. " + '\n' + '\t' + "--> Syntax: dir <path>");
+		this.presenter.getView().display("Displays a list of files and subdirectories in a directory. " + '\n' + '\t' + "--> Syntax: dir <path>", new DisplayMessageCLICommand(this.presenter.getView()));
 
 	}
 

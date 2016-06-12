@@ -5,6 +5,8 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+import MVP.view.commands.DisplayMessageCLICommand;
+
 public class UpdatePropertiesCommand extends CommonCommand {
 
 	public UpdatePropertiesCommand(Presenter p) {
@@ -24,23 +26,21 @@ public class UpdatePropertiesCommand extends CommonCommand {
 		
 			} catch (FileNotFoundException e) {
 				if(presenter.getProperties().isDebugMode())
-					System.out.println("File not found, default properties will be loaded .");
+					this.presenter.getView().getOut().write("File not found, default properties will be loaded .");
 				properties = new Properties();
 				properties.setDefaults();
 			}
 			presenter.setProperties(properties);
+			System.out.println(properties.toString());
 		}
 		else
 		{
-			presenter.getView().displayMessage("Invalid arguments .");
+			presenter.getView().display("Invalid arguments", new DisplayMessageCLICommand(this.presenter.getView()));
 		}
 
 	}
 
 	@Override
-	public void help() {
-		// TODO Auto-generated method stub
-
-	}
+	public void help() {}
 
 }

@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
+
 import MVP.model.Model;
 import MVP.view.View;
+import MVP.view.commands.DisplayMessageCLICommand;
 
 
 public class Presenter implements Observer {
@@ -36,8 +38,6 @@ public class Presenter implements Observer {
 					{
 						if (arg.getClass() == String.class) 
 						{
-							if (obs == view) 
-							{
 								int n;
 								String commandName = (String) arg;
 								String[] splitedCommand = commandName.split("\\s+");
@@ -51,35 +51,38 @@ public class Presenter implements Observer {
 										else
 											connectedCommand.append(splitedCommand[i]);
 									}
-									if (viewCommandsMap.containsKey(connectedCommand.toString())) 
+									if (obs == view) 
 									{
-										String[] args = new String[splitedCommand.length - n - 1];
-										for (int j = 0; j < args.length; j++) 
+										if (viewCommandsMap.containsKey(connectedCommand.toString())) 
 										{
-											args[j] = splitedCommand[n + 1 + j];
+											String[] args = new String[splitedCommand.length - n - 1];
+											for (int j = 0; j < args.length; j++) 
+											{
+												args[j] = splitedCommand[n + 1 + j];
+											}
+											viewCommandsMap.get(connectedCommand.toString()).doCommand(args);
+											break;
 										}
-										viewCommandsMap.get(connectedCommand.toString()).doCommand(args);
-										break;
+									}
+									else if (obs == model) 
+									{
+										if (modelCommandsMap.containsKey(connectedCommand.toString())) 
+										{											
+											modelCommandsMap.get(connectedCommand.toString()).doCommand(null);
+											break;
+										}
+									}
+									if (n < 0) 
+									{
+										view.display("Invalid command, you can use the \"help\" command to see the command-name list.", new DisplayMessageCLICommand(view));
 									}
 								}
-								if (n < 0) 
-								{
-									view.displayMessage(
-											"Invalid command, you can use the \"help\" command to see the command-name list.");
-								}
-							}
-							else if (obs == model) 
-							{
-								String commandName = (String) arg;
-								Command command = modelCommandsMap.get(commandName);
-								command.doCommand(null);
-							}
-							
+
 						}
 						else 
 						{
-							view.displayMessage("Invalid Object type. the type is: " + arg.getClass().getName()
-									+ " and not String!");
+							view.display("Invalid Object type. the type is: " + arg.getClass().getName()
+									+ " and not String!", new DisplayMessageCLICommand(view));
 						}
 						
 					}catch (IOException e) {
@@ -97,27 +100,35 @@ public class Presenter implements Observer {
 	public void initCommandsMaps() 
 	{
 		this.viewCommandsMap = new HashMap<String, Command>();
-		viewCommandsMap.put("dir", new GetDirCommand(this));
-		viewCommandsMap.put("generate 3d maze", new Generate3DMazeCommand(this));
-		viewCommandsMap.put("display", new DisplayMazeCommand(this));
-		viewCommandsMap.put("display cross section by y", new DisplayCrossSectionByYCommand(this));
-		viewCommandsMap.put("display cross section by x", new DisplayCrossSectionByXCommand(this));
-		viewCommandsMap.put("display cross section by z", new DisplayCrossSectionByZCommand(this));
-		viewCommandsMap.put("save maze", new SaveMazeToFileCommand(this));
-		viewCommandsMap.put("load maze", new LoadMazeFromFileCommand(this));
-		viewCommandsMap.put("maze size", new DisplayMazeSizeCommand(this));
-		viewCommandsMap.put("file size", new DisplayFileSizeCommand(this));
-		viewCommandsMap.put("solve", new SolveMazeCommand(this));
-		viewCommandsMap.put("display solution", new DisplaySolutionCommand(this));
-		viewCommandsMap.put("exit", new ExitCommand(this));
+		this.viewCommandsMap.put("dir", new GetDirCommand(this));
+		this.viewCommandsMap.put("generate 3d maze", new Generate3DMazeCommand(this));
+		this.viewCommandsMap.put("display", new GetMazeCommand(this));
+		this.viewCommandsMap.put("display cross section by y", new GetCrossSectionByYCommand(this));
+		this.viewCommandsMap.put("display cross section by x", new GetCrossSectionByXCommand(this));
+		this.viewCommandsMap.put("display cross section by z", new GetCrossSectionByZCommand(this));
+		this.viewCommandsMap.put("save maze", new SaveMazeToFileCommand(this));
+		this.viewCommandsMap.put("load maze", new LoadMazeFromFileCommand(this));
+		this.viewCommandsMap.put("maze size", new GetMazeSizeInMemoryCommand(this));
+		this.viewCommandsMap.put("file size", new GetMazeSizeInFileCommand(this));
+		this.viewCommandsMap.put("solve", new SolveMazeCommand(this));
+		this.viewCommandsMap.put("display solution", new GetSolutionCommand(this));
+		this.viewCommandsMap.put("exit", new ExitCommand(this));
+		this.viewCommandsMap.put("update properties",new UpdatePropertiesCommand(this));
 		
 		this.modelCommandsMap = new HashMap<String, Command>();
-		modelCommandsMap.put("display_message", new DisplayMessageCommand(this));
-		
+		this.modelCommandsMap.put("display_maze3d", new DisplayMazeCommand(this));
+		this.modelCommandsMap.put("display_solution", new DisplaySolutionCommand(this));
+		this.modelCommandsMap.put("display_cross_section_by_y", new DisplayCrossSectionByCommand(this));
+		this.modelCommandsMap.put("display_cross_section_by_x", new DisplayCrossSectionByCommand(this));
+		this.modelCommandsMap.put("display_cross_section_by_z", new DisplayCrossSectionByCommand(this));
+		this.modelCommandsMap.put("maze_size", new DisplayMazeSizeInMemoryCommand(this));
+		this.modelCommandsMap.put("file_size", new DisplayMazeSizeInFileCommand(this));
+		this.modelCommandsMap.put("display_cross_section_by_z", new DisplayCrossSectionByCommand(this));
+		this.modelCommandsMap.put("display_message", new DisplayMessageCommand(this));
 	}
 
 	public View getView() {
-		return view;
+		return this.view;
 	}
 
 	public void setView(View view) {
@@ -125,43 +136,15 @@ public class Presenter implements Observer {
 	}
 
 	public Model getModel() {
-		return model;
+		return this.model;
 	}
 
 	public void setModel(Model model) {
 		this.model = model;
 	}
-
-	/**
-	 * @return the modelCommandsMap
-	 */
-	public HashMap<String, Command> getModelCommandsMap() {
-		return modelCommandsMap;
-	}
-
-	/**
-	 * @param modelCommandsMap the modelCommandsMap to set
-	 */
-	public void setModelCommandsMap(HashMap<String, Command> modelCommandsMap) {
-		this.modelCommandsMap = modelCommandsMap;
-	}
-
-	/**
-	 * @return the viewCommandsMap
-	 */
-	public HashMap<String, Command> getViewCommandsMap() {
-		return viewCommandsMap;
-	}
-
-	/**
-	 * @param viewCommandsMap the viewCommandsMap to set
-	 */
-	public void setViewCommandsMap(HashMap<String, Command> viewCommandsMap) {
-		this.viewCommandsMap = viewCommandsMap;
-	}
 	
 	public Properties getProperties() {
-		return properties;
+		return this.properties;
 	}
 
 	public void setProperties(Properties prop) {

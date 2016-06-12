@@ -1,5 +1,7 @@
 package MVP.presenter;
 
+import MVP.view.commands.DisplayMessageCLICommand;
+
 public class DisplayMessageCommand extends CommonCommand {
 
 	public DisplayMessageCommand(Presenter p) {
@@ -8,14 +10,13 @@ public class DisplayMessageCommand extends CommonCommand {
 
 	@Override
 	public void doCommand(String[] args) throws Exception {
-		presenter.getView().displayMessage(presenter.getModel().getMessage());
-
+		if (args == null)
+		{
+			presenter.getView().display(presenter.getModel().getDescriptor(), new DisplayMessageCLICommand(this.presenter.getView()));
+		}
 	}
 
 	@Override
-	public void help() {
-		// TODO Auto-generated method stub
-
-	}
+	public void help() {}
 
 }

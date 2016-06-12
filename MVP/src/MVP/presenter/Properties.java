@@ -76,5 +76,11 @@ public class Properties implements Serializable{
 	public void setUi(String ui) {
 		this.ui = ui;
 	}
+	@Override
+	public String toString() {
+		return "Properties [debugMode=" + debugMode + ", mazeMaxHeight=" + mazeMaxHeight + ", mazeMaxLength="
+				+ mazeMaxLength + ", mazeMaxWidth=" + mazeMaxWidth + ", generateAlgorithm=" + generateAlgorithm
+				+ ", solveAlgorithm=" + solveAlgorithm + ", maxThreads=" + maxThreads + ", ui=" + ui + "]";
+	}
 	
 }

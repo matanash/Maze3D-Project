@@ -5,33 +5,35 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import MVP.presenter.Properties;
+import MVP.view.commands.DisplayCLICommand;
 import algorithms.search.Solution;
 import model.maze3d.Maze3d;
 
+
 public class Maze3DCLIView extends CommonMaze3DCLIView {
 
-	boolean flag;
+	boolean exitFlag;
 
 	public Maze3DCLIView(BufferedReader in, PrintWriter out) {
 		super(in, out);
 	}
 
 	public void startView() {
-		flag = false;
+		exitFlag = false;
 		new Thread(new Runnable() {
 
 			@Override
 			public void run() {
-
+				out.print("Enter Command >>  ");
+				out.flush();
 				try {
 					String bufferLine = null;
 					do {
-						out.write("Enter Command >>  ");
-						out.flush();
+						
 						bufferLine = in.readLine().toLowerCase();
 						setChanged();
 						notifyObservers(bufferLine);
-					} while (!flag);
+					} while (!exitFlag);
 					setChanged();
 					notifyObservers("exit");
 					in.close();
@@ -39,7 +41,7 @@ public class Maze3DCLIView extends CommonMaze3DCLIView {
 					
 
 				} catch (IOException e) {
-					System.out.println(e.getMessage());
+					e.printStackTrace();
 				}
 			}
 
@@ -47,19 +49,18 @@ public class Maze3DCLIView extends CommonMaze3DCLIView {
 
 	}
 
-	@Override
 	public void displayMaze(Maze3d maze3d) {
 		try {
 			out.write("The requested maze is: " + '\n');
 			out.write(maze3d.toString());
 			out.flush();
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			out.println(e.getMessage());
 		}
 
 	}
 
-	@Override
+
 	public void displaySolution(Solution sol) {
 		out.write("The requested Solution is: " + '\n');
 		out.write(sol.toString());
@@ -67,7 +68,7 @@ public class Maze3DCLIView extends CommonMaze3DCLIView {
 
 	}
 
-	@Override
+
 	public void displayCrossSectionByCommand(int[][] matrix) {
 		try {
 			out.write("The requested Maze Section is: " + '\n');
@@ -80,12 +81,12 @@ public class Maze3DCLIView extends CommonMaze3DCLIView {
 			out.append('\n');
 			out.flush();
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			out.println(e.getMessage());
 		}
 
 	}
 
-	@Override
+
 	public void displayMessage(String message) {
 		out.write(message);
 		out.flush();
@@ -93,18 +94,24 @@ public class Maze3DCLIView extends CommonMaze3DCLIView {
 
 	@Override
 	public void exitView() {
-		flag = true;
+		this.exitFlag = true;
 
 	}
+	
 	@Override
-	public void setProperties(Properties prop) {
+	public void setProperties(Properties prop) 
+	{
 		if (!prop.getUi().equals("CLI"))
 		{
 			setChanged();
 			notifyObservers("switchUi switch");
 		}
-		
-		
 	}
+	public void display(Object obj , DisplayCLICommand dc)
+	{
+		dc.display(obj);
+	}
+
+	
 
 }

@@ -67,7 +67,8 @@ public class CLI implements Runnable {
 						commandName = in.readLine().toLowerCase();
 						if (commandName.equals("help"))
 							printAllCommands();
-						else {
+						else 
+						{
 							int n;
 							// split command by white spaces
 							String[] splitedCommand = commandName.split("\\s+");

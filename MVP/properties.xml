@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="1.8.0_91" class="java.beans.XMLDecoder">
+ <object class="MVP.presenter.Properties">
+  <void property="debugMode">
+   <boolean>false</boolean>
+  </void>
+  <void property="mazeMaxHeight">
+   <int>30</int>
+  </void>
+  <void property="mazeMaxLength">
+   <int>30</int>
+  </void>
+  <void property="mazeMaxWidth">
+   <int>30</int>
+  </void>
+  <void property="generateAlgorithm">
+   <string>MyMaze3dGenerator</string>
+  </void>
+  <void property="solveAlgorithm">
+   <string>DFS</string>
+  </void>
+  <void property="maxThreads">
+   <int>10</int>
+  </void>
+  <void property="ui">
+   <string>CLI</string>
+  </void>
+ </object>
+</java>

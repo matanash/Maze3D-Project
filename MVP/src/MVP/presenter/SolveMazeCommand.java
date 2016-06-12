@@ -1,5 +1,7 @@
 package MVP.presenter;
 
+import MVP.view.commands.DisplayMessageCLICommand;
+
 public class SolveMazeCommand extends CommonCommand {
 
 	public SolveMazeCommand(Presenter p) {
@@ -13,7 +15,7 @@ public class SolveMazeCommand extends CommonCommand {
 		}
 				
 		else {
-			presenter.getView().displayMessage("Invalid arguments");
+			presenter.getView().display("Invalid arguments", new DisplayMessageCLICommand(this.presenter.getView()));
 			this.help();
 		}
 	}

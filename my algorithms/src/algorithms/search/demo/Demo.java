@@ -1,6 +1,7 @@
 package algorithms.search.demo;
 
 import algorithms.mazeGenerators.MyMaze3dGenerator;
+//import algorithms.mazeGenerators.SimpleMaze3dGenerator;
 import algorithms.search.BFSSearcher;
 import algorithms.search.BreadthFirstSearcher;
 import algorithms.search.DFSSearcher;
@@ -25,6 +26,7 @@ public class Demo
 		try{
 			// Maze Generation with DFS Algorithm
 			MyMaze3dGenerator gen = new MyMaze3dGenerator();
+			//SimpleMaze3dGenerator gen = new SimpleMaze3dGenerator();
 			Maze3d maze3d = gen.generate(height,length,width);
 
 			Position entrance = maze3d.getStartPosition();

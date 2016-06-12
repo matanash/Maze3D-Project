@@ -1,30 +1,23 @@
 package MVP.presenter;
 
+import MVP.view.commands.DisplayMazeCLICommand;
+
 public class DisplayMazeCommand extends CommonCommand {
 
-	public DisplayMazeCommand(Presenter p) {
-		super(p);
-		// TODO Auto-generated constructor stub
+	public DisplayMazeCommand(Presenter presenter) {
+		super(presenter);
 	}
 
 	@Override
 	public void doCommand(String[] args) throws Exception {
-		
-		if (args.length != 1) 
+		if (args == null)
 		{
-			presenter.getView().displayMessage("Invalid arguments");
-			this.help();
-		} else 
-		{
-			presenter.getView().displayMaze(presenter.getModel().getMaze3d(args[0]));
+			presenter.getView().display(presenter.getModel().getDescriptor(),new DisplayMazeCLICommand(this.presenter.getView()));
 		}
-		
+
 	}
 
 	@Override
-	public void help() {
-		System.out.println("Displays the whole maze <maze name>. " + '\n' + '\t' + "--> Syntax: display <maze name>");
-
-	}
+	public void help() {}
 
 }

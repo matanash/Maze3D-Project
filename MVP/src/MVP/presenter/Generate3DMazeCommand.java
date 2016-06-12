@@ -1,5 +1,7 @@
 package MVP.presenter;
 
+import MVP.view.commands.DisplayMessageCLICommand;
+
 public class Generate3DMazeCommand extends CommonCommand {
 
 	public Generate3DMazeCommand(Presenter p) {
@@ -11,7 +13,7 @@ public class Generate3DMazeCommand extends CommonCommand {
 	public void doCommand(String[] args) throws Exception {
 		if (args.length != 4) 
 		{
-			presenter.getView().displayMessage("Invalid arguments");
+			presenter.getView().display("Invalid arguments", new DisplayMessageCLICommand(this.presenter.getView()));
 			help();
 		} 
 		else 

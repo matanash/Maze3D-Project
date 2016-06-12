@@ -15,33 +15,9 @@ public abstract class CommonMaze3DCLIView extends CommonMaze3DView {
 		this.in = in;
 		this.out = out;
 	}
-
-	/**
-	 * @return the in
-	 */
-	public BufferedReader getIn() {
-		return in;
-	}
-
-	/**
-	 * @param in the in to set
-	 */
-	public void setIn(BufferedReader in) {
-		this.in = in;
-	}
-
-	/**
-	 * @return the out
-	 */
-	public PrintWriter getOut() {
-		return out;
-	}
-
-	/**
-	 * @param out the out to set
-	 */
-	public void setOut(PrintWriter out) {
-		this.out = out;
-	}
 	
+	@Override
+	public PrintWriter getOut() {
+		return this.out;
+	}
 }
