@@ -19,7 +19,7 @@ import MVP.view.Maze3DCLIView;
  * MVP Demo
  * ********/
 
-public class Run {
+public class RunCLI {
 
 	public static void main(String[] args) {
 

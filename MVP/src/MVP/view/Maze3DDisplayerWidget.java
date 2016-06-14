@@ -12,17 +12,17 @@ public class Maze3DDisplayerWidget extends Canvas {
 	Maze3d maze3d;
 	Position characterPosition;
 	String crossSection;
-	boolean isSolved;
+	//boolean isSolved;
 
 	/**
-	 * C'tor - set the MazeDisplayer Widget 
+	 * C'tor - set the MazeDisplayer Widget with XZ Cross Section
 	 * @param parent - parent of the widget
 	 * @param style - style of the widget
 	 */
 	public Maze3DDisplayerWidget(Composite parent, int style) 
 	{
 		super(parent, style);
-		crossSection = "XZ";		
+		this.crossSection = "XZ";	// Floor Section	
 	}
 	
 	/**
@@ -30,7 +30,7 @@ public class Maze3DDisplayerWidget extends Canvas {
 	 * @param position Character position
 	 */
 	public void setCharacterPosition(Position position) {
-		characterPosition = position;
+		this.characterPosition = position;
 		redraw();
 	}
 	
@@ -57,9 +57,9 @@ public class Maze3DDisplayerWidget extends Canvas {
 	 * Display that the maze was solved successfully
 	 * @param issolved - Whether or not the maze was solved
 	 */
-	public void setSolved(boolean isSolved) {
+	/*public void setSolved(boolean isSolved) {
 		this.isSolved = isSolved;
 		redraw();
-	}
+	}*/
 
 }

@@ -46,7 +46,7 @@ public abstract class BasicWindow implements Runnable {
 			display.dispose(); // dispose OS components
 	}
 	
-	public void close() {
+	/*public void close() {
 		shell.dispose();
 	}
 	
@@ -106,5 +106,5 @@ public abstract class BasicWindow implements Runnable {
 		private T value;
 		public void set(T value) { this.value = value; }
 		public T get() { return value; }
-	}
+	}*/
 }
