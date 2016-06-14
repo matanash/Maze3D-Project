@@ -34,7 +34,7 @@ public class Run {
 			decoder.close();
 		} 
 		catch (FileNotFoundException e) 
-		{		//if no properties.xml was found in directory, generating default properties.
+		{		//if no properties.xml file was found in directory, generating default properties.
 			System.out.println("file not found, default properties will be loaded");
 			properties = new Properties();
 		} 
