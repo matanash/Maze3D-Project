@@ -32,6 +32,7 @@ public class Solution implements Serializable {
 	public void setStates(ArrayList<State> states) 
 	{
 		this.states = states;
+		
 	}
 
 	@Override
@@ -40,6 +41,16 @@ public class Solution implements Serializable {
 		for (State state: states)	
 			str += '\n' + state.toString();
 		return str;
+	}
+	public boolean contains(State state)
+	{
+		if (states.contains(state))
+			return true;
+		return false;
+	}
+	public boolean remove(State state)
+	{
+		return states.remove(state);
 	}
 	
 	
