@@ -5,22 +5,25 @@ import java.util.ArrayList;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.swt.widgets.Text;
 
-import MVP.guiView.Widgets.Maze3DWidget;
-import MVP.guiView.Widgets.MazeCubeDisplayer;
+import MVP.guiView.Widgets.Maze2DDisplayer;
+import MVP.guiView.Widgets.Maze3DDisplayer;
 import MVP.guiView.Widgets.MazeDisplayer;
-import MVP.guiView.Widgets.PossibleMovesWidget;
 import MVP.presenter.Properties;
 import algorithms.search.Solution;
 import model.maze3d.Maze3d;
@@ -44,7 +47,9 @@ public class MazeWindow extends BasicWindow{
 	protected DisposeListener exitListener;
 
 	protected SelectionListener generateListener;
-
+	
+	protected SelectionListener displayMazeListener;
+	
 	protected KeyListener keyListener;
 
 	protected SelectionListener solveListener;
@@ -54,6 +59,9 @@ public class MazeWindow extends BasicWindow{
 	protected SelectionListener saveListener;
 	
 	protected SelectionListener loadListener;
+	
+	protected SelectionListener viewCrossSectionListener;
+	
 	
 	/** The maze file path. used in save or load maze scenario */
 	protected String mazePath;
@@ -67,8 +75,20 @@ public class MazeWindow extends BasicWindow{
 	/** The game properties. */
 	protected Properties properties;
 
+	protected Button generateButton;
+	
+	protected Button displayMazeButton;
+	
 	protected Button solveButton;
 
+	protected Combo viewCrossSectionCombo;
+	
+	protected String currentCrossSection ;
+	
+	protected int currentLayer ;
+	
+	protected Text positionText;
+	
 	/**
 	 * Instantiates a new maze window.
 	 * @param title the window title
@@ -206,7 +226,7 @@ public class MazeWindow extends BasicWindow{
 		    
 		shell.setMenuBar(menuBar);
         
-		Button generateButton=new Button(shell, SWT.PUSH);
+		this.generateButton=new Button(shell, SWT.PUSH);
 		generateButton.setText("  Generate new maze  ");
 		generateButton.setLayoutData(new GridData(SWT.NONE, SWT.None, false, false, 1, 1));
 		generateButton.addSelectionListener(new SelectionListener() {
@@ -222,18 +242,48 @@ public class MazeWindow extends BasicWindow{
 			
 		});
 		
-		//Main Maze display widget.
+		this.displayMazeButton=new Button(shell, SWT.PUSH);
+		this.displayMazeButton.setText("  Display Maze  ");
+		this.displayMazeButton.setLayoutData(new GridData(SWT.NONE, SWT.None, false, false, 1, 1));
+		this.displayMazeButton.addSelectionListener(displayMazeListener);
+		
+		Label viewCrossSectionLabel = new Label(shell, SWT.NONE);
+		viewCrossSectionLabel.setLayoutData(new GridData(SWT.NONE, SWT.CENTER, false, false));
+		viewCrossSectionLabel.setText("View Plane:");
+		
+		this.viewCrossSectionCombo = new Combo(shell, SWT.READ_ONLY);
+		this.viewCrossSectionCombo.setLayoutData(new GridData(SWT.NONE, SWT.NONE, false, false));
+		this.viewCrossSectionCombo.setItems(new String[] { "XZ", "YZ", "XY" });
+		this.viewCrossSectionCombo.select(0);
+		this.viewCrossSectionCombo.addSelectionListener(viewCrossSectionListener);
+		currentCrossSection = viewCrossSectionCombo.getItem(0);
+		
+		/*Label currentViewLayerLabel = new Label(shell, SWT.NONE);
+		currentViewLayerLabel.setLayoutData(new GridData(SWT.NONE, SWT.CENTER, false, false));
+		currentViewLayerLabel.setText("View Layer:");*/
+
+		Label positionLabel = new Label(shell, SWT.NONE);
+		viewCrossSectionLabel.setLayoutData(new GridData(SWT.NONE, SWT.CENTER, false, false));
+		positionLabel.setText("Position:");
+		
+		positionText = new Text(shell, SWT.BORDER | SWT.READ_ONLY);
+		positionText.setLayoutData(new GridData(SWT.FILL, SWT.NONE, false, false));
+		
+		this.solveButton=new Button(shell, SWT.PUSH);
+		this.solveButton.setText("     Solve the maze     ");
+		this.solveButton.setLayoutData(new GridData(SWT.None, SWT.None, false, false, 1, 1));
+		this.solveButton.setEnabled(false);
+		this.solveButton.addSelectionListener(solveListener);
+
+					
+		/*//Main Maze display widget.
 		MazeDisplayer mazeWidget=new Maze3DWidget(shell, SWT.NULL);
 		widgetsList.add(mazeWidget);
 		mazeWidget.setFocus();
 		mazeWidget.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,true,1,5));
 		
 
-		solveButton=new Button(shell, SWT.PUSH);
-		solveButton.setText("     Solve the maze     ");
-		solveButton.setLayoutData(new GridData(SWT.None, SWT.None, false, false, 1, 1));
-		solveButton.setEnabled(false);
-		solveButton.addSelectionListener(solveListener);
+		
 		
 		// cube widget.
 		MazeCubeDisplayer mazeCube = new MazeCubeDisplayer(shell, SWT.BORDER);
@@ -247,7 +297,8 @@ public class MazeWindow extends BasicWindow{
 		
 		for (MazeDisplayer mazeDisplayer : widgetsList) {
 			mazeDisplayer.addKeyListener(keyListener);
-		}
+		
+		}*/
 		
 	}
 	
@@ -337,13 +388,13 @@ public class MazeWindow extends BasicWindow{
 	 *
 	 * @param string the string to display
 	 */
-	public void display(String string) {
+	public void displayMessage(String message) {
 		Display.getDefault().syncExec(new Runnable() {
 			
 			@Override
 		    public void run() {
 		    	MessageBox messageBox =  new MessageBox(shell, SWT.ICON_INFORMATION); 
-		    	messageBox.setMessage(string);
+		    	messageBox.setMessage(message);
 		    	messageBox.setText("information message");
 		    	messageBox.open();		
 		    	
@@ -351,6 +402,22 @@ public class MazeWindow extends BasicWindow{
 		});
 	}
 	
+	/**
+	 * Display a Maze3d .
+	 *
+	 * @param m3d - the Maze3d to display
+	 */
+	public void displayMaze(Maze3d m3d) {
+		Display.getDefault().syncExec(new Runnable() {
+			
+			@Override
+		    public void run() {
+				Maze3DDisplayer maze2dWidget = new Maze2DDisplayer (shell, SWT.BORDER,m3d,currentCrossSection);
+				maze2dWidget.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));	
+				maze2dWidget.setFocus();
+		    }
+		});
+	}
 
 	/**
 	 * Sets the selection listener that sets the behavior of - generate request - in the MVP.
@@ -360,7 +427,16 @@ public class MazeWindow extends BasicWindow{
 	public void setGenerateListener(SelectionListener generateListener) {
 		this.generateListener = generateListener;
 	}
-	
+
+	/**
+	 * Sets the selection listener that sets the behavior of - display maze request - in the MVP.
+	 *
+	 * @param displayMazeListenerListener the new generate listener
+	 */
+	public void setDisplayMazeListener(SelectionListener displayMazeListener) {
+		this.displayMazeListener = displayMazeListener;
+	}
+
 	/**
 	 * Sets the key listener that sets the behavior of - movements requests - in the MVP.
 	 *
@@ -370,7 +446,6 @@ public class MazeWindow extends BasicWindow{
 		this.keyListener = keyListener;
 		
 	}
-	
 	/**
 	 * Sets the selection listener that sets the behavior of - solve request - in the MVP.
 	 *
@@ -436,8 +511,6 @@ public class MazeWindow extends BasicWindow{
 		return this.mazePath;
 	}
 
-
-
 	/**
 	 * Sets the selection listener that sets the behavior of - load maze request - in the MVP.
 	 *
@@ -447,4 +520,68 @@ public class MazeWindow extends BasicWindow{
 		this.loadListener = selectionListener;
 		
 	}
+	
+	/**
+	 * Sets the selection listener that sets the behavior of - view Cross Section request - in the MVP.
+	 * @param selectionListener the new Cross Section listener
+	 */
+	public void setViewCrossSectionListener(SelectionAdapter selectionListener) {
+		this.viewCrossSectionListener = selectionListener;
+	}
+	
+	/**
+	 * Add a listener to handle user requests to change the view plane
+	 * @param listener Listener
+	 */
+	public void addViewCrossSectionSelectionListener(SelectionListener listener) {
+		viewCrossSectionCombo.addSelectionListener(listener);
+	}
+
+	public Maze3d getMaze() {
+		return this.maze;
+	}
+
+	public void setMaze(Maze3d maze) {
+		this.maze = maze;
+	}
+
+	public Position getCharPosition() {
+		return this.charPosition;
+	}
+
+	public void setCharPosition(Position charPosition) {
+		this.charPosition = charPosition;
+	}
+
+	public Solution getSolution() {
+		return this.solution;
+	}
+
+	public String getcurrentCrossSection() {
+		return this.currentCrossSection;
+	}
+
+	public void setcurrentCrossSection(String currentCrossSection) {
+		this.currentCrossSection = currentCrossSection;
+	}
+
+	public Combo getViewCrossSectionCombo() {
+		return viewCrossSectionCombo;
+	}
+
+	public void setViewCrossSectionCombo(Combo viewCrossSectionCombo) {
+		this.viewCrossSectionCombo = viewCrossSectionCombo;
+	}
+
+	public int getCurrentLayer() {
+		return currentLayer;
+	}
+
+	public void setCurrentLayer(int currentLayer) {
+		this.currentLayer = currentLayer;
+	}
+	
+
+
+	
 }

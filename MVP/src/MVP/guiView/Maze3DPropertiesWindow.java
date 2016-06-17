@@ -15,6 +15,7 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+
 /**
  * This class collecting all the data of the current maze in a GUI window.
  */

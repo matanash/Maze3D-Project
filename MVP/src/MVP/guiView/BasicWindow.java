@@ -51,5 +51,21 @@ public abstract class BasicWindow implements Runnable {
 	{
 		shell.dispose(); 
 	}
+
+	public Display getDisplay() {
+		return display;
+	}
+
+	public void setDisplay(Display display) {
+		this.display = display;
+	}
+
+	public Shell getShell() {
+		return this.shell;
+	}
+
+	public void setShell(Shell shell) {
+		this.shell = shell;
+	}
 	
 }

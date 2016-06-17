@@ -10,13 +10,14 @@ public class DisplayMessageCommand extends CommonCommand {
 
 	@Override
 	public void doCommand(String[] args) throws Exception {
-		if (args == null)
-		{
-			myPresenter.getView().display(myPresenter.getModel().getDescriptor(), new DisplayMessageViewCommand(this.myPresenter.getView()));
+		if (args == null) {
+			myPresenter.getView().display(myPresenter.getModel().getDescriptor(),
+					new DisplayMessageViewCommand(this.myPresenter.getView()));
 		}
 	}
 
 	@Override
-	public void help() {}
+	public void help() {
+	}
 
 }

@@ -5,6 +5,7 @@ import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Display;
@@ -29,6 +30,20 @@ public class Maze3DGUIView extends CommonMaze3DGUIView {
 	
 	@Override
 	public void startView() throws Exception {
+		////////////////////////the selection listener that sets the behavior of - display maze request - in this specific MVP  ////////////
+		mainWindow.setDisplayMazeListener(new SelectionListener() {
+		
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+			setChanged();
+			notifyObservers("display "+mainWindow.maze3dProperties.getName());
+			
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {}
+		});
+		
 		////////////////////////  the selection listener that sets the behavior of - solve request - in this specific MVP  ////////////
 		mainWindow.setSolveListener(new SelectionListener() {
 		
@@ -154,17 +169,40 @@ public class Maze3DGUIView extends CommonMaze3DGUIView {
 		@Override
 		public void widgetSelected(SelectionEvent arg0) {
 			setChanged();
-			notifyObservers("load maze " + mainWindow.getMazePath()+ " " +mainWindow.maze3dProperties.getName());
+			notifyObservers("load maze " + mainWindow.maze3dProperties.getName()+ " " + mainWindow.getMazePath());
 			
 			
 		}
-		
 		@Override
 		public void widgetDefaultSelected(SelectionEvent arg0) {}
 	});
+
+	////////////////////////the selection listener that sets the behavior of - change cross section view request - in this specific MVP  ////////////		
+	mainWindow.setViewCrossSectionListener(new SelectionAdapter() {
+		 public void widgetSelected(SelectionEvent e)
+		 {
+			if(mainWindow.getViewCrossSectionCombo().equals("XZ"))
+			{
+				setChanged();
+				notifyObservers("display cross section by y " + mainWindow.getCurrentLayer() + " " +mainWindow.maze3dProperties.getName());
+			}
+			if(mainWindow.getViewCrossSectionCombo().equals("YZ"))
+			{
+				setChanged();
+				notifyObservers("display cross section by x " + mainWindow.getCurrentLayer() + " " +mainWindow.maze3dProperties.getName());
+			}
+			if(mainWindow.getViewCrossSectionCombo().equals("xy"))
+			{
+				setChanged();
+				notifyObservers("display cross section by z " + mainWindow.getCurrentLayer() + " " +mainWindow.maze3dProperties.getName());
+			}
+		 }
+	});
+	
+	
 	mainWindow.run();
 
-	}
+}
 
 	@Override
 	public void setProperties(Properties prop) {
@@ -187,10 +225,9 @@ public class Maze3DGUIView extends CommonMaze3DGUIView {
 
 	@Override
 	public void displayMessage(String message) {
-		mainWindow.display(message);
+		mainWindow.displayMessage(message);
 		
 	}
-
 	@Override
 	public void displayCrossSectionByCommand(int[][] matrix) {
 		// TODO Auto-generated method stub
@@ -206,7 +243,7 @@ public class Maze3DGUIView extends CommonMaze3DGUIView {
 	@Override
 	public void displayMaze(Maze3d maze3d) {
 		mainWindow.setMazeData(maze3d);
-		
+		mainWindow.displayMaze(maze3d);
 	}
 
 	
