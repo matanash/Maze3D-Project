@@ -158,7 +158,7 @@ public class Maze3DGUIView extends CommonMaze3DGUIView {
 		@Override
 		public void widgetSelected(SelectionEvent arg0) {
 			setChanged();
-			notifyObservers("save maze "+ mainWindow.maze3dProperties.getName()+" " + mainWindow.getMazePath());
+			notifyObservers("save maze "+ mainWindow.maze3dProperties.getName()+" " + mainWindow.getMazeFilePath());
 							
 		}
 		
@@ -171,7 +171,7 @@ public class Maze3DGUIView extends CommonMaze3DGUIView {
 		@Override
 		public void widgetSelected(SelectionEvent arg0) {
 			setChanged();
-			notifyObservers("load maze " + mainWindow.maze3dProperties.getName()+ " " + mainWindow.getMazePath());
+			notifyObservers("load maze " + mainWindow.maze3dProperties.getName()+ " " + mainWindow.getMazeFilePath());
 			
 			
 		}

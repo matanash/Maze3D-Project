@@ -1,7 +1,5 @@
 package MVP.guiView;
 
-import java.util.ArrayList;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.KeyListener;
@@ -11,7 +9,6 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
@@ -29,7 +26,6 @@ import MVP.presenter.Properties;
 import algorithms.search.Solution;
 import model.maze3d.Maze3d;
 import model.maze3d.Position;
-
 
 /**
  * This the main window in the GUI view.
@@ -65,12 +61,8 @@ public class MazeWindow extends BasicWindow{
 	
 	protected SelectionListener viewCrossSectionListener;
 	
-	
 	/** The maze file path. used in save or load maze scenario */
-	protected String mazePath;
-	
-/*	*//** The widgets list. *//*
-	protected ArrayList<MazeDisplayer> widgetsList;*/
+	protected String mazeFilePath;
 	
 	/** The maze properties. */
 	protected Maze3DProperties maze3dProperties;
@@ -200,8 +192,8 @@ public class MazeWindow extends BasicWindow{
 			public void widgetSelected(SelectionEvent arg0) {
 				FileDialog fd = new FileDialog(shell,SWT.SAVE);
 				fd.setFilterExtensions(new String[] { "*.maz"});
-				mazePath = fd.open();
-				if(mazePath!=null)
+				mazeFilePath = fd.open();
+				if(mazeFilePath!=null)
 					saveListener.widgetSelected(arg0);
 				else
 					displayError("Save canceled.");
@@ -222,8 +214,8 @@ public class MazeWindow extends BasicWindow{
 			public void widgetSelected(SelectionEvent arg0) {
 				FileDialog fd = new FileDialog(shell,SWT.OPEN);
 				fd.setFilterExtensions(new String[] { "*.maz"});
-				mazePath = fd.open();
-				if(mazePath!=null)
+				mazeFilePath = fd.open();
+				if(mazeFilePath!=null)
 					loadListener.widgetSelected(arg0);				
 				else
 					displayError("Load canceled.");
@@ -236,8 +228,9 @@ public class MazeWindow extends BasicWindow{
 		shell.setMenuBar(menuBar);
 		
 		Composite toolbar = new Composite(shell, SWT.NONE);
-		RowLayout rowLayout = new RowLayout(SWT.VERTICAL);
-		toolbar.setLayout(rowLayout);
+		GridLayout gridLayout = new GridLayout(SWT.VERTICAL,true);
+		gridLayout.numColumns = 2;
+		toolbar.setLayout(gridLayout);
 		
 		this.generateButton=new Button(toolbar, SWT.PUSH);
 		generateButton.setText("  Generate new maze  ");
@@ -265,6 +258,35 @@ public class MazeWindow extends BasicWindow{
 		//this.solveButton.setLayoutData(new GridData(SWT.None, SWT.None, false, false, 2, 1));
 		this.solveButton.setEnabled(false);
 		this.solveButton.addSelectionListener(solveListener);
+		
+		for (int i=0; i<50 ;i++)
+			new Label(toolbar, SWT.NONE);
+
+		Label nameL= new Label(toolbar, SWT.NONE);
+		nameL.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, true, true, 2, 2));
+		nameL.setText("Maze Name: ");
+		final Text nameT = new Text(toolbar, SWT.BORDER);
+		nameT.setLayoutData(new GridData(SWT.NONE, SWT.FILL, true, true, 2, 2));
+		
+		Label depthL =new Label(toolbar, SWT.NONE);
+		depthL.setLayoutData(new GridData(SWT.NONE, SWT.FILL, true, true, 2, 2));
+		depthL.setText("Floors: ");
+		final Text depthT=new Text(toolbar, SWT.BORDER);
+		depthT.setLayoutData(new GridData(SWT.NONE, SWT.FILL, true, true, 2, 2));
+		
+		Label rowL =new Label(toolbar, SWT.NONE);
+		rowL.setLayoutData(new GridData(SWT.NONE, SWT.FILL, true, true, 2, 2));
+		rowL.setText("Rows: ");
+		final Text rowT=new Text(toolbar, SWT.BORDER);
+		rowT.setLayoutData(new GridData(SWT.NONE, SWT.FILL, true, true, 2, 2));
+
+		Label colsL =new Label(toolbar, SWT.NONE);
+		colsL.setLayoutData(new GridData(SWT.NONE, SWT.FILL, true, true, 2, 2));
+		colsL.setText("Columns: ");
+		final Text colsT=new Text(toolbar, SWT.BORDER);
+		colsT.setLayoutData(new GridData(SWT.NONE, SWT.FILL, true, true, 2, 2));
+		
+		
 		
 		/*Label viewCrossSectionLabel = new Label(toolbar, SWT.NONE);
 		//viewCrossSectionLabel.setLayoutData(new GridData(SWT.NONE, SWT.CENTER, false, false));
@@ -316,7 +338,6 @@ public class MazeWindow extends BasicWindow{
 	 */
 	protected void exitRequest() {
 		shell.dispose();
-
 	}
 	
 	/**
@@ -527,8 +548,8 @@ public class MazeWindow extends BasicWindow{
 	 *
 	 * @return the maze path
 	 */
-	public String getMazePath() {
-		return this.mazePath;
+	public String getMazeFilePath() {
+		return this.mazeFilePath;
 	}
 
 	/**
