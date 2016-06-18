@@ -32,8 +32,6 @@ public abstract class Maze3DDisplayer extends Canvas{
 
 	protected Maze3d m3d;
 	
-	protected String displayedCrossSection;
-	
 	public Maze3DDisplayer(Composite parent, int style) 
 	{
 		super(parent, style);
@@ -92,15 +90,7 @@ public abstract class Maze3DDisplayer extends Canvas{
 	public void setGameCharacter(GameCharacter character) {
 		this.character = character;
 	}
-
-	public String getDisplayedCroosSection() {
-		return displayedCrossSection;
-	}
 	
-	public void setDisplayedCroosSection(String displayedCroosSection) {
-		this.displayedCrossSection = displayedCroosSection;
-	}
-
 	public void setCharacterPosition2D(Position2D position2d) {
 		character.setPosition2d(position2d);
 	}

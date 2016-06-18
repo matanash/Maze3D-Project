@@ -17,7 +17,7 @@
    <string>MyMaze3dGenerator</string>
   </void>
   <void property="solveAlgorithm">
-   <string>DFS</string>
+   <string>BFS</string>
   </void>
   <void property="maxThreads">
    <int>10</int>

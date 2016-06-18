@@ -262,11 +262,8 @@ public class Maze3DModel extends CommonMaze3DModel {
 			this.descriptor = "There isn't such algorithm called " + algorithm + ", try another one .";
 			setChanged();
 			notifyObservers("display_message");
-		} else if (maze2sol.containsKey(mazesMap.get(name))) {
-			this.descriptor = "Maze3D " + name + " solution is already exists .";
-			setChanged();
-			notifyObservers("display_message");
-		} else {
+		} 
+		else {
 
 			threadPool.submit(new Callable<Solution>() {
 				@Override

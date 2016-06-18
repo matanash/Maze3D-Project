@@ -2,15 +2,14 @@ package MVP.guiView.Widgets;
 
 import java.util.Timer;
 import java.util.TimerTask;
-
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.MessageBox;
-import org.eclipse.swt.widgets.Shell;
 
+import algorithms.search.BFSSearcher;
 import algorithms.search.Solution;
+import algorithms.search.demo.Maze3dAdapter;
 import model.maze3d.Maze3d;
 import model.maze3d.Position;
 import model.maze3d.domains.Maze3dState;
@@ -20,7 +19,6 @@ public class Maze2DDisplayer extends Maze3DDisplayer {
 	int[][] mazeData;
 	
 	private Timer timer;
-	
 	private TimerTask task;
 	
 	public Maze2DDisplayer(Composite parent, int style, Maze3d m3d) {
@@ -31,10 +29,6 @@ public class Maze2DDisplayer extends Maze3DDisplayer {
 		mazeData = m3d.getCrossSectionByY(m3d.getStartPosition().getX());
 		this.setCharacterPosition2D(new Position2D(m3d.getStartPosition().getX(), m3d.getStartPosition().getZ()));
 		this.setCharacterPosition3D(m3d.getStartPosition());
-		MessageBox messageBox =  new MessageBox((Shell) parent, SWT.ICON_INFORMATION); 
-    	messageBox.setMessage(m3d.getStartPosition().toString());
-    	messageBox.setText("information message");
-    	messageBox.open();
 	}
 
 	@Override
@@ -76,6 +70,7 @@ public class Maze2DDisplayer extends Maze3DDisplayer {
 		         }
 			   }
 			}
+
 		}
 		
 		
@@ -108,7 +103,6 @@ public class Maze2DDisplayer extends Maze3DDisplayer {
 			mazeData = m3d.getCrossSectionByY(pos.getY() - 1);
 			character.setPosition3d(new Position(character.getPosition3d().getY() - 1, character.getPosition3d().getX(),
 					character.getPosition3d().getZ()));
-
 			this.redraw();
 		}
 
@@ -172,7 +166,8 @@ public class Maze2DDisplayer extends Maze3DDisplayer {
 	protected void goDown() {
 		Position2D pos = character.getPosition2d();
 		if (isIn2DMaze(new Position2D(pos.getX(), pos.getY() + 1))
-				&& isPosition2DEmpty(new Position2D(pos.getX(), pos.getY() + 1))) {
+				&& isPosition2DEmpty(new Position2D(pos.getX(), pos.getY() + 1))) 
+		{
 			character.setPosition2d(new Position2D(pos.getX(), pos.getY() + 1));
 			character.setPosition3d(new Position(character.getPosition3d().getY(), character.getPosition3d().getX(),
 					character.getPosition3d().getZ() + 1));
@@ -199,18 +194,18 @@ public class Maze2DDisplayer extends Maze3DDisplayer {
 	@Override
 	public void walkToGoalPosition(Solution solution)
 	{
-		//Collections.reverse(solution.getPath());
+
 		this.timer = new Timer();
 		this.task = new TimerTask() {
-			int i = solution.getStates().size()-1;
-			
+			int i = 0;
 			@Override
 			public void run() {
-
-				if(i >= 0){
-					setCharacterPosition3D(new Position(((Maze3dState)solution.getStates().get(i)).getCurrPosition().getY(),((Maze3dState)solution.getStates().get(i)).getCurrPosition().getX(),
-							((Maze3dState)solution.getStates().get(i)).getCurrPosition().getZ()));
-					i--;
+				if(i < solution.getStates().size()){
+					Position pos = new Position(((Maze3dState)solution.getStates().get(i)).getCurrPosition().getY(),((Maze3dState)solution.getStates().get(i)).getCurrPosition().getX(),
+							((Maze3dState)solution.getStates().get(i)).getCurrPosition().getZ());
+					setCharacterPosition3D(pos);
+					i++;
+					
 				}
 				else{
 					timer.cancel();
@@ -220,6 +215,9 @@ public class Maze2DDisplayer extends Maze3DDisplayer {
 		};
 		timer.scheduleAtFixedRate(task, 0, 100);
 		timer.purge();
+		
+		
 	}
 
 }
+

@@ -193,8 +193,14 @@ public class Maze3DPropertiesWindow {
 	 */
 	public void open() {
 		main.open();
-		
+	}
 
+	public Maze3DProperties getProperties() {
+		return this.properties;
+	}
+
+	public void setProperties(Maze3DProperties properties) {
+		this.properties = properties;
 	}
 
 }

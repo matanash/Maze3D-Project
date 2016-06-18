@@ -10,7 +10,6 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
@@ -18,6 +17,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.MessageBox;
+
 import org.eclipse.swt.widgets.Text;
 
 import MVP.guiView.Widgets.Maze2DDisplayer;
@@ -35,7 +35,7 @@ public class MazeWindow extends BasicWindow{
 	
 	protected Maze3d maze;
 	
-	protected Position charPosition;
+	protected Maze3DDisplayer maze2dWidget ;
 	
 	protected Position goalPosition ;
 	
@@ -48,6 +48,8 @@ public class MazeWindow extends BasicWindow{
 	protected SelectionListener generateListener;
 	
 	protected SelectionListener displayMazeListener;
+	
+	protected SelectionListener displaySolutionListener;
 	
 	protected KeyListener keyListener;
 
@@ -74,21 +76,20 @@ public class MazeWindow extends BasicWindow{
 	
 	protected Button displayMazeButton;
 	
+	protected Button displaySolutionButton;
+	
 	protected Button solveButton;
 
-	protected Combo viewCrossSectionCombo;
+	protected Text nameT;
 	
-	protected String currentCrossSection ;
+	protected Text depthT;
 	
-	protected int currentLayer ;
+	protected Text rowT;
 	
-	protected Text positionText;
+	protected Text colsT;
 	
-	protected Text yGoalPositionTextBox ;
-	
-	protected Text xGoalPositionTextBox ;
-	
-	protected Text zGoalPositionTextBox ;
+	protected Text currentPositionText;
+
 	
 	/**
 	 * Instantiates a new maze window.
@@ -102,14 +103,12 @@ public class MazeWindow extends BasicWindow{
 		this.properties= properties;
 		this.maze3dProperties=new Maze3DProperties();   					//default values
 		selectedXMLpropertiesFilePath = xmlFilePath;
-/*		widgetsList = new ArrayList<MazeDisplayer>();*/
 		shell.setImage(new Image(display, "resources/jerry_cheese.jpg"));
 	}
 
 	@Override
 	protected void initWidgets() 
 	{
-		//shell.addDisposeListener(exitListener);								//for X button and 'Exit' button
 		shell.setLayout(new GridLayout(2,false));	
 		Image image= new Image(display,"resources/bg.jpg");
 		shell.setBackgroundImage(image);
@@ -152,6 +151,7 @@ public class MazeWindow extends BasicWindow{
 			public void widgetSelected(SelectionEvent arg0) {
 				Maze3DPropertiesWindow window = new Maze3DPropertiesWindow(shell, maze3dProperties, generateListener);
 				window.open();
+				
 				if(selectedXMLpropertiesFilePath!=null)
 					propertiesUpdateListener.widgetSelected(arg0);
 			}
@@ -241,6 +241,10 @@ public class MazeWindow extends BasicWindow{
 			public void widgetSelected(SelectionEvent arg0) {
 				Maze3DPropertiesWindow propwindow = new Maze3DPropertiesWindow(shell,maze3dProperties,generateListener);
 		    	propwindow.open();
+		    	nameT.setText(propwindow.getProperties().getName());
+		    	depthT.setText(Integer.toString(propwindow.getProperties().getHeight()));
+		    	rowT.setText(Integer.toString(propwindow.getProperties().getLength()));
+		    	colsT.setText(Integer.toString(propwindow.getProperties().getWidth()));
 			}
 				
 			@Override				
@@ -250,121 +254,68 @@ public class MazeWindow extends BasicWindow{
 		
 		this.displayMazeButton=new Button(toolbar, SWT.PUSH);
 		this.displayMazeButton.setText("       Display maze       ");
-		//this.displayMazeButton.setLayoutData(new GridData(SWT.NONE, SWT.None, false, true, 1, 1));
 		this.displayMazeButton.addSelectionListener(displayMazeListener);
 		
 		this.solveButton=new Button(toolbar, SWT.PUSH);
 		this.solveButton.setText("      Solve the maze     ");
-		//this.solveButton.setLayoutData(new GridData(SWT.None, SWT.None, false, false, 2, 1));
 		this.solveButton.setEnabled(false);
 		this.solveButton.addSelectionListener(solveListener);
+
+		this.displaySolutionButton=new Button(toolbar, SWT.PUSH);
+		this.displaySolutionButton.setText("     Display Solution    ");
+		this.displaySolutionButton.setEnabled(false);
+		this.displaySolutionButton.addSelectionListener(displaySolutionListener);
 		
-		for (int i=0; i<50 ;i++)
+		for (int i=0; i<40 ;i++)
 			new Label(toolbar, SWT.NONE);
 
 		Label nameL= new Label(toolbar, SWT.NONE);
 		nameL.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, true, true, 2, 2));
 		nameL.setText("Maze Name: ");
-		final Text nameT = new Text(toolbar, SWT.BORDER);
-		nameT.setLayoutData(new GridData(SWT.NONE, SWT.FILL, true, true, 2, 2));
+		this.nameT = new Text(toolbar, SWT.BORDER);
+		this.nameT.setLayoutData(new GridData(SWT.NONE, SWT.FILL, true, true, 2, 2));
 		
 		Label depthL =new Label(toolbar, SWT.NONE);
 		depthL.setLayoutData(new GridData(SWT.NONE, SWT.FILL, true, true, 2, 2));
 		depthL.setText("Floors: ");
-		final Text depthT=new Text(toolbar, SWT.BORDER);
-		depthT.setLayoutData(new GridData(SWT.NONE, SWT.FILL, true, true, 2, 2));
+		this.depthT=new Text(toolbar, SWT.BORDER);
+		this.depthT.setLayoutData(new GridData(SWT.NONE, SWT.FILL, true, true, 2, 2));
 		
 		Label rowL =new Label(toolbar, SWT.NONE);
 		rowL.setLayoutData(new GridData(SWT.NONE, SWT.FILL, true, true, 2, 2));
 		rowL.setText("Rows: ");
-		final Text rowT=new Text(toolbar, SWT.BORDER);
-		rowT.setLayoutData(new GridData(SWT.NONE, SWT.FILL, true, true, 2, 2));
+		this.rowT=new Text(toolbar, SWT.BORDER);
+		this.rowT.setLayoutData(new GridData(SWT.NONE, SWT.FILL, true, true, 2, 2));
 
 		Label colsL =new Label(toolbar, SWT.NONE);
 		colsL.setLayoutData(new GridData(SWT.NONE, SWT.FILL, true, true, 2, 2));
 		colsL.setText("Columns: ");
-		final Text colsT=new Text(toolbar, SWT.BORDER);
-		colsT.setLayoutData(new GridData(SWT.NONE, SWT.FILL, true, true, 2, 2));
+		this.colsT=new Text(toolbar, SWT.BORDER);
+		this.colsT.setLayoutData(new GridData(SWT.NONE, SWT.FILL, true, true, 2, 2));
 		
-		
-		
-		/*Label viewCrossSectionLabel = new Label(toolbar, SWT.NONE);
-		//viewCrossSectionLabel.setLayoutData(new GridData(SWT.NONE, SWT.CENTER, false, false));
-		viewCrossSectionLabel.setText("View Plane:");
-		
-		this.viewCrossSectionCombo = new Combo(toolbar, SWT.READ_ONLY);
-		//this.viewCrossSectionCombo.setLayoutData(new GridData(SWT.NONE, SWT.NONE, false, false));
-		this.viewCrossSectionCombo.setItems(new String[] { "XZ", "YZ", "XY" });
-		this.viewCrossSectionCombo.select(0);
-		this.viewCrossSectionCombo.addSelectionListener(viewCrossSectionListener);
-		currentCrossSection = viewCrossSectionCombo.getItem(0);*/
-		
-		/*Label currentViewLayerLabel = new Label(shell, SWT.NONE);
-		currentViewLayerLabel.setLayoutData(new GridData(SWT.NONE, SWT.CENTER, false, false));
-		currentViewLayerLabel.setText("View Layer:");
-
-		Label positionLabel = new Label(toolbar, SWT.NONE);
-		//viewCrossSectionLabel.setLayoutData(new GridData(SWT.NONE, SWT.CENTER, false, false));
-		positionLabel.setText("Position:");
-		
-		positionText = new Text(toolbar, SWT.BORDER | SWT.READ_ONLY);
-		//positionText.setLayoutData(new GridData(SWT.FILL, SWT.NONE, false, false));
-		
-		shell.setLayout(new GridLayout(1, true));
-		Label yTitle = new Label(shell, SWT.COLOR_WIDGET_DARK_SHADOW);
-		yTitle.setText("Goal Floor: ");
-
-		yGoalPositionTextBox = new Text(shell, SWT.BORDER);
-		yGoalPositionTextBox.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
-
-		Label xTitle = new Label(shell, SWT.COLOR_WIDGET_DARK_SHADOW);
-		xTitle.setText("Goal Row: ");
-
-		xGoalPositionTextBox = new Text(shell, SWT.BORDER);
-		//xTextBox.setText("" + this.goalPosition.getX());
-		xGoalPositionTextBox .setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
-
-		Label zTitle = new Label(shell, SWT.COLOR_WIDGET_DARK_SHADOW);
-		zTitle.setText("Goal Column: ");
-
-		zGoalPositionTextBox  = new Text(shell, SWT.BORDER);
-		//zTextBox.setText("" + this.goalPosition.getZ());
-		xGoalPositionTextBox.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));*/
+		Label currentPosition =new Label(toolbar, SWT.NONE);
+		currentPosition.setLayoutData(new GridData(SWT.NONE, SWT.FILL, true, true, 2, 2));
+		currentPosition.setText("Current Position ");
+		this.currentPositionText=new Text(toolbar, SWT.BORDER);
+		this.currentPositionText.setLayoutData(new GridData(SWT.NONE, SWT.FILL, true, true, 2, 2));
 		
 	}
 	
+	public Maze3DDisplayer getMaze2dWidget() {
+		return this.maze2dWidget;
+	}
+
+	public void setMaze2dWidget(Maze3DDisplayer maze2dWidget) {
+		this.maze2dWidget = maze2dWidget;
+	}
+
 	/**
 	 * the Exit request behavior.
 	 */
 	protected void exitRequest() {
 		shell.dispose();
 	}
-	
-	/**
-	 * Widgets refresh all the relevant data and redraw.
-	 */
-/*	public void widgetsRefresh()
-	{
-		for (MazeDisplayer canvasWidget : widgetsList) {
-			if(maze!=null)
-				canvasWidget.setMazeData(maze);
-			if(charPosition!=null)
-				canvasWidget.setCharPosition(charPosition);
-			
-			canvasWidget.setSolution(solution);
-		}
-	}*/
-	
-	/**
-	 * Sets the character position data.
-	 *
-	 * @param charPosition the new character position data
-	 */
-	public void setPositionData(Position charPosition) {
-		this.charPosition = charPosition;
-		//widgetsRefresh();
-		
-	}
+
 	
 	/**
 	 * Sets the maze data.
@@ -377,10 +328,9 @@ public class MazeWindow extends BasicWindow{
 		Display.getDefault().syncExec(new Runnable() {
 		    public void run() {
 		    	solveButton.setEnabled(true);
+		    	displaySolutionButton.setEnabled(true);
 		    }
 		});
-		
-		//widgetsRefresh();
 	}
 	
 	/**
@@ -389,9 +339,7 @@ public class MazeWindow extends BasicWindow{
 	 * @param solution the new solution
 	 */
 	public void setSolution(Solution solution) {
-		
 		this.solution= solution;
-		//widgetsRefresh();
 		
 	}
 	
@@ -441,13 +389,21 @@ public class MazeWindow extends BasicWindow{
 			
 			@Override
 		    public void run() {
-				Maze3DDisplayer maze2dWidget = new Maze2DDisplayer (shell, SWT.BORDER,m3d);
+				maze2dWidget = new Maze2DDisplayer (shell, SWT.BORDER,m3d);
 				maze2dWidget.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));	
 				maze2dWidget.setFocus();
 		    }
 		});
 	}
-
+	public void displayWalkToGoalPosition(Solution solution) {
+		Display.getDefault().syncExec(new Runnable() {
+			
+			@Override
+		    public void run() {
+				maze2dWidget.walkToGoalPosition(solution);
+		    }
+		});
+	}
 	
 	/**
 	 * Display a Position.
@@ -473,16 +429,22 @@ public class MazeWindow extends BasicWindow{
 
 	/**
 	 * Sets the selection listener that sets the behavior of - display maze request - in the MVP.
-	 *
-	 * @param displayMazeListenerListener the new generate listener
+	 * @param displayMazeListener - the new display maze listener
 	 */
 	public void setDisplayMazeListener(SelectionListener displayMazeListener) {
 		this.displayMazeListener = displayMazeListener;
 	}
+	
+	/**
+	 * Sets the selection listener that sets the behavior of - display solution request - in the MVP.
+	 * @param displaySolutionListener - the new display solution listener
+	 */
+	public void setDisplaySolutionListener(SelectionListener displaySolutionListener) {
+		this.displaySolutionListener = displaySolutionListener;
+	}
 
 	/**
 	 * Sets the key listener that sets the behavior of - movements requests - in the MVP.
-	 *
 	 * @param keyListener the new key listener
 	 */
 	public void setKeyListener(KeyListener keyListener) {
@@ -561,21 +523,12 @@ public class MazeWindow extends BasicWindow{
 		this.loadListener = selectionListener;
 		
 	}
-	
 	/**
 	 * Sets the selection listener that sets the behavior of - view Cross Section request - in the MVP.
 	 * @param selectionListener the new Cross Section listener
 	 */
 	public void setViewCrossSectionListener(SelectionAdapter selectionListener) {
 		this.viewCrossSectionListener = selectionListener;
-	}
-	
-	/**
-	 * Add a listener to handle user requests to change the view plane
-	 * @param listener Listener
-	 */
-	public void addViewCrossSectionSelectionListener(SelectionListener listener) {
-		this.viewCrossSectionCombo.addSelectionListener(listener);
 	}
 
 	public Maze3d getMaze() {
@@ -586,64 +539,13 @@ public class MazeWindow extends BasicWindow{
 		this.maze = maze;
 	}
 
-	public Position getCharPosition() {
-		return this.charPosition;
+	public Text getCurrentPositionText() {
+		return currentPositionText;
 	}
 
-	public void setCharPosition(Position charPosition) {
-		this.charPosition = charPosition;
+	public void setCurrentPositionText(Text currentPositionText) {
+		this.currentPositionText = currentPositionText;
 	}
 
-	public Text getyGoalPositionTextBox() {
-		return this.yGoalPositionTextBox;
-	}
-
-	public void setyGoalPositionTextBox(int y) {
-		this.yGoalPositionTextBox.setText("" + this.goalPosition.getY());
-	}
-
-	public Text getxGoalPositionTextBox() {
-		return this.xGoalPositionTextBox;
-	}
-
-	public void setxGoalPositionTextBox(Text xGoalPositionTextBox) {
-		this.xGoalPositionTextBox.setText("" + this.goalPosition.getX());
-	}
-
-	public Text getzGoalPositionTextBox() {
-		return this.zGoalPositionTextBox;
-	}
-
-	public void setzGoalPositionTextBox(Text zGoalPositionTextBox) {
-		this.zGoalPositionTextBox.setText("" + this.goalPosition.getZ());
-	}
-
-	public Solution getSolution() {
-		return this.solution;
-	}
-
-	public String getcurrentCrossSection() {
-		return this.currentCrossSection;
-	}
-
-	public void setcurrentCrossSection(String currentCrossSection) {
-		this.currentCrossSection = currentCrossSection;
-	}
-
-	public Combo getViewCrossSectionCombo() {
-		return this.viewCrossSectionCombo;
-	}
-
-	public void setViewCrossSectionCombo(Combo viewCrossSectionCombo) {
-		this.viewCrossSectionCombo = viewCrossSectionCombo;
-	}
-
-	public int getCurrentLayer() {
-		return this.currentLayer;
-	}
-
-	public void setCurrentLayer(int currentLayer) {
-		this.currentLayer = currentLayer;
-	}
 	
 }

@@ -43,15 +43,29 @@ public class Maze3DGUIView extends CommonMaze3DGUIView {
 			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {}
 		});
+		////////////////////////the selection listener that sets the behavior of - display maze request - in this specific MVP  ////////////
+		mainWindow.setDisplaySolutionListener(new SelectionListener() {
+		
+		@Override
+		public void widgetSelected(SelectionEvent arg0) {
+		setChanged();
+		notifyObservers("display solution "+mainWindow.maze3dProperties.getName());
+		}
+		
+		@Override
+		public void widgetDefaultSelected(SelectionEvent arg0) {}
+		});
 		
 		////////////////////////  the selection listener that sets the behavior of - solve request - in this specific MVP  ////////////
 		mainWindow.setSolveListener(new SelectionListener() {
 		
 		@Override
 		public void widgetSelected(SelectionEvent arg0) {
+			String y =Integer.toString(mainWindow.getMaze2dWidget().getGameCharacter().getPosition3d().getY());
+			String x =Integer.toString(mainWindow.getMaze2dWidget().getGameCharacter().getPosition3d().getY());
+			String z =Integer.toString(mainWindow.getMaze2dWidget().getGameCharacter().getPosition3d().getY());
 			setChanged();
-			notifyObservers("solve "+mainWindow.maze3dProperties.getName()+" "+properties.getSolveAlgorithm());
-			
+			notifyObservers("solve "+mainWindow.maze3dProperties.getName()+ " " + y + " " + x + " " + z);
 		}
 		
 		@Override
@@ -71,56 +85,6 @@ public class Maze3DGUIView extends CommonMaze3DGUIView {
 			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {}
 		});
-////////////////////////the key listener that sets the behavior of - movements requests - in this specific MVP  ////////////
-	mainWindow.setKeyListener(new KeyListener() {
-		
-		@Override
-		public void keyReleased(KeyEvent arg0) {}
-		
-		@Override
-		public void keyPressed(KeyEvent key) {
-			switch(key.keyCode)
-			{
-			case SWT.ARROW_UP:
-				if (properties.isDebugMode() == true)
-					System.out.println("up key pressed");
-				setChanged();
-				notifyObservers("movementRequest UP " + mainWindow.maze3dProperties.getName());
-				break;
-			case SWT.ARROW_DOWN:
-				if (properties.isDebugMode() == true)
-					System.out.println("down key pressed");
-				setChanged();
-				notifyObservers("movementRequest DOWN "+ mainWindow.maze3dProperties.getName());
-				break;
-			case SWT.ARROW_LEFT:
-				if (properties.isDebugMode() == true)
-					System.out.println("left key pressed");
-				setChanged();
-				notifyObservers("movementRequest LEFT "+ mainWindow.maze3dProperties.getName());
-				break;
-			case SWT.ARROW_RIGHT:
-				if (properties.isDebugMode() == true)
-					System.out.println("right key pressed");
-				setChanged();
-				notifyObservers("movementRequest RIGHT "+ mainWindow.maze3dProperties.getName());
-				break;
-			case SWT.PAGE_UP:
-				if (properties.isDebugMode() == true)
-					System.out.println("lvl up key pressed");
-				setChanged();
-				notifyObservers("movementRequest LVLUP "+ mainWindow.maze3dProperties.getName());
-				break;
-			case SWT.PAGE_DOWN:
-				if (properties.isDebugMode() == true)
-					System.out.println("lvl down key pressed");
-				setChanged();
-				notifyObservers("movementRequest LVLDOWN "+ mainWindow.maze3dProperties.getName());
-				break;
-			}
-			
-		}
-	});
 	
 ////////////////////////the selection listener that sets the behavior of - exit request - in this specific MVP  ////////////
 	mainWindow.setExitListener(new DisposeListener() {
@@ -178,29 +142,6 @@ public class Maze3DGUIView extends CommonMaze3DGUIView {
 		@Override
 		public void widgetDefaultSelected(SelectionEvent arg0) {}
 	});
-
-	////////////////////////the selection listener that sets the behavior of - change cross section view request - in this specific MVP  ////////////		
-	mainWindow.setViewCrossSectionListener(new SelectionAdapter() {
-		 public void widgetSelected(SelectionEvent e)
-		 {
-			if(mainWindow.getViewCrossSectionCombo().equals("XZ"))
-			{
-				setChanged();
-				notifyObservers("display cross section by y " + mainWindow.getCurrentLayer() + " " +mainWindow.maze3dProperties.getName());
-			}
-			if(mainWindow.getViewCrossSectionCombo().equals("YZ"))
-			{
-				setChanged();
-				notifyObservers("display cross section by x " + mainWindow.getCurrentLayer() + " " +mainWindow.maze3dProperties.getName());
-			}
-			if(mainWindow.getViewCrossSectionCombo().equals("xy"))
-			{
-				setChanged();
-				notifyObservers("display cross section by z " + mainWindow.getCurrentLayer() + " " +mainWindow.maze3dProperties.getName());
-			}
-		 }
-	});
-	
 	
 	mainWindow.run();
 
@@ -232,6 +173,7 @@ public class Maze3DGUIView extends CommonMaze3DGUIView {
 	@Override
 	public void displaySolution(Solution solution) {
 		mainWindow.setSolution(solution);
+		mainWindow.displayWalkToGoalPosition(solution);
 		
 	}
 
@@ -243,9 +185,9 @@ public class Maze3DGUIView extends CommonMaze3DGUIView {
 
 	@Override
 	public void displayPosition(Position goalPosition) {
-		mainWindow.setyGoalPositionTextBox(goalPosition.getY());
+		/*mainWindow.setyGoalPositionTextBox(goalPosition.getY());
 		mainWindow.setyGoalPositionTextBox(goalPosition.getX());
-		mainWindow.setyGoalPositionTextBox(goalPosition.getZ());
+		mainWindow.setyGoalPositionTextBox(goalPosition.getZ());*/
 	}
 
 	
