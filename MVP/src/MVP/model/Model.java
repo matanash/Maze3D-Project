@@ -2,6 +2,7 @@ package MVP.model;
 
 import MVP.presenter.Properties;
 import model.maze3d.Maze3d;
+import model.maze3d.Position;
 
 //import model.maze3d.Maze3d;
 /**
@@ -18,6 +19,10 @@ public interface Model {
 	void solveMaze(String name,String algorithm);
 
 	void getMaze3D(String name);
+	
+	void getStartPosition(String name);
+
+	void getGoalPosition(String name);
 	
 	void displayCrossSectionByY(int yLayer, String name);
 	
@@ -49,8 +54,10 @@ public interface Model {
 	
 	void setProperties(Properties properties);
 	
+	public Properties getProperties();
+	
 	void exitModel();
 
-	
+	void solveMaze(String name, String algorithm, Position characterPosition);
 
 }

@@ -11,8 +11,10 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
@@ -23,7 +25,6 @@ import org.eclipse.swt.widgets.Text;
 
 import MVP.guiView.Widgets.Maze2DDisplayer;
 import MVP.guiView.Widgets.Maze3DDisplayer;
-import MVP.guiView.Widgets.MazeDisplayer;
 import MVP.presenter.Properties;
 import algorithms.search.Solution;
 import model.maze3d.Maze3d;
@@ -39,6 +40,8 @@ public class MazeWindow extends BasicWindow{
 	protected Maze3d maze;
 	
 	protected Position charPosition;
+	
+	protected Position goalPosition ;
 	
 	protected Solution solution;
 	
@@ -66,8 +69,8 @@ public class MazeWindow extends BasicWindow{
 	/** The maze file path. used in save or load maze scenario */
 	protected String mazePath;
 	
-	/** The widgets list. */
-	protected ArrayList<MazeDisplayer> widgetsList;
+/*	*//** The widgets list. *//*
+	protected ArrayList<MazeDisplayer> widgetsList;*/
 	
 	/** The maze properties. */
 	protected Maze3DProperties maze3dProperties;
@@ -89,6 +92,12 @@ public class MazeWindow extends BasicWindow{
 	
 	protected Text positionText;
 	
+	protected Text yGoalPositionTextBox ;
+	
+	protected Text xGoalPositionTextBox ;
+	
+	protected Text zGoalPositionTextBox ;
+	
 	/**
 	 * Instantiates a new maze window.
 	 * @param title the window title
@@ -101,16 +110,16 @@ public class MazeWindow extends BasicWindow{
 		this.properties= properties;
 		this.maze3dProperties=new Maze3DProperties();   					//default values
 		selectedXMLpropertiesFilePath = xmlFilePath;
-		widgetsList = new ArrayList<MazeDisplayer>();
-		shell.setImage(new Image(display, "resources/pacman.png"));
+/*		widgetsList = new ArrayList<MazeDisplayer>();*/
+		shell.setImage(new Image(display, "resources/jerry_cheese.jpg"));
 	}
 
 	@Override
 	protected void initWidgets() 
 	{
-		shell.addDisposeListener(exitListener);								//for X button and 'Exit' button
+		//shell.addDisposeListener(exitListener);								//for X button and 'Exit' button
 		shell.setLayout(new GridLayout(2,false));	
-		Image image= new Image(display,"resources/background.jpg");
+		Image image= new Image(display,"resources/bg.jpg");
 		shell.setBackgroundImage(image);
 		shell.setBackgroundMode(SWT.INHERIT_FORCE);
 		
@@ -225,10 +234,14 @@ public class MazeWindow extends BasicWindow{
 		});
 		    
 		shell.setMenuBar(menuBar);
-        
-		this.generateButton=new Button(shell, SWT.PUSH);
+		
+		Composite toolbar = new Composite(shell, SWT.NONE);
+		RowLayout rowLayout = new RowLayout(SWT.VERTICAL);
+		toolbar.setLayout(rowLayout);
+		
+		this.generateButton=new Button(toolbar, SWT.PUSH);
 		generateButton.setText("  Generate new maze  ");
-		generateButton.setLayoutData(new GridData(SWT.NONE, SWT.None, false, false, 1, 1));
+		//generateButton.setLayoutData(new GridData(SWT.FILL, SWT.NONE, false, false, 2, 1));
 		generateButton.addSelectionListener(new SelectionListener() {
 			
 			@Override
@@ -242,63 +255,59 @@ public class MazeWindow extends BasicWindow{
 			
 		});
 		
-		this.displayMazeButton=new Button(shell, SWT.PUSH);
-		this.displayMazeButton.setText("  Display Maze  ");
-		this.displayMazeButton.setLayoutData(new GridData(SWT.NONE, SWT.None, false, false, 1, 1));
+		this.displayMazeButton=new Button(toolbar, SWT.PUSH);
+		this.displayMazeButton.setText("       Display maze       ");
+		//this.displayMazeButton.setLayoutData(new GridData(SWT.NONE, SWT.None, false, true, 1, 1));
 		this.displayMazeButton.addSelectionListener(displayMazeListener);
 		
-		Label viewCrossSectionLabel = new Label(shell, SWT.NONE);
-		viewCrossSectionLabel.setLayoutData(new GridData(SWT.NONE, SWT.CENTER, false, false));
+		this.solveButton=new Button(toolbar, SWT.PUSH);
+		this.solveButton.setText("      Solve the maze     ");
+		//this.solveButton.setLayoutData(new GridData(SWT.None, SWT.None, false, false, 2, 1));
+		this.solveButton.setEnabled(false);
+		this.solveButton.addSelectionListener(solveListener);
+		
+		/*Label viewCrossSectionLabel = new Label(toolbar, SWT.NONE);
+		//viewCrossSectionLabel.setLayoutData(new GridData(SWT.NONE, SWT.CENTER, false, false));
 		viewCrossSectionLabel.setText("View Plane:");
 		
-		this.viewCrossSectionCombo = new Combo(shell, SWT.READ_ONLY);
-		this.viewCrossSectionCombo.setLayoutData(new GridData(SWT.NONE, SWT.NONE, false, false));
+		this.viewCrossSectionCombo = new Combo(toolbar, SWT.READ_ONLY);
+		//this.viewCrossSectionCombo.setLayoutData(new GridData(SWT.NONE, SWT.NONE, false, false));
 		this.viewCrossSectionCombo.setItems(new String[] { "XZ", "YZ", "XY" });
 		this.viewCrossSectionCombo.select(0);
 		this.viewCrossSectionCombo.addSelectionListener(viewCrossSectionListener);
-		currentCrossSection = viewCrossSectionCombo.getItem(0);
+		currentCrossSection = viewCrossSectionCombo.getItem(0);*/
 		
 		/*Label currentViewLayerLabel = new Label(shell, SWT.NONE);
 		currentViewLayerLabel.setLayoutData(new GridData(SWT.NONE, SWT.CENTER, false, false));
-		currentViewLayerLabel.setText("View Layer:");*/
+		currentViewLayerLabel.setText("View Layer:");
 
-		Label positionLabel = new Label(shell, SWT.NONE);
-		viewCrossSectionLabel.setLayoutData(new GridData(SWT.NONE, SWT.CENTER, false, false));
+		Label positionLabel = new Label(toolbar, SWT.NONE);
+		//viewCrossSectionLabel.setLayoutData(new GridData(SWT.NONE, SWT.CENTER, false, false));
 		positionLabel.setText("Position:");
 		
-		positionText = new Text(shell, SWT.BORDER | SWT.READ_ONLY);
-		positionText.setLayoutData(new GridData(SWT.FILL, SWT.NONE, false, false));
+		positionText = new Text(toolbar, SWT.BORDER | SWT.READ_ONLY);
+		//positionText.setLayoutData(new GridData(SWT.FILL, SWT.NONE, false, false));
 		
-		this.solveButton=new Button(shell, SWT.PUSH);
-		this.solveButton.setText("     Solve the maze     ");
-		this.solveButton.setLayoutData(new GridData(SWT.None, SWT.None, false, false, 1, 1));
-		this.solveButton.setEnabled(false);
-		this.solveButton.addSelectionListener(solveListener);
+		shell.setLayout(new GridLayout(1, true));
+		Label yTitle = new Label(shell, SWT.COLOR_WIDGET_DARK_SHADOW);
+		yTitle.setText("Goal Floor: ");
 
-					
-		/*//Main Maze display widget.
-		MazeDisplayer mazeWidget=new Maze3DWidget(shell, SWT.NULL);
-		widgetsList.add(mazeWidget);
-		mazeWidget.setFocus();
-		mazeWidget.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,true,1,5));
-		
+		yGoalPositionTextBox = new Text(shell, SWT.BORDER);
+		yGoalPositionTextBox.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
 
-		
-		
-		// cube widget.
-		MazeCubeDisplayer mazeCube = new MazeCubeDisplayer(shell, SWT.BORDER);
-		mazeCube.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 1, 1));
-		widgetsList.add(mazeCube);
-		
-		// possibleMoves widget.
-		MazeDisplayer possibleMoves=new PossibleMovesWidget(shell,SWT.BORDER);
-		possibleMoves.setLayoutData(new GridData(SWT.CENTER, SWT.BOTTOM, false, true, 1, 1));
-		widgetsList.add(possibleMoves);
-		
-		for (MazeDisplayer mazeDisplayer : widgetsList) {
-			mazeDisplayer.addKeyListener(keyListener);
-		
-		}*/
+		Label xTitle = new Label(shell, SWT.COLOR_WIDGET_DARK_SHADOW);
+		xTitle.setText("Goal Row: ");
+
+		xGoalPositionTextBox = new Text(shell, SWT.BORDER);
+		//xTextBox.setText("" + this.goalPosition.getX());
+		xGoalPositionTextBox .setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
+
+		Label zTitle = new Label(shell, SWT.COLOR_WIDGET_DARK_SHADOW);
+		zTitle.setText("Goal Column: ");
+
+		zGoalPositionTextBox  = new Text(shell, SWT.BORDER);
+		//zTextBox.setText("" + this.goalPosition.getZ());
+		xGoalPositionTextBox.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));*/
 		
 	}
 	
@@ -313,7 +322,7 @@ public class MazeWindow extends BasicWindow{
 	/**
 	 * Widgets refresh all the relevant data and redraw.
 	 */
-	public void widgetsRefresh()
+/*	public void widgetsRefresh()
 	{
 		for (MazeDisplayer canvasWidget : widgetsList) {
 			if(maze!=null)
@@ -323,7 +332,7 @@ public class MazeWindow extends BasicWindow{
 			
 			canvasWidget.setSolution(solution);
 		}
-	}
+	}*/
 	
 	/**
 	 * Sets the character position data.
@@ -332,7 +341,7 @@ public class MazeWindow extends BasicWindow{
 	 */
 	public void setPositionData(Position charPosition) {
 		this.charPosition = charPosition;
-		widgetsRefresh();
+		//widgetsRefresh();
 		
 	}
 	
@@ -350,7 +359,7 @@ public class MazeWindow extends BasicWindow{
 		    }
 		});
 		
-		widgetsRefresh();
+		//widgetsRefresh();
 	}
 	
 	/**
@@ -361,7 +370,7 @@ public class MazeWindow extends BasicWindow{
 	public void setSolution(Solution solution) {
 		
 		this.solution= solution;
-		widgetsRefresh();
+		//widgetsRefresh();
 		
 	}
 	
@@ -404,7 +413,6 @@ public class MazeWindow extends BasicWindow{
 	
 	/**
 	 * Display a Maze3d .
-	 *
 	 * @param m3d - the Maze3d to display
 	 */
 	public void displayMaze(Maze3d m3d) {
@@ -412,11 +420,25 @@ public class MazeWindow extends BasicWindow{
 			
 			@Override
 		    public void run() {
-				Maze3DDisplayer maze2dWidget = new Maze2DDisplayer (shell, SWT.BORDER,m3d,currentCrossSection);
+				Maze3DDisplayer maze2dWidget = new Maze2DDisplayer (shell, SWT.BORDER,m3d);
 				maze2dWidget.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));	
 				maze2dWidget.setFocus();
 		    }
 		});
+	}
+
+	
+	/**
+	 * Display a Position.
+	 *
+	 * @param goalPosition - the the Goal Position to display
+	 */
+	public void setGoalPosition(Position goalPosition) {
+		this.goalPosition = goalPosition;
+	}
+	
+	public Position getGoalPosition() {
+		return this.goalPosition;
 	}
 
 	/**
@@ -499,9 +521,7 @@ public class MazeWindow extends BasicWindow{
 		this.saveListener= selectionListener;
 		
 	}
-
-
-
+	
 	/**
 	 * Gets the maze file path.
 	 *
@@ -534,7 +554,7 @@ public class MazeWindow extends BasicWindow{
 	 * @param listener Listener
 	 */
 	public void addViewCrossSectionSelectionListener(SelectionListener listener) {
-		viewCrossSectionCombo.addSelectionListener(listener);
+		this.viewCrossSectionCombo.addSelectionListener(listener);
 	}
 
 	public Maze3d getMaze() {
@@ -553,6 +573,30 @@ public class MazeWindow extends BasicWindow{
 		this.charPosition = charPosition;
 	}
 
+	public Text getyGoalPositionTextBox() {
+		return this.yGoalPositionTextBox;
+	}
+
+	public void setyGoalPositionTextBox(int y) {
+		this.yGoalPositionTextBox.setText("" + this.goalPosition.getY());
+	}
+
+	public Text getxGoalPositionTextBox() {
+		return this.xGoalPositionTextBox;
+	}
+
+	public void setxGoalPositionTextBox(Text xGoalPositionTextBox) {
+		this.xGoalPositionTextBox.setText("" + this.goalPosition.getX());
+	}
+
+	public Text getzGoalPositionTextBox() {
+		return this.zGoalPositionTextBox;
+	}
+
+	public void setzGoalPositionTextBox(Text zGoalPositionTextBox) {
+		this.zGoalPositionTextBox.setText("" + this.goalPosition.getZ());
+	}
+
 	public Solution getSolution() {
 		return this.solution;
 	}
@@ -566,7 +610,7 @@ public class MazeWindow extends BasicWindow{
 	}
 
 	public Combo getViewCrossSectionCombo() {
-		return viewCrossSectionCombo;
+		return this.viewCrossSectionCombo;
 	}
 
 	public void setViewCrossSectionCombo(Combo viewCrossSectionCombo) {
@@ -574,14 +618,11 @@ public class MazeWindow extends BasicWindow{
 	}
 
 	public int getCurrentLayer() {
-		return currentLayer;
+		return this.currentLayer;
 	}
 
 	public void setCurrentLayer(int currentLayer) {
 		this.currentLayer = currentLayer;
 	}
-	
-
-
 	
 }

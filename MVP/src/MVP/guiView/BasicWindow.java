@@ -50,6 +50,7 @@ public abstract class BasicWindow implements Runnable {
 	public void exit()
 	{
 		shell.dispose(); 
+		System.exit(0);
 	}
 
 	public Display getDisplay() {

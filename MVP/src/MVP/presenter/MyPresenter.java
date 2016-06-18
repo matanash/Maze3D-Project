@@ -94,6 +94,8 @@ public class MyPresenter extends  CommonPresenter {
 		this.viewCommandsMap.put("dir", new GetDirCommand(this));
 		this.viewCommandsMap.put("generate 3d maze", new Generate3DMazeCommand(this));
 		this.viewCommandsMap.put("display", new GetMazeCommand(this));
+		this.viewCommandsMap.put("display start position", new GetStartPositionCommand(this));
+		this.viewCommandsMap.put("display goal position", new GetGoalPositionCommand(this));
 		this.viewCommandsMap.put("display cross section by y", new GetCrossSectionByYCommand(this));
 		this.viewCommandsMap.put("display cross section by x", new GetCrossSectionByXCommand(this));
 		this.viewCommandsMap.put("display cross section by z", new GetCrossSectionByZCommand(this));
@@ -108,6 +110,7 @@ public class MyPresenter extends  CommonPresenter {
 		
 		this.modelCommandsMap = new HashMap<String, Command>();
 		this.modelCommandsMap.put("display_maze3d", new DisplayMazeCommand(this));
+		this.modelCommandsMap.put("display_position", new DisplayMazeCommand(this));
 		this.modelCommandsMap.put("display_solution", new DisplaySolutionCommand(this));
 		this.modelCommandsMap.put("display_cross_section_by_y", new DisplayCrossSectionByCommand(this));
 		this.modelCommandsMap.put("display_cross_section_by_x", new DisplayCrossSectionByCommand(this));

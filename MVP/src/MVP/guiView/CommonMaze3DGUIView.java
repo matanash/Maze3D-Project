@@ -21,7 +21,7 @@ public abstract class CommonMaze3DGUIView extends CommonMaze3DView {
 		properties.setDebugMode(debug);
 		
 	}
-	abstract void exitRequest();
+	//abstract void exitRequest();
 	
 	
 	public MazeWindow getMainWindow() {

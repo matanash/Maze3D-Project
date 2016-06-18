@@ -8,9 +8,9 @@ package MVP.presenter;
 public abstract class CommonCommand implements Command 
 {
 	protected MyPresenter myPresenter;
-	public CommonCommand(MyPresenter p) 
+	public CommonCommand(MyPresenter presenter) 
 	{
-		this.myPresenter =p;
+		this.myPresenter =presenter;
 	}
 	
 	//Remains abstract

@@ -58,11 +58,8 @@ public class Maze3DPropertiesWindow {
 		dimensionsTitle.setText("Dimensions: ");
 		dimensionsTitle.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 6, 1));
 
-		Label xTitle = new Label(main, SWT.COLOR_WIDGET_DARK_SHADOW);
-		xTitle.setText(" X");
-
 		Label yTitle = new Label(main, SWT.COLOR_WIDGET_DARK_SHADOW);
-		yTitle.setText("Y");
+		yTitle.setText("Floors:");
 
 		Text yTextBox = new Text(main, SWT.BORDER);
 		yTextBox.setText("" + properties.getHeight());
@@ -81,6 +78,10 @@ public class Maze3DPropertiesWindow {
 					}
 				});
 		
+		
+		Label xTitle = new Label(main, SWT.COLOR_WIDGET_DARK_SHADOW);
+		xTitle.setText("Rows");
+
 		Text xTextBox = new Text(main, SWT.BORDER);
 		xTextBox.setText("" + properties.getLength());
 		xTextBox.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
@@ -97,8 +98,11 @@ public class Maze3DPropertiesWindow {
 				
 			}
 		});
+		
+		
+		
 		Label zTitle = new Label(main, SWT.COLOR_WIDGET_DARK_SHADOW);
-		zTitle.setText("Z");
+		zTitle.setText("Columns");
 
 		Text zTextBox = new Text(main, SWT.BORDER);
 		zTextBox.setText("" + properties.getWidth());

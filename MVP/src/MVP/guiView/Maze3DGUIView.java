@@ -13,6 +13,7 @@ import org.eclipse.swt.widgets.Display;
 import MVP.presenter.Properties;
 import algorithms.search.Solution;
 import model.maze3d.Maze3d;
+import model.maze3d.Position;
 
 public class Maze3DGUIView extends CommonMaze3DGUIView {
 
@@ -37,7 +38,6 @@ public class Maze3DGUIView extends CommonMaze3DGUIView {
 			public void widgetSelected(SelectionEvent arg0) {
 			setChanged();
 			notifyObservers("display "+mainWindow.maze3dProperties.getName());
-			
 			}
 			
 			@Override
@@ -141,6 +141,8 @@ public class Maze3DGUIView extends CommonMaze3DGUIView {
 			    public void run() {
 			    	setChanged();
 			    	notifyObservers("generate 3d maze "+ mainWindow.maze3dProperties.getName()+" "+ mainWindow.maze3dProperties.getHeight()+" "+mainWindow.maze3dProperties.getLength() +" "+ mainWindow.maze3dProperties.getWidth());
+			    	/*setChanged();
+			    	notifyObservers("display goal position "+ mainWindow.maze3dProperties.getName());*/
 			    }
 			});
 			    
@@ -213,15 +215,8 @@ public class Maze3DGUIView extends CommonMaze3DGUIView {
 	@Override
 	public void exitView() {
 		mainWindow.exit();
+	}
 
-	}
-	
-	@Override
-	public void exitRequest() {
-		setChanged();
-		notifyObservers("exit");
-		
-	}
 
 	@Override
 	public void displayMessage(String message) {
@@ -244,6 +239,13 @@ public class Maze3DGUIView extends CommonMaze3DGUIView {
 	public void displayMaze(Maze3d maze3d) {
 		mainWindow.setMazeData(maze3d);
 		mainWindow.displayMaze(maze3d);
+	}
+
+	@Override
+	public void displayPosition(Position goalPosition) {
+		mainWindow.setyGoalPositionTextBox(goalPosition.getY());
+		mainWindow.setyGoalPositionTextBox(goalPosition.getX());
+		mainWindow.setyGoalPositionTextBox(goalPosition.getZ());
 	}
 
 	

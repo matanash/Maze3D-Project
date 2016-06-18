@@ -4,6 +4,7 @@ import MVP.presenter.Properties;
 import MVP.view.commands.DisplayCommand;
 import algorithms.search.Solution;
 import model.maze3d.Maze3d;
+import model.maze3d.Position;
 
 public interface View {
 	/**
@@ -25,5 +26,7 @@ public interface View {
 	void displaySolution(Solution solution);
 
 	void displayMaze(Maze3d maze3d);
+	
+	void displayPosition (Position position);
 	
 }

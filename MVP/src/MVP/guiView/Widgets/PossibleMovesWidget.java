@@ -1,4 +1,4 @@
-package MVP.guiView.Widgets;
+/*package MVP.guiView.Widgets;
 
 import java.util.ArrayList;
 
@@ -14,18 +14,18 @@ import org.eclipse.swt.widgets.Label;
 import model.maze3d.Direction;
 
 
-	/**
+	*//**
 	 * The Widget represents the actual moves the player can take.
 	 * @author Matan Ashkenazi and Noee Cohen
 	 *
-	 */
+	 *//*
 	public class PossibleMovesWidget extends MazeDisplayer {
 	
-		/**
+		*//**
 		 * Regular SWT Ctor.
 		 * @param parent - parenting widget.
 		 * @param style - SWT style.
-		 */
+		 *//*
 		public PossibleMovesWidget(Composite parent, int style) {
 			super(parent, style);
 			
@@ -119,4 +119,4 @@ import model.maze3d.Direction;
 			
 		}
 	
-	}
+	}*/

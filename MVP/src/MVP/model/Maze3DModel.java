@@ -108,7 +108,38 @@ public class Maze3DModel extends CommonMaze3DModel {
 		}
 
 	}
-
+	@Override
+	public void getStartPosition (String name)
+	{
+		if (mazeExists(name))
+		{
+			this.descriptor = mazesMap.get(name).getStartPosition();
+			setChanged();
+			notifyObservers("display_position");
+		}
+		else
+		{
+			this.descriptor = "There isn't such maze called " + name;
+			setChanged();
+			notifyObservers("display_message");
+		}
+	}
+	@Override
+	public void getGoalPosition(String name)
+	{
+		if (mazeExists(name))
+		{
+			this.descriptor = mazesMap.get(name).getGoalPosition();
+			setChanged();
+			notifyObservers("display_position");
+		}
+		else
+		{
+			this.descriptor = "There isn't such maze called " + name;
+			setChanged();
+			notifyObservers("display_message");
+		}
+	}
 	@Override
 	public void displayCrossSectionByY(int yLayer, String name) {
 		if (mazeExists(name) && mazesMap.get(name).isInMaze(new Position(yLayer, 0, 0))) {
@@ -219,7 +250,61 @@ public class Maze3DModel extends CommonMaze3DModel {
 		notifyObservers("maze_size");
 
 	}
+	
+	@Override
+	public void solveMaze(String name, String algorithm,Position characterPosition) {
+		if (!mazeExists(name)) {
+			this.descriptor = "There isn't such maze called " + name + " try solve another one .";
+			setChanged();
+			notifyObservers("display_message");
+		} else if (!(algorithm.toLowerCase().equals("bfs") || algorithm.toLowerCase().equals("breadthfirstsearch")
+				|| algorithm.toLowerCase().equals("dfs"))) {
+			this.descriptor = "There isn't such algorithm called " + algorithm + ", try another one .";
+			setChanged();
+			notifyObservers("display_message");
+		} else if (maze2sol.containsKey(mazesMap.get(name))) {
+			this.descriptor = "Maze3D " + name + " solution is already exists .";
+			setChanged();
+			notifyObservers("display_message");
+		} else {
 
+			threadPool.submit(new Callable<Solution>() {
+				@Override
+				public Solution call() throws Exception {
+					mazesMap.get(name).setStartPosition(characterPosition);
+					Solution sol = null;
+					switch (algorithm.toLowerCase()) {
+					case "dfs": {
+						sol = new DFSSearcher().search(new Maze3dAdapter(mazesMap.get(name)));
+						descriptor = "The maze3d DFS based Solution is ready";
+						break;
+					}
+					case "breadthfirstsearch": {
+						sol = new BreadthFirstSearcher().search(new Maze3dAdapter(mazesMap.get(name)));
+						descriptor = "The maze3d BreadthFirstSearch Solution based is ready";
+						break;
+					}
+					case "bfs": {
+						sol = new BFSSearcher().search(new Maze3dAdapter(mazesMap.get(name)));
+						descriptor = "The maze3d BFS Solution based is ready";
+						break;
+					}
+					default:
+						break;
+					}
+					if (sol != null) {
+						solutionMap.put(name, sol);
+						maze2sol.put(mazesMap.get(name), sol);
+						setChanged();
+						notifyObservers("display_message");
+					}
+					return sol;
+				}
+
+			});
+		}
+
+	}
 	@Override
 	public void solveMaze(String name, String algorithm) {
 		if (!mazeExists(name)) {

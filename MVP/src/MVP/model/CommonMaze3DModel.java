@@ -38,4 +38,5 @@ public abstract class CommonMaze3DModel extends Observable implements Model {
 
 	}
 	
+	
 }

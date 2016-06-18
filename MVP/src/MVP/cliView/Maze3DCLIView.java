@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import MVP.presenter.Properties;
 import algorithms.search.Solution;
 import model.maze3d.Maze3d;
+import model.maze3d.Position;
 
 
 public class Maze3DCLIView extends CommonMaze3DCLIView {
@@ -106,6 +107,9 @@ public class Maze3DCLIView extends CommonMaze3DCLIView {
 			notifyObservers("switchUi switch");
 		}
 	}
+
+	@Override
+	public void displayPosition(Position position) {}
 
 	
 
