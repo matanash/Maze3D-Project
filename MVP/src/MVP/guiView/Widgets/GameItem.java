@@ -5,8 +5,8 @@ import org.eclipse.swt.graphics.Image;
 
 import model.maze3d.Position;
 
-public class GameCharacter {
-	private static final String icon = "resources/jerry_mouse.png";
+public class GameItem {
+	private static final String icon = "resources/cheese.png";
 	private Position2D position2d;
 	private Position Position3d;
 	

@@ -18,6 +18,8 @@ public interface Model {
 	
 	void solveMaze(String name,String algorithm);
 
+	void solveMaze(String name, String algorithm, Position characterPosition);
+	
 	void getMaze3D(String name);
 	
 	void getStartPosition(String name);
@@ -57,7 +59,5 @@ public interface Model {
 	public Properties getProperties();
 	
 	void exitModel();
-
-	void solveMaze(String name, String algorithm, Position characterPosition);
 
 }

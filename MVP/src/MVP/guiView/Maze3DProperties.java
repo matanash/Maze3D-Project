@@ -19,10 +19,10 @@ public class Maze3DProperties implements Serializable {
 	 */
 	public Maze3DProperties() {
 		
-		this.name = "DefaultMaze";
-		this.height = 12;
-		this.length  = 12;
-		this.width = 12;
+		this.name = "Maze";
+		this.height = 3;
+		this.length  = 4;
+		this.width = 4;
 		
 	}
 	

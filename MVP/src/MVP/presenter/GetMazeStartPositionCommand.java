@@ -2,9 +2,9 @@ package MVP.presenter;
 
 import MVP.view.commands.DisplayMessageViewCommand;
 
-public class GetStartPositionCommand extends CommonCommand {
+public class GetMazeStartPositionCommand extends CommonCommand {
 
-	public GetStartPositionCommand(MyPresenter presenter) {
+	public GetMazeStartPositionCommand(MyPresenter presenter) {
 		super(presenter);
 	}
 

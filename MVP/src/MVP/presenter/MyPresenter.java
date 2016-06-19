@@ -94,8 +94,8 @@ public class MyPresenter extends  CommonPresenter {
 		this.viewCommandsMap.put("dir", new GetDirCommand(this));
 		this.viewCommandsMap.put("generate 3d maze", new Generate3DMazeCommand(this));
 		this.viewCommandsMap.put("display", new GetMazeCommand(this));
-		this.viewCommandsMap.put("display start position", new GetStartPositionCommand(this));
-		this.viewCommandsMap.put("display goal position", new GetGoalPositionCommand(this));
+		this.viewCommandsMap.put("display start position", new GetMazeStartPositionCommand(this));
+		this.viewCommandsMap.put("display goal position", new GetMazeGoalPositionCommand(this));
 		this.viewCommandsMap.put("display cross section by y", new GetCrossSectionByYCommand(this));
 		this.viewCommandsMap.put("display cross section by x", new GetCrossSectionByXCommand(this));
 		this.viewCommandsMap.put("display cross section by z", new GetCrossSectionByZCommand(this));

@@ -185,6 +185,7 @@ public class Maze3DPropertiesWindow {
 			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {}
 		});
+		
 		main.pack();
 	}
 

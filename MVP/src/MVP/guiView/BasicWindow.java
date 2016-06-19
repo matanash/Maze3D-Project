@@ -54,7 +54,7 @@ public abstract class BasicWindow implements Runnable {
 	}
 
 	public Display getDisplay() {
-		return display;
+		return this.display;
 	}
 
 	public void setDisplay(Display display) {

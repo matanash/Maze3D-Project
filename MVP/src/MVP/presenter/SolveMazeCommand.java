@@ -14,19 +14,20 @@ public class SolveMazeCommand extends CommonCommand {
 		if (args.length == 2){
 			myPresenter.getModel().solveMaze(args[0], args[1]);
 		}
-		Position characterPosition;
-		if (args.length == 4)
+		
+		else if (args.length == 4)
 		{
+			Position characterPosition;
 			String algo = this.myPresenter.getModel().getProperties().getSolveAlgorithm().toLowerCase();
 			int y = Integer.parseInt(args[1]);
 			int x = Integer.parseInt(args[2]);
 			int z = Integer.parseInt(args[3]);
 			characterPosition = new Position(y, x, z);
 			myPresenter.getModel().solveMaze(args[0], algo, characterPosition);
-		}
-				
-		else {
-			myPresenter.getView().display("Invalid arguments", new DisplayMessageViewCommand(this.myPresenter.getView()));
+		}	
+		else 
+		{
+			myPresenter.getView().display("Invalid arguments ", new DisplayMessageViewCommand(this.myPresenter.getView()));
 			this.help();
 		}
 	}

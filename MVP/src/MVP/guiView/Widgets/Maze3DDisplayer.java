@@ -5,16 +5,17 @@ import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
-import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 
 import algorithms.search.Solution;
 import model.maze3d.Maze3d;
 import model.maze3d.Position;
 
-public abstract class Maze3DDisplayer extends Canvas{
+public abstract class Maze3DDisplayer extends Composite{
 
 	protected GameCharacter character = new GameCharacter();
+	
+	protected GameItem cheese = new GameItem();
 	
 	protected abstract void drawMaze(PaintEvent e);
 
@@ -97,7 +98,7 @@ public abstract class Maze3DDisplayer extends Canvas{
 	public void setCharacterPosition3D(Position position3d) {
 		character.setPosition3d(position3d);
 	}
-
+	
 	public abstract void walkToGoalPosition(Solution solution);
 	
 }

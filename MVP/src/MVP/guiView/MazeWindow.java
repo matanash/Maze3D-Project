@@ -25,7 +25,6 @@ import MVP.guiView.Widgets.Maze3DDisplayer;
 import MVP.presenter.Properties;
 import algorithms.search.Solution;
 import model.maze3d.Maze3d;
-import model.maze3d.Position;
 
 /**
  * This the main window in the GUI view.
@@ -33,43 +32,21 @@ import model.maze3d.Position;
  */
 public class MazeWindow extends BasicWindow{
 	
-	protected Maze3d maze;
+	//protected Maze3d maze;
+	//protected Position goalPosition ;
+	//protected Solution solution;
 	
 	protected Maze3DDisplayer maze2dWidget ;
-	
-	protected Position goalPosition ;
-	
-	protected Solution solution;
-	
+
 	protected String selectedXMLpropertiesFilePath;
-	
-	protected DisposeListener exitListener;
-
-	protected SelectionListener generateListener;
-	
-	protected SelectionListener displayMazeListener;
-	
-	protected SelectionListener displaySolutionListener;
-	
-	protected KeyListener keyListener;
-
-	protected SelectionListener solveListener;
-	
-	protected SelectionListener propertiesUpdateListener;
-	
-	protected SelectionListener saveListener;
-	
-	protected SelectionListener loadListener;
-	
-	protected SelectionListener viewCrossSectionListener;
 	
 	/** The maze file path. used in save or load maze scenario */
 	protected String mazeFilePath;
 	
-	/** The maze properties. */
+	/** Maze properties. */
 	protected Maze3DProperties maze3dProperties;
 	
-	/** The game properties. */
+	/** Game properties. */
 	protected Properties properties;
 
 	protected Button generateButton;
@@ -88,9 +65,32 @@ public class MazeWindow extends BasicWindow{
 	
 	protected Text colsT;
 	
-	protected Text currentPositionText;
-
+	protected Text currentPositionT;
 	
+	protected Text goalPositionT;
+	
+	protected DisposeListener exitListener;
+
+	protected SelectionListener generateListener;
+	
+	protected SelectionListener displayMazeListener;
+	
+	protected SelectionListener displayGoalPositionListener;
+	
+	protected SelectionListener displaySolutionListener;
+	
+	protected KeyListener keyListener;
+
+	protected SelectionListener solveListener;
+	
+	protected SelectionListener propertiesUpdateListener;
+	
+	protected SelectionListener saveListener;
+	
+	protected SelectionListener loadListener;
+	
+	protected SelectionListener viewCrossSectionListener;
+
 	/**
 	 * Instantiates a new maze window.
 	 * @param title the window title
@@ -128,7 +128,7 @@ public class MazeWindow extends BasicWindow{
 				
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				FileDialog fd=new FileDialog(shell,SWT.OPEN);			//opening a new file dialog widget.
+				FileDialog fd=new FileDialog(shell,SWT.OPEN);				//opening a new file dialog widget.
 				fd.setText("open");
 				String[] filterExt = { "*.xml" };
 				fd.setFilterExtensions(filterExt);
@@ -215,8 +215,11 @@ public class MazeWindow extends BasicWindow{
 				FileDialog fd = new FileDialog(shell,SWT.OPEN);
 				fd.setFilterExtensions(new String[] { "*.maz"});
 				mazeFilePath = fd.open();
-				if(mazeFilePath!=null)
-					loadListener.widgetSelected(arg0);				
+				if(mazeFilePath!=null){
+					displayMazeButton.setEnabled(true);
+					loadListener.widgetSelected(arg0);	
+				}
+								
 				else
 					displayError("Load canceled.");
 			}
@@ -234,7 +237,6 @@ public class MazeWindow extends BasicWindow{
 		
 		this.generateButton=new Button(toolbar, SWT.PUSH);
 		generateButton.setText("  Generate new maze  ");
-		//generateButton.setLayoutData(new GridData(SWT.FILL, SWT.NONE, false, false, 2, 1));
 		generateButton.addSelectionListener(new SelectionListener() {
 			
 			@Override
@@ -254,6 +256,7 @@ public class MazeWindow extends BasicWindow{
 		
 		this.displayMazeButton=new Button(toolbar, SWT.PUSH);
 		this.displayMazeButton.setText("       Display maze       ");
+		this.displayMazeButton.setEnabled(false);
 		this.displayMazeButton.addSelectionListener(displayMazeListener);
 		
 		this.solveButton=new Button(toolbar, SWT.PUSH);
@@ -293,12 +296,18 @@ public class MazeWindow extends BasicWindow{
 		this.colsT=new Text(toolbar, SWT.BORDER);
 		this.colsT.setLayoutData(new GridData(SWT.NONE, SWT.FILL, true, true, 2, 2));
 		
-		Label currentPosition =new Label(toolbar, SWT.NONE);
-		currentPosition.setLayoutData(new GridData(SWT.NONE, SWT.FILL, true, true, 2, 2));
-		currentPosition.setText("Current Position ");
-		this.currentPositionText=new Text(toolbar, SWT.BORDER);
-		this.currentPositionText.setLayoutData(new GridData(SWT.NONE, SWT.FILL, true, true, 2, 2));
+		Label currentPositionL =new Label(toolbar, SWT.NONE);
+		currentPositionL.setLayoutData(new GridData(SWT.NONE, SWT.FILL, true, true, 2, 2));
+		currentPositionL.setText("Current Position ");
+		this.currentPositionT=new Text(toolbar, SWT.BORDER);
+		this.currentPositionT.setLayoutData(new GridData(SWT.NONE, SWT.FILL, true, true, 2, 2));
 		
+		Label goalPositionL =new Label(toolbar, SWT.NONE);
+		goalPositionL.setLayoutData(new GridData(SWT.NONE, SWT.FILL, true, true, 2, 2));
+		goalPositionL.setText("Exit Position ");
+		this.goalPositionT=new Text(toolbar, SWT.BORDER);
+		this.goalPositionT.setLayoutData(new GridData(SWT.NONE, SWT.FILL, true, true, 2, 2));
+		this.goalPositionT.addSelectionListener(displayGoalPositionListener);
 	}
 	
 	public Maze3DDisplayer getMaze2dWidget() {
@@ -316,36 +325,34 @@ public class MazeWindow extends BasicWindow{
 		shell.dispose();
 	}
 
+
 	
 	/**
-	 * Sets the maze data.
-	 *
-	 * @param maze the new maze data
+	 * Display a Maze3d .
+	 * @param m3d - the Maze3d to display
 	 */
-	public void setMazeData(Maze3d m3d){
-		this.maze = m3d;
-		this.solution =new Solution(); 		//reset the solution map
+	public void displayMaze(Maze3d m3d) {
+		
 		Display.getDefault().syncExec(new Runnable() {
+			
+			@Override
 		    public void run() {
-		    	solveButton.setEnabled(true);
+				if (maze2dWidget==null)	
+					maze2dWidget = new Maze2DDisplayer (shell, SWT.BORDER,m3d);
+				else
+					((Maze2DDisplayer)maze2dWidget).setMaze2DDisplayer(m3d);
+				maze2dWidget.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));	
+				shell.setMaximized(true);
+				maze2dWidget.setFocus();
+				solveButton.setEnabled(true);
 		    	displaySolutionButton.setEnabled(true);
 		    }
 		});
-	}
-	
-	/**
-	 * Sets the solution data.
-	 *
-	 * @param solution the new solution
-	 */
-	public void setSolution(Solution solution) {
-		this.solution= solution;
 		
 	}
 	
 	/**
 	 * Display error.
-	 *
 	 * @param string the message
 	 */
 	public void displayError(String string) {
@@ -363,7 +370,6 @@ public class MazeWindow extends BasicWindow{
 	
 	/**
 	 * Display a string.
-	 *
 	 * @param string the string to display
 	 */
 	public void displayMessage(String message) {
@@ -371,7 +377,9 @@ public class MazeWindow extends BasicWindow{
 			
 			@Override
 		    public void run() {
-		    	MessageBox messageBox =  new MessageBox(shell, SWT.ICON_INFORMATION); 
+				if (message.toLowerCase().contains("ready to use"))
+					displayMazeButton.setEnabled(true);
+				MessageBox messageBox =  new MessageBox(shell, SWT.ICON_INFORMATION); 
 		    	messageBox.setMessage(message);
 		    	messageBox.setText("information message");
 		    	messageBox.open();		
@@ -379,22 +387,7 @@ public class MazeWindow extends BasicWindow{
 		    }
 		});
 	}
-	
-	/**
-	 * Display a Maze3d .
-	 * @param m3d - the Maze3d to display
-	 */
-	public void displayMaze(Maze3d m3d) {
-		Display.getDefault().syncExec(new Runnable() {
-			
-			@Override
-		    public void run() {
-				maze2dWidget = new Maze2DDisplayer (shell, SWT.BORDER,m3d);
-				maze2dWidget.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));	
-				maze2dWidget.setFocus();
-		    }
-		});
-	}
+
 	public void displayWalkToGoalPosition(Solution solution) {
 		Display.getDefault().syncExec(new Runnable() {
 			
@@ -405,19 +398,6 @@ public class MazeWindow extends BasicWindow{
 		});
 	}
 	
-	/**
-	 * Display a Position.
-	 *
-	 * @param goalPosition - the the Goal Position to display
-	 */
-	public void setGoalPosition(Position goalPosition) {
-		this.goalPosition = goalPosition;
-	}
-	
-	public Position getGoalPosition() {
-		return this.goalPosition;
-	}
-
 	/**
 	 * Sets the selection listener that sets the behavior of - generate request - in the MVP.
 	 *
@@ -435,6 +415,14 @@ public class MazeWindow extends BasicWindow{
 		this.displayMazeListener = displayMazeListener;
 	}
 	
+	public SelectionListener getDisplayGoalPositionListener() {
+		return displayGoalPositionListener;
+	}
+
+	public void setDisplayGoalPositionListener(SelectionListener displayGoalPositionListener) {
+		this.displayGoalPositionListener = displayGoalPositionListener;
+	}
+
 	/**
 	 * Sets the selection listener that sets the behavior of - display solution request - in the MVP.
 	 * @param displaySolutionListener - the new display solution listener
@@ -481,8 +469,6 @@ public class MazeWindow extends BasicWindow{
 		
 	}
 
-
-
 	/**
 	 * Gets the selected XML properties file.
 	 *
@@ -492,8 +478,6 @@ public class MazeWindow extends BasicWindow{
 		return selectedXMLpropertiesFilePath;
 		
 	}
-
-
 
 	/**
 	 * Sets the selection listener that sets the behavior of - save maze request - in the MVP.
@@ -531,21 +515,22 @@ public class MazeWindow extends BasicWindow{
 		this.viewCrossSectionListener = selectionListener;
 	}
 
-	public Maze3d getMaze() {
-		return this.maze;
-	}
-
-	public void setMaze(Maze3d maze) {
-		this.maze = maze;
-	}
-
 	public Text getCurrentPositionText() {
-		return currentPositionText;
+		return currentPositionT;
 	}
 
 	public void setCurrentPositionText(Text currentPositionText) {
-		this.currentPositionText = currentPositionText;
+		this.currentPositionT = currentPositionText;
 	}
 
+	public Text getGoalPositionText() {
+		return goalPositionT;
+	}
+
+	public void setGoalPositionText(String goalPositionText) {
+		this.goalPositionT.setText(goalPositionText);
+		
+	}
+	
 	
 }
