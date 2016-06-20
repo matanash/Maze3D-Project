@@ -389,13 +389,8 @@ public class MazeWindow extends BasicWindow{
 	}
 
 	public void displayWalkToGoalPosition(Solution solution) {
-		Display.getDefault().syncExec(new Runnable() {
-			
-			@Override
-		    public void run() {
-				maze2dWidget.walkToGoalPosition(solution);
-		    }
-		});
+				maze2dWidget.walkToGoalPosition(solution,this.getDisplay());
+		    
 	}
 	
 	/**

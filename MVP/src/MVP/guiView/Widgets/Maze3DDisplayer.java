@@ -6,6 +6,7 @@ import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 
 import algorithms.search.Solution;
 import model.maze3d.Maze3d;
@@ -76,7 +77,7 @@ public abstract class Maze3DDisplayer extends Composite{
 		});
 	}
 	
-	public abstract void walkToGoalPosition(Solution solution);
+	public abstract void walkToGoalPosition(Solution solution,Display display);
 	
 	public Maze3d getMaze3d() {
 		return this.m3d;

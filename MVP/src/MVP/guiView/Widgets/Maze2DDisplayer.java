@@ -6,6 +6,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 
 import algorithms.search.Solution;
@@ -72,15 +73,14 @@ public class Maze2DDisplayer extends Maze3DDisplayer {
 								(int) Math.round(dpoints[1] - cheight / 2 + 2), (int) Math.round((w0 + w1) / 2 / 1.5),
 								(int) Math.round(cellHeight /1.5));
 					}
-					
-					
 				}
 			}
+			
 		}
 	}
 
-	private void paintCube(double[] a, double c, PaintEvent pe) {
-
+	private void paintCube(double[] a, double c, PaintEvent pe) 
+	{
 		int[] f = new int[a.length];
 		for (int k = 0; k < f.length; f[k] = (int) Math.round(a[k]), k++);
 
@@ -127,10 +127,10 @@ public class Maze2DDisplayer extends Maze3DDisplayer {
 			this.redraw();
 			isWin ();
 		}
-		MessageBox errorBox =  new MessageBox(this.getShell(), SWT.ICON_INFORMATION); 
+		/*MessageBox errorBox =  new MessageBox(this.getShell(), SWT.ICON_INFORMATION); 
 		errorBox.setMessage(m3d.toString()+m3d.getGoalPosition());
 		errorBox.setText("info");
-		errorBox.open();
+		errorBox.open();*/
 
 	}
 
@@ -210,7 +210,7 @@ public class Maze2DDisplayer extends Maze3DDisplayer {
 	}
 
 	@Override
-	public void walkToGoalPosition(Solution solution) {
+	public void walkToGoalPosition(Solution solution,Display display) {
 
 		this.timer = new Timer();
 		this.task = new TimerTask() {
@@ -218,20 +218,32 @@ public class Maze2DDisplayer extends Maze3DDisplayer {
 
 			@Override
 			public void run() {
-				if (i < solution.getStates().size()) {
+				if (i < solution.getStates().size()-1)
+				{
 					Position pos = new Position(((Maze3dState) solution.getStates().get(i)).getCurrPosition().getY(),
 							((Maze3dState) solution.getStates().get(i)).getCurrPosition().getX(),
 							((Maze3dState) solution.getStates().get(i)).getCurrPosition().getZ());
-					setCharacterPosition3D(pos);
+					display.syncExec(new Runnable() {
+						@Override
+					    public void run() {
+							
+							if (pos.getY()<((Maze3dState)solution.getStates().get(i+1)).getCurrPosition().getY())
+								goLevelDown();
+							else if (pos.getY()>((Maze3dState)solution.getStates().get(i+1)).getCurrPosition().getY())
+								goLevelUp();
+							else
+								setCharacterPosition3D(((Maze3dState)solution.getStates().get(i+1)).getCurrPosition());
+							redraw();
+						}
+					});
 					i++;
-					redraw();
 				} else {
 					timer.cancel();
 					timer.purge();
 				}
 			}
 		};
-		timer.scheduleAtFixedRate(task, 0, 100);
+		timer.scheduleAtFixedRate(task, 0, 500);
 		timer.purge();
 
 	}
