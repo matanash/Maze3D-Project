@@ -7,12 +7,24 @@ import java.io.FileNotFoundException;
 
 import MVP.view.commands.DisplayMessageViewCommand;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class UpdatePropertiesCommand.
+ */
 public class UpdatePropertiesCommand extends CommonCommand {
 
+	/**
+	 * Instantiates a new update properties command.
+	 *
+	 * @param p the p
+	 */
 	public UpdatePropertiesCommand(MyPresenter p) {
 		super(p);
 	}
 
+	/* (non-Javadoc)
+	 * @see MVP.presenter.CommonCommand#doCommand(java.lang.String[])
+	 */
 	@Override
 	public void doCommand(String[] args) throws Exception {
 		if (args.length==1)
@@ -40,6 +52,9 @@ public class UpdatePropertiesCommand extends CommonCommand {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see MVP.presenter.CommonCommand#help()
+	 */
 	@Override
 	public void help() {}
 

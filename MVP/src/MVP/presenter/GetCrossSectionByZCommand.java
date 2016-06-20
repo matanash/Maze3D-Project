@@ -2,12 +2,24 @@ package MVP.presenter;
 
 import MVP.view.commands.DisplayMessageViewCommand;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class GetCrossSectionByZCommand.
+ */
 public class GetCrossSectionByZCommand extends CommonCommand {
 
+	/**
+	 * Instantiates a new gets the cross section by Z command.
+	 *
+	 * @param p the p
+	 */
 	public GetCrossSectionByZCommand(MyPresenter p) {
 		super(p);
 	}
 
+	/* (non-Javadoc)
+	 * @see MVP.presenter.CommonCommand#doCommand(java.lang.String[])
+	 */
 	@Override
 	public void doCommand(String[] args) throws Exception {
 		if (args.length != 2) 
@@ -21,6 +33,9 @@ public class GetCrossSectionByZCommand extends CommonCommand {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see MVP.presenter.CommonCommand#help()
+	 */
 	@Override
 	public void help() {
 		myPresenter.getView().display("Displays cross section by <zSection> for maze3d <name> ." + '\n' + '\t'

@@ -15,12 +15,21 @@ import MVP.presenter.MyPresenter;
 import MVP.presenter.Properties;
 import MVP.view.CommonMaze3DView;
 
-/************************
+// TODO: Auto-generated Javadoc
+/**
+ * **********************
  * MVP CLI & GUI Demo *
- ************************/
+ * **********************.
+ */
 
 public class Run {
 
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 * @throws Exception the exception
+	 */
 	public static void main(String[] args) throws Exception {
 
 		String xmlFilePath = "Properties.xml";

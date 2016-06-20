@@ -3,12 +3,24 @@ package MVP.presenter;
 import MVP.view.commands.DisplayMessageViewCommand;
 import model.maze3d.Position;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class SolveMazeCommand.
+ */
 public class SolveMazeCommand extends CommonCommand {
 
+	/**
+	 * Instantiates a new solve maze command.
+	 *
+	 * @param presenter the presenter
+	 */
 	public SolveMazeCommand(MyPresenter presenter) {
 		super(presenter);
 	}
 
+	/* (non-Javadoc)
+	 * @see MVP.presenter.CommonCommand#doCommand(java.lang.String[])
+	 */
 	@Override
 	public void doCommand(String[] args) throws Exception {
 		if (args.length == 2){
@@ -32,6 +44,9 @@ public class SolveMazeCommand extends CommonCommand {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see MVP.presenter.CommonCommand#help()
+	 */
 	@Override
 	public void help() {
 		myPresenter.getView().display("Solves maze <name> with <algorithm> algorithm ." + '\n' + '\t' + "--> Syntax: solve <name> <algorithm>", new DisplayMessageViewCommand(this.myPresenter.getView()));

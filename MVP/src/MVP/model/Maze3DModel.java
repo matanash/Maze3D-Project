@@ -29,15 +29,20 @@ import io.MyDecompressorInputStream;
 import model.maze3d.Maze3d;
 import model.maze3d.Position;
 
+// TODO: Auto-generated Javadoc
 /**
- * 
- * @author Matan Ashkenazi & Noee Cohen
+ * The Class Maze3DModel.
  *
+ * @author Matan Ashkenazi & Noee Cohen
  */
 public class Maze3DModel extends CommonMaze3DModel {
 
+	/** The descriptor. */
 	private Object descriptor;
 
+	/* (non-Javadoc)
+	 * @see MVP.model.Model#dir(java.lang.String)
+	 */
 	@Override
 	public void dir(String path) {
 		try {
@@ -62,6 +67,9 @@ public class Maze3DModel extends CommonMaze3DModel {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see MVP.model.Model#generate3dMaze(java.lang.String, int, int, int)
+	 */
 	@Override
 	public void generate3dMaze(String name, int height, int length, int width) throws Exception {
 
@@ -95,6 +103,9 @@ public class Maze3DModel extends CommonMaze3DModel {
 		});
 	}
 
+	/* (non-Javadoc)
+	 * @see MVP.model.Model#getMaze3D(java.lang.String)
+	 */
 	@Override
 	public void getMaze3D(String name) {
 		if (mazeExists(name)) {
@@ -108,6 +119,10 @@ public class Maze3DModel extends CommonMaze3DModel {
 		}
 
 	}
+	
+	/* (non-Javadoc)
+	 * @see MVP.model.Model#getStartPosition(java.lang.String)
+	 */
 	@Override
 	public void getStartPosition (String name)
 	{
@@ -124,6 +139,10 @@ public class Maze3DModel extends CommonMaze3DModel {
 			notifyObservers("display_message");
 		}
 	}
+	
+	/* (non-Javadoc)
+	 * @see MVP.model.Model#getGoalPosition(java.lang.String)
+	 */
 	@Override
 	public void getGoalPosition(String name)
 	{
@@ -140,6 +159,10 @@ public class Maze3DModel extends CommonMaze3DModel {
 			notifyObservers("display_message");
 		}
 	}
+	
+	/* (non-Javadoc)
+	 * @see MVP.model.Model#displayCrossSectionByY(int, java.lang.String)
+	 */
 	@Override
 	public void displayCrossSectionByY(int yLayer, String name) {
 		if (mazeExists(name) && mazesMap.get(name).isInMaze(new Position(yLayer, 0, 0))) {
@@ -150,6 +173,9 @@ public class Maze3DModel extends CommonMaze3DModel {
 			this.descriptor = "Maze " + name + " doesn't exist or yLayer invalid";
 	}
 
+	/* (non-Javadoc)
+	 * @see MVP.model.Model#displayCrossSectionByX(int, java.lang.String)
+	 */
 	@Override
 	public void displayCrossSectionByX(int xLayer, String name) {
 		if (mazeExists(name) && mazesMap.get(name).isInMaze(new Position(0, xLayer, 0))) {
@@ -160,6 +186,9 @@ public class Maze3DModel extends CommonMaze3DModel {
 			this.descriptor = "Maze " + name + " doesn't exist or xLayer invalid";
 	}
 
+	/* (non-Javadoc)
+	 * @see MVP.model.Model#displayCrossSectionByZ(int, java.lang.String)
+	 */
 	@Override
 	public void displayCrossSectionByZ(int zLayer, String name) {
 		if (mazeExists(name) && mazesMap.get(name).isInMaze(new Position(0, 0, zLayer))) {
@@ -170,6 +199,9 @@ public class Maze3DModel extends CommonMaze3DModel {
 			this.descriptor = "Maze " + name + " doesn't exist or zLayer invalid";
 	}
 
+	/* (non-Javadoc)
+	 * @see MVP.model.Model#saveMazeToFile(java.lang.String, java.lang.String)
+	 */
 	@Override
 	public void saveMazeToFile(String name, String fileName) {
 		OutputStream out = null;
@@ -196,6 +228,9 @@ public class Maze3DModel extends CommonMaze3DModel {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see MVP.model.Model#loadMazeFromFile(java.lang.String, java.lang.String)
+	 */
 	@Override
 	public void loadMazeFromFile(String name, String fileName) {
 		InputStream in = null;
@@ -230,6 +265,9 @@ public class Maze3DModel extends CommonMaze3DModel {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see MVP.model.Model#sizeInFile(java.lang.String)
+	 */
 	@Override
 	public void sizeInFile(String filename) {
 		File file;
@@ -239,6 +277,9 @@ public class Maze3DModel extends CommonMaze3DModel {
 		notifyObservers("file_size");
 	}
 
+	/* (non-Javadoc)
+	 * @see MVP.model.Model#sizeInMemory(java.lang.String)
+	 */
 	@Override
 	public void sizeInMemory(String name) {
 		if (mazeExists(name)) {
@@ -251,6 +292,9 @@ public class Maze3DModel extends CommonMaze3DModel {
 
 	}
 	
+	/* (non-Javadoc)
+	 * @see MVP.model.Model#solveMaze(java.lang.String, java.lang.String, model.maze3d.Position)
+	 */
 	@Override
 	public void solveMaze(String name, String algorithm,Position characterPosition) {
 		if (!mazeExists(name)) {
@@ -302,6 +346,10 @@ public class Maze3DModel extends CommonMaze3DModel {
 		}
 
 	}
+	
+	/* (non-Javadoc)
+	 * @see MVP.model.Model#solveMaze(java.lang.String, java.lang.String)
+	 */
 	@Override
 	public void solveMaze(String name, String algorithm) {
 		if (!mazeExists(name)) {
@@ -356,6 +404,9 @@ public class Maze3DModel extends CommonMaze3DModel {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see MVP.model.Model#getSolution(java.lang.String)
+	 */
 	@Override
 	public void getSolution(String name) {
 		if (solutionExists(name)) {
@@ -373,6 +424,9 @@ public class Maze3DModel extends CommonMaze3DModel {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see MVP.model.Model#mazeExists(java.lang.String)
+	 */
 	@Override
 	public boolean mazeExists(String name) {
 		if (mazesMap.containsKey(name))
@@ -380,6 +434,9 @@ public class Maze3DModel extends CommonMaze3DModel {
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see MVP.model.Model#solutionExists(model.maze3d.Maze3d)
+	 */
 	@Override
 	public boolean solutionExists(Maze3d m3d) {
 		if (maze2sol.containsKey(m3d))
@@ -387,6 +444,9 @@ public class Maze3DModel extends CommonMaze3DModel {
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see MVP.model.Model#solutionExists(java.lang.String)
+	 */
 	@Override
 	public boolean solutionExists(String name) {
 		if (solutionMap.containsKey(name))
@@ -394,6 +454,9 @@ public class Maze3DModel extends CommonMaze3DModel {
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see MVP.model.Model#saveGZipMaps()
+	 */
 	public void saveGZipMaps() {
 
 		FileOutputStream fos = null;
@@ -419,6 +482,9 @@ public class Maze3DModel extends CommonMaze3DModel {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see MVP.model.Model#loadGZipMaps()
+	 */
 	@SuppressWarnings("unchecked")
 	public void loadGZipMaps() {
 
@@ -451,6 +517,9 @@ public class Maze3DModel extends CommonMaze3DModel {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see MVP.model.Model#exitModel()
+	 */
 	@Override
 	public void exitModel() {
 		threadPool.shutdown();
@@ -463,6 +532,9 @@ public class Maze3DModel extends CommonMaze3DModel {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see MVP.model.Model#getDescriptor()
+	 */
 	public Object getDescriptor() {
 		return this.descriptor;
 	}

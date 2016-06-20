@@ -2,12 +2,24 @@ package MVP.presenter;
 
 import MVP.view.commands.DisplayMessageViewCommand;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class GetMazeCommand.
+ */
 public class GetMazeCommand extends CommonCommand {
 
+	/**
+	 * Instantiates a new gets the maze command.
+	 *
+	 * @param myPresenter the my presenter
+	 */
 	public GetMazeCommand(MyPresenter myPresenter) {
 		super(myPresenter);
 	}
 
+	/* (non-Javadoc)
+	 * @see MVP.presenter.CommonCommand#doCommand(java.lang.String[])
+	 */
 	@Override
 	public void doCommand(String[] args) throws Exception {
 		
@@ -20,6 +32,9 @@ public class GetMazeCommand extends CommonCommand {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see MVP.presenter.CommonCommand#help()
+	 */
 	@Override
 	public void help() {
 		myPresenter.getView().display("Displays the whole maze <maze name>. " + '\n' + '\t' + "--> Syntax: display <maze name>", new DisplayMessageViewCommand(this.myPresenter.getView()));

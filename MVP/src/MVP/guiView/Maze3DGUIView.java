@@ -13,13 +13,19 @@ import algorithms.search.Solution;
 import model.maze3d.Maze3d;
 import model.maze3d.Position;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Maze3DGUIView.
+ */
 public class Maze3DGUIView extends CommonMaze3DGUIView {
 
 	/**
 	 * Instantiates a new observable GUI view.
+	 *
 	 * @param title the window title
 	 * @param width the window width
 	 * @param height the window height
+	 * @param xmlFilePath the xml file path
 	 */
 	public Maze3DGUIView(String title, int width, int height,String xmlFilePath) {
 			super(new Properties());
@@ -28,6 +34,9 @@ public class Maze3DGUIView extends CommonMaze3DGUIView {
 			
 	}
 	
+	/* (non-Javadoc)
+	 * @see MVP.view.View#startView()
+	 */
 	@Override
 	public void startView() throws Exception {
 		mainWindow.getShell().addMouseWheelListener(new MouseWheelListener() {
@@ -167,22 +176,39 @@ public class Maze3DGUIView extends CommonMaze3DGUIView {
 	mainWindow.run();
 
 }
+	
+	/* (non-Javadoc)
+	 * @see MVP.view.View#setProperties(MVP.presenter.Properties)
+	 */
 	@Override
 	public void setProperties(Properties prop) {}
 	
+	/* (non-Javadoc)
+	 * @see MVP.view.View#exitView()
+	 */
 	@Override
 	public void exitView() {
 		mainWindow.exit();
 	}
 
 
+	/* (non-Javadoc)
+	 * @see MVP.view.View#displayMessage(java.lang.String)
+	 */
 	@Override
 	public void displayMessage(String message) {
 		mainWindow.displayMessage(message);
 	}
+	
+	/* (non-Javadoc)
+	 * @see MVP.view.View#displayCrossSectionByCommand(int[][])
+	 */
 	@Override
 	public void displayCrossSectionByCommand(int[][] matrix) {}
 
+	/* (non-Javadoc)
+	 * @see MVP.view.View#displaySolution(algorithms.search.Solution)
+	 */
 	@Override
 	public void displaySolution(Solution solution) {
 
@@ -190,12 +216,18 @@ public class Maze3DGUIView extends CommonMaze3DGUIView {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see MVP.view.View#displayMaze(model.maze3d.Maze3d)
+	 */
 	@Override
 	public void displayMaze(Maze3d maze3d) {
 
 		mainWindow.displayMaze(maze3d);
 	}
 
+	/* (non-Javadoc)
+	 * @see MVP.view.View#displayPosition(model.maze3d.Position)
+	 */
 	@Override
 	public void displayPosition(Position goalPosition) {
 		mainWindow.setGoalPositionText(goalPosition.toString());

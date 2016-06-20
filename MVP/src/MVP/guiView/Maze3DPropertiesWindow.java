@@ -16,6 +16,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 
+// TODO: Auto-generated Javadoc
 /**
  * This class collecting all the data of the current maze in a GUI window.
  */
@@ -196,10 +197,20 @@ public class Maze3DPropertiesWindow {
 		main.open();
 	}
 
+	/**
+	 * Gets the properties.
+	 *
+	 * @return the properties
+	 */
 	public Maze3DProperties getProperties() {
 		return this.properties;
 	}
 
+	/**
+	 * Sets the properties.
+	 *
+	 * @param properties the new properties
+	 */
 	public void setProperties(Maze3DProperties properties) {
 		this.properties = properties;
 	}

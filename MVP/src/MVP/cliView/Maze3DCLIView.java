@@ -9,15 +9,27 @@ import algorithms.search.Solution;
 import model.maze3d.Maze3d;
 import model.maze3d.Position;
 
-
+/**
+ * The Class Maze3DCLIView.
+ */
 public class Maze3DCLIView extends CommonMaze3DCLIView {
 
+	/** The exit flag. */
 	boolean exitFlag;
 
+	/**
+	 * Instantiates a new maze 3 DCLI view.
+	 *
+	 * @param in the in
+	 * @param out the out
+	 */
 	public Maze3DCLIView(BufferedReader in, PrintWriter out) {
 		super(in, out);
 	}
 
+	/* (non-Javadoc)
+	 * @see MVP.view.View#startView()
+	 */
 	public void startView() {
 		exitFlag = false;
 		new Thread(new Runnable() {
@@ -48,6 +60,10 @@ public class Maze3DCLIView extends CommonMaze3DCLIView {
 		}).start();
 
 	}
+	
+	/* (non-Javadoc)
+	 * @see MVP.view.View#displayMaze(model.maze3d.Maze3d)
+	 */
 	@Override
 	public void displayMaze(Maze3d maze3d) {
 		try {
@@ -60,6 +76,9 @@ public class Maze3DCLIView extends CommonMaze3DCLIView {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see MVP.view.View#displaySolution(algorithms.search.Solution)
+	 */
 	@Override
 	public void displaySolution(Solution solution) {
 		out.write("The requested Solution is: " + '\n');
@@ -68,6 +87,9 @@ public class Maze3DCLIView extends CommonMaze3DCLIView {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see MVP.view.View#displayCrossSectionByCommand(int[][])
+	 */
 	@Override
 	public void displayCrossSectionByCommand(int[][] matrix) {
 		try {
@@ -86,18 +108,27 @@ public class Maze3DCLIView extends CommonMaze3DCLIView {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see MVP.view.View#displayMessage(java.lang.String)
+	 */
 	@Override
 	public void displayMessage(String message) {
 		out.write(message);
 		out.flush();
 	}
 
+	/* (non-Javadoc)
+	 * @see MVP.view.View#exitView()
+	 */
 	@Override
 	public void exitView() {
 		this.exitFlag = true;
 
 	}
 	
+	/* (non-Javadoc)
+	 * @see MVP.view.View#setProperties(MVP.presenter.Properties)
+	 */
 	@Override
 	public void setProperties(Properties prop) 
 	{
@@ -108,6 +139,9 @@ public class Maze3DCLIView extends CommonMaze3DCLIView {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see MVP.view.View#displayPosition(model.maze3d.Position)
+	 */
 	@Override
 	public void displayPosition(Position position) {}
 

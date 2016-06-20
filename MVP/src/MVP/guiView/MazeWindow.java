@@ -26,6 +26,7 @@ import MVP.presenter.Properties;
 import algorithms.search.Solution;
 import model.maze3d.Maze3d;
 
+// TODO: Auto-generated Javadoc
 /**
  * This the main window in the GUI view.
  *  @author Matan Ashkenazi and Noee Cohen
@@ -36,8 +37,10 @@ public class MazeWindow extends BasicWindow{
 	//protected Position goalPosition ;
 	//protected Solution solution;
 	
+	/** The maze 2 d widget. */
 	protected Maze3DDisplayer maze2dWidget ;
 
+	/** The selected XM lproperties file path. */
 	protected String selectedXMLpropertiesFilePath;
 	
 	/** The maze file path. used in save or load maze scenario */
@@ -49,54 +52,77 @@ public class MazeWindow extends BasicWindow{
 	/** Game properties. */
 	protected Properties properties;
 
+	/** The generate button. */
 	protected Button generateButton;
 	
+	/** The display maze button. */
 	protected Button displayMazeButton;
 	
+	/** The display solution button. */
 	protected Button displaySolutionButton;
 	
+	/** The solve button. */
 	protected Button solveButton;
 
+	/** The name T. */
 	protected Text nameT;
 	
+	/** The depth T. */
 	protected Text depthT;
 	
+	/** The row T. */
 	protected Text rowT;
 	
+	/** The cols T. */
 	protected Text colsT;
 	
+	/** The current position T. */
 	protected Text currentPositionT;
 	
+	/** The goal position T. */
 	protected Text goalPositionT;
 	
+	/** The exit listener. */
 	protected DisposeListener exitListener;
 
+	/** The generate listener. */
 	protected SelectionListener generateListener;
 	
+	/** The display maze listener. */
 	protected SelectionListener displayMazeListener;
 	
+	/** The display goal position listener. */
 	protected SelectionListener displayGoalPositionListener;
 	
+	/** The display solution listener. */
 	protected SelectionListener displaySolutionListener;
 	
+	/** The key listener. */
 	protected KeyListener keyListener;
 
+	/** The solve listener. */
 	protected SelectionListener solveListener;
 	
+	/** The properties update listener. */
 	protected SelectionListener propertiesUpdateListener;
 	
+	/** The save listener. */
 	protected SelectionListener saveListener;
 	
+	/** The load listener. */
 	protected SelectionListener loadListener;
 	
+	/** The view cross section listener. */
 	protected SelectionListener viewCrossSectionListener;
 
 	/**
 	 * Instantiates a new maze window.
+	 *
 	 * @param title the window title
 	 * @param width the window width
 	 * @param height the window height
 	 * @param properties the game properties
+	 * @param xmlFilePath the xml file path
 	 */
 	public MazeWindow(String title, int width, int height , Properties properties,String xmlFilePath) {
 		super(title, width, height);
@@ -106,6 +132,9 @@ public class MazeWindow extends BasicWindow{
 		shell.setImage(new Image(display, "resources/jerry_cheese.jpg"));
 	}
 
+	/* (non-Javadoc)
+	 * @see MVP.guiView.BasicWindow#initWidgets()
+	 */
 	@Override
 	protected void initWidgets() 
 	{
@@ -310,10 +339,20 @@ public class MazeWindow extends BasicWindow{
 		this.goalPositionT.addSelectionListener(displayGoalPositionListener);
 	}
 	
+	/**
+	 * Gets the maze 2 d widget.
+	 *
+	 * @return the maze 2 d widget
+	 */
 	public Maze3DDisplayer getMaze2dWidget() {
 		return this.maze2dWidget;
 	}
 
+	/**
+	 * Sets the maze 2 d widget.
+	 *
+	 * @param maze2dWidget the new maze 2 d widget
+	 */
 	public void setMaze2dWidget(Maze3DDisplayer maze2dWidget) {
 		this.maze2dWidget = maze2dWidget;
 	}
@@ -370,7 +409,8 @@ public class MazeWindow extends BasicWindow{
 	
 	/**
 	 * Display a string.
-	 * @param string the string to display
+	 *
+	 * @param message the message
 	 */
 	public void displayMessage(String message) {
 		Display.getDefault().syncExec(new Runnable() {
@@ -388,6 +428,11 @@ public class MazeWindow extends BasicWindow{
 		});
 	}
 
+	/**
+	 * Display walk to goal position.
+	 *
+	 * @param solution the solution
+	 */
 	public void displayWalkToGoalPosition(Solution solution) {
 				maze2dWidget.walkToGoalPosition(solution,this.getDisplay());
 		    
@@ -410,10 +455,20 @@ public class MazeWindow extends BasicWindow{
 		this.displayMazeListener = displayMazeListener;
 	}
 	
+	/**
+	 * Gets the display goal position listener.
+	 *
+	 * @return the display goal position listener
+	 */
 	public SelectionListener getDisplayGoalPositionListener() {
 		return displayGoalPositionListener;
 	}
 
+	/**
+	 * Sets the display goal position listener.
+	 *
+	 * @param displayGoalPositionListener the new display goal position listener
+	 */
 	public void setDisplayGoalPositionListener(SelectionListener displayGoalPositionListener) {
 		this.displayGoalPositionListener = displayGoalPositionListener;
 	}
@@ -510,18 +565,38 @@ public class MazeWindow extends BasicWindow{
 		this.viewCrossSectionListener = selectionListener;
 	}
 
+	/**
+	 * Gets the current position text.
+	 *
+	 * @return the current position text
+	 */
 	public Text getCurrentPositionText() {
 		return currentPositionT;
 	}
 
+	/**
+	 * Sets the current position text.
+	 *
+	 * @param currentPositionText the new current position text
+	 */
 	public void setCurrentPositionText(Text currentPositionText) {
 		this.currentPositionT = currentPositionText;
 	}
 
+	/**
+	 * Gets the goal position text.
+	 *
+	 * @return the goal position text
+	 */
 	public Text getGoalPositionText() {
 		return goalPositionT;
 	}
 
+	/**
+	 * Sets the goal position text.
+	 *
+	 * @param goalPositionText the new goal position text
+	 */
 	public void setGoalPositionText(String goalPositionText) {
 		this.goalPositionT.setText(goalPositionText);
 		

@@ -9,13 +9,26 @@ import MVP.view.View;
 import MVP.view.commands.DisplayMessageViewCommand;
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class MyPresenter.
+ */
 public class MyPresenter extends  CommonPresenter {
 	
 	
+	/**
+	 * Instantiates a new my presenter.
+	 *
+	 * @param view the view
+	 * @param model the model
+	 */
 	public MyPresenter(View view, Model model) {
 		super(view, model);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
+	 */
 	@Override
 	public void update(Observable obs, Object arg) 
 	{
@@ -84,7 +97,10 @@ public class MyPresenter extends  CommonPresenter {
 			}, "commandProccessingLoop").start();
 
 		}
+	
 	/**
+	 * Inits the commands maps.
+	 *
 	 * @return Initiated HashMap that maps Strings to Commands.
 	 */
 	@Override

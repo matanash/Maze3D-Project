@@ -2,13 +2,25 @@ package MVP.presenter;
 
 import MVP.view.commands.DisplayMessageViewCommand;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Generate3DMazeCommand.
+ */
 public class Generate3DMazeCommand extends CommonCommand {
 
+	/**
+	 * Instantiates a new generate 3 D maze command.
+	 *
+	 * @param p the p
+	 */
 	public Generate3DMazeCommand(MyPresenter p) {
 		super(p);
 		// TODO Auto-generated constructor stub
 	}
 
+	/* (non-Javadoc)
+	 * @see MVP.presenter.CommonCommand#doCommand(java.lang.String[])
+	 */
 	@Override
 	public void doCommand(String[] args) throws Exception {
 		if (args.length != 4) 
@@ -28,6 +40,9 @@ public class Generate3DMazeCommand extends CommonCommand {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see MVP.presenter.CommonCommand#help()
+	 */
 	@Override
 	public void help() {
 		myPresenter.getView().display("Generates a new 3D Maze. " + '\n' + '\t'

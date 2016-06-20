@@ -14,12 +14,28 @@ import model.maze3d.Maze3d;
 import model.maze3d.Position;
 import model.maze3d.domains.Maze3dState;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Maze2DDisplayer.
+ */
 public class Maze2DDisplayer extends Maze3DDisplayer {
 
+	/** The maze data. */
 	int[][] mazeData;
+	
+	/** The timer. */
 	private Timer timer;
+	
+	/** The task. */
 	private TimerTask task;
 	
+	/**
+	 * Instantiates a new maze 2 D displayer.
+	 *
+	 * @param parent the parent
+	 * @param style the style
+	 * @param m3d the m 3 d
+	 */
 	public Maze2DDisplayer(Composite parent, int style, Maze3d m3d) {
 		super(parent, style);
 		
@@ -31,6 +47,9 @@ public class Maze2DDisplayer extends Maze3DDisplayer {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see MVP.guiView.Widgets.Maze3DDisplayer#drawMaze(org.eclipse.swt.events.PaintEvent)
+	 */
 	@Override
 	protected void drawMaze(PaintEvent e) {
 		if (mazeData != null) {
@@ -79,6 +98,13 @@ public class Maze2DDisplayer extends Maze3DDisplayer {
 		}
 	}
 
+	/**
+	 * Paint cube.
+	 *
+	 * @param a the a
+	 * @param c the c
+	 * @param pe the pe
+	 */
 	private void paintCube(double[] a, double c, PaintEvent pe) 
 	{
 		int[] f = new int[a.length];
@@ -97,6 +123,9 @@ public class Maze2DDisplayer extends Maze3DDisplayer {
 		pe.gc.fillPolygon(r);
 	}
 
+	/* (non-Javadoc)
+	 * @see MVP.guiView.Widgets.Maze3DDisplayer#goLevelUp()
+	 */
 	@Override
 	protected void goLevelUp() {
 		Position pos = character.getPosition3d();
@@ -114,6 +143,9 @@ public class Maze2DDisplayer extends Maze3DDisplayer {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see MVP.guiView.Widgets.Maze3DDisplayer#goLevelDown()
+	 */
 	@Override
 	protected void goLevelDown() {
 
@@ -134,10 +166,13 @@ public class Maze2DDisplayer extends Maze3DDisplayer {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see MVP.guiView.Widgets.Maze3DDisplayer#goLeft()
+	 */
 	@Override
 	protected void goLeft() {
 		Position2D pos = character.getPosition2d();
-		Position2D desiredPosition = new Position2D(pos.getX(), pos.getY());
+		Position2D desiredPosition = new Position2D(pos.getX()-1, pos.getY());
 		if (isIn2DMaze(desiredPosition)
 				&& isPosition2DEmpty(desiredPosition)) {
 			character.setPosition2d(desiredPosition);
@@ -148,6 +183,9 @@ public class Maze2DDisplayer extends Maze3DDisplayer {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see MVP.guiView.Widgets.Maze3DDisplayer#goRight()
+	 */
 	@Override
 	protected void goRight() {
 		Position2D pos = character.getPosition2d();
@@ -163,6 +201,9 @@ public class Maze2DDisplayer extends Maze3DDisplayer {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see MVP.guiView.Widgets.Maze3DDisplayer#goUp()
+	 */
 	@Override
 	protected void goUp() {
 		Position2D pos = character.getPosition2d();
@@ -178,6 +219,9 @@ public class Maze2DDisplayer extends Maze3DDisplayer {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see MVP.guiView.Widgets.Maze3DDisplayer#goDown()
+	 */
 	@Override
 	protected void goDown() {
 		Position2D pos = character.getPosition2d();
@@ -193,6 +237,12 @@ public class Maze2DDisplayer extends Maze3DDisplayer {
 
 	}
 
+	/**
+	 * Checks if is in 2 D maze.
+	 *
+	 * @param pos the pos
+	 * @return true, if is in 2 D maze
+	 */
 	private boolean isIn2DMaze(Position2D pos) {
 		if (pos == null)
 			return false;
@@ -200,6 +250,12 @@ public class Maze2DDisplayer extends Maze3DDisplayer {
 				&& pos.getY() < this.mazeData.length);
 	}
 
+	/**
+	 * Checks if is position 2 D empty.
+	 *
+	 * @param pos the pos
+	 * @return true, if is position 2 D empty
+	 */
 	private boolean isPosition2DEmpty(Position2D pos) {
 		if (!isIn2DMaze(pos))
 			return false;
@@ -209,6 +265,9 @@ public class Maze2DDisplayer extends Maze3DDisplayer {
 		return mazeData[y][x] == 0;
 	}
 
+	/* (non-Javadoc)
+	 * @see MVP.guiView.Widgets.Maze3DDisplayer#walkToGoalPosition(algorithms.search.Solution, org.eclipse.swt.widgets.Display)
+	 */
 	@Override
 	public void walkToGoalPosition(Solution solution,Display display) {
 
@@ -248,12 +307,21 @@ public class Maze2DDisplayer extends Maze3DDisplayer {
 
 	}
 
+	/**
+	 * Sets the maze 2 D displayer.
+	 *
+	 * @param m3d the new maze 2 D displayer
+	 */
 	public void setMaze2DDisplayer(Maze3d m3d) {
 		this.m3d = m3d;
 		this.mazeData = m3d.getCrossSectionByY(m3d.getStartPosition().getX());
 		this.setCharacterPosition2D(new Position2D(m3d.getStartPosition().getX(), m3d.getStartPosition().getZ()));
 		this.setCharacterPosition3D(m3d.getStartPosition());
 	}
+	
+	/**
+	 * Checks if is win.
+	 */
 	private void isWin()
 	{
 		if (character.getPosition3d().equals(target.getPosition3d())){
