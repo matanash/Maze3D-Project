@@ -78,9 +78,9 @@ public class Properties implements Serializable{
 	}
 	@Override
 	public String toString() {
-		return "Properties [debugMode=" + debugMode + ", mazeMaxHeight=" + mazeMaxHeight + ", mazeMaxLength="
-				+ mazeMaxLength + ", mazeMaxWidth=" + mazeMaxWidth + ", generateAlgorithm=" + generateAlgorithm
-				+ ", solveAlgorithm=" + solveAlgorithm + ", maxThreads=" + maxThreads + ", ui=" + ui + "]";
+		return "Properties" + '\n' + "DebugMode= " + debugMode + '\n' +"MazeMaxHeight= " + mazeMaxHeight + '\n' + "MazeMaxLength= "
+				+ mazeMaxLength + '\n' + "MazeMaxWidth= " + mazeMaxWidth + '\n' + "Gnerate Algorithm= " + generateAlgorithm
+				+ '\n' + "SolveAlgorithm= " + solveAlgorithm + '\n' + "MaxThreads= " + maxThreads + '\n' + "UI Type= " + ui;
 	}
 	
 }

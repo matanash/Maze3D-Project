@@ -64,7 +64,7 @@ public class Maze3DPropertiesWindow {
 		Text yTextBox = new Text(main, SWT.BORDER);
 		yTextBox.setText("" + properties.getHeight());
 		yTextBox.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
-		yTextBox.setToolTipText("numbers only, greater than 4");
+		yTextBox.setToolTipText("numbers only, greater than 3");
 		yTextBox.setTextLimit(2);
 		yTextBox.addFocusListener(new FocusListener() {
 					
