@@ -59,7 +59,7 @@ public class Maze2DDisplayer extends Maze3DDisplayer {
 					}
 					
 					// draw the target image in the goal position 
-					if (i == m3d.getGoalPosition().getZ() && j == m3d.getGoalPosition().getX()
+					if (i == m3d.getGoalPosition().getX() && j == m3d.getGoalPosition().getZ()
 							&& character.getPosition3d().getY()==m3d.getGoalPosition().getY()) {
 						target.draw(e,(int) Math.round(dpoints[0] + 2)+10,
 								(int) Math.round(dpoints[1] - cheight / 2 + 2), (int) Math.round((w0 + w1) / 3.5),
@@ -68,7 +68,7 @@ public class Maze2DDisplayer extends Maze3DDisplayer {
 					}
 					
 					// draw the character image when he moving
-					if (i == character.getPosition3d().getZ() && j == character.getPosition3d().getX()) {
+					if (i == character.getPosition3d().getX() && j == character.getPosition3d().getZ()) {
 						character.draw(e, (int) Math.round(dpoints[0] + 2)+10,
 								(int) Math.round(dpoints[1] - cheight / 2 + 2), (int) Math.round((w0 + w1) / 2 / 1.5),
 								(int) Math.round(cellHeight /1.5));
@@ -137,12 +137,12 @@ public class Maze2DDisplayer extends Maze3DDisplayer {
 	@Override
 	protected void goLeft() {
 		Position2D pos = character.getPosition2d();
-		Position2D desiredPosition = new Position2D(pos.getX() - 1, pos.getY());
+		Position2D desiredPosition = new Position2D(pos.getX(), pos.getY());
 		if (isIn2DMaze(desiredPosition)
 				&& isPosition2DEmpty(desiredPosition)) {
 			character.setPosition2d(desiredPosition);
-			character.setPosition3d(new Position(character.getPosition3d().getY(), character.getPosition3d().getX() - 1,
-					character.getPosition3d().getZ()));
+			character.setPosition3d(new Position(character.getPosition3d().getY(), character.getPosition3d().getX() ,
+					character.getPosition3d().getZ()- 1));
 			this.redraw();
 			isWin ();
 		}
@@ -151,12 +151,12 @@ public class Maze2DDisplayer extends Maze3DDisplayer {
 	@Override
 	protected void goRight() {
 		Position2D pos = character.getPosition2d();
-		Position2D desiredPosition = new Position2D(pos.getX() + 1, pos.getY());
+		Position2D desiredPosition = new Position2D(pos.getX()+1 , pos.getY());
 		if (isIn2DMaze(desiredPosition)
 				&& isPosition2DEmpty(desiredPosition)) {
 			character.setPosition2d(desiredPosition);
-			character.setPosition3d(new Position(character.getPosition3d().getY(), character.getPosition3d().getX() + 1,
-					character.getPosition3d().getZ()));
+			character.setPosition3d(new Position(character.getPosition3d().getY(), character.getPosition3d().getX() ,
+					character.getPosition3d().getZ()+ 1));
 			this.redraw();
 			isWin ();
 		}
@@ -170,8 +170,8 @@ public class Maze2DDisplayer extends Maze3DDisplayer {
 		if (isIn2DMaze(desiredPosition)
 				&& isPosition2DEmpty(desiredPosition)) {
 			character.setPosition2d(desiredPosition);
-			character.setPosition3d(new Position(character.getPosition3d().getY(), character.getPosition3d().getX(),
-					character.getPosition3d().getZ() - 1));
+			character.setPosition3d(new Position(character.getPosition3d().getY(), character.getPosition3d().getX()- 1,
+					character.getPosition3d().getZ() ));
 			this.redraw();
 			isWin ();
 		}
@@ -181,12 +181,12 @@ public class Maze2DDisplayer extends Maze3DDisplayer {
 	@Override
 	protected void goDown() {
 		Position2D pos = character.getPosition2d();
-		Position2D desiredPosition = new Position2D(pos.getX(), pos.getY() + 1);
+		Position2D desiredPosition = new Position2D(pos.getX() , pos.getY()+1);
 		if (isIn2DMaze(desiredPosition)
 				&& isPosition2DEmpty(desiredPosition)) {
 			character.setPosition2d(desiredPosition);
-			character.setPosition3d(new Position(character.getPosition3d().getY(), character.getPosition3d().getX(),
-					character.getPosition3d().getZ() + 1));
+			character.setPosition3d(new Position(character.getPosition3d().getY(), character.getPosition3d().getX()+ 1,
+					character.getPosition3d().getZ()));
 			this.redraw();
 			isWin ();
 		}
@@ -225,8 +225,8 @@ public class Maze2DDisplayer extends Maze3DDisplayer {
 							((Maze3dState) solution.getStates().get(i)).getCurrPosition().getZ());
 					display.syncExec(new Runnable() {
 						@Override
-					    public void run() {
-							
+					    public void run() 
+						{	
 							if (pos.getY()<((Maze3dState)solution.getStates().get(i+1)).getCurrPosition().getY())
 								goLevelDown();
 							else if (pos.getY()>((Maze3dState)solution.getStates().get(i+1)).getCurrPosition().getY())

@@ -269,7 +269,7 @@ public class MazeWindow extends BasicWindow{
 		this.displaySolutionButton.setEnabled(false);
 		this.displaySolutionButton.addSelectionListener(displaySolutionListener);
 		
-		for (int i=0; i<40 ;i++)
+		for (int i=0; i<50 ;i++)
 			new Label(toolbar, SWT.NONE);
 
 		Label nameL= new Label(toolbar, SWT.NONE);
