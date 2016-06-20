@@ -4,7 +4,8 @@ import java.io.Serializable;
 
 /**
  * This class Represents a 3D Position in the 3D maze
- * @author MatanA
+ * @author Matan Ashkenazi and Noee Cohen
+ * @version - 1.0
  */
 
 public class Position implements Serializable

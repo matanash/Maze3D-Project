@@ -3,7 +3,11 @@ package mvc.boot;
 import mvc.controller.MyController;
 import mvc.model.MyModel;
 import mvc.view.MyView;
-
+/**
+ * This Class demonstrate MVC Pattern Architecture 
+ * @author  - Matan Ashkenazi and Noee Cohen
+ * @version - 1.0
+ */
 public class Run 
 {
 
@@ -21,7 +25,6 @@ public class Run
 			
 		} catch (Exception e) 
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

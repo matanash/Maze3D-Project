@@ -2,6 +2,8 @@ package algorithms.mazeGenerators;
 
 /**
  * An abstract class for all Maze3d Generators
+ *@author Matan Ashkenazi and Noee Cohen
+ *@Version - 1.0
  */
 
 import java.util.Random;

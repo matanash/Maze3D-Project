@@ -3,13 +3,17 @@ package io;
 import java.io.IOException;
 import java.io.OutputStream;
 /**
- * This class is responsible for data compression and assign it in Output stream Object
- * @author MatanA
- *
+ * This class is responsible for maze data compression and assign it in Output stream Object
+ * @author Matan Ashkenazi and Noee Cohen
+ * @version - 1.0
  */
 public class MyCompressorOutputStream extends OutputStream {
 
 	private OutputStream out;
+	/**
+	 * C'tor
+	 * @param out - any OutputStream to wrapped required to compress
+	 */
 	public MyCompressorOutputStream(OutputStream out) 
 	{
 		this.out = out;
@@ -19,6 +23,11 @@ public class MyCompressorOutputStream extends OutputStream {
 	{
 		out.write(b);
 	}
+	/**
+	 * This method write 9 bytes represents the meta data of the Maze3D and after that write and compress maze data to bytes array
+	 * @param bytes - bytes array represent to compress the maze data to it
+	 * @exception - IOException
+	 */
 	@Override
 	public void write(byte[]bytes) throws IOException
 	{

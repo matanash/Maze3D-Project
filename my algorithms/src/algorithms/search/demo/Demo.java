@@ -10,7 +10,8 @@ import model.maze3d.Position;
 
 /**
  * This class demonstrate used of Solution Searchers Algorithms
- * @author MatanA
+ * @author Matan Ashkenazi and Noee Cohen
+ * @version - 1.0
  */
 public class Demo 
 {

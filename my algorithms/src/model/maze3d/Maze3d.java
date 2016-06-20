@@ -1,13 +1,12 @@
 package model.maze3d;
-
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
 /**
  * This class represents a 3D Maze
- * @author MatanA
+ * @author Matan Ashkenazi and Noee Cohen
+ * @version - 1.0
  */
 public class Maze3d implements Serializable
 {

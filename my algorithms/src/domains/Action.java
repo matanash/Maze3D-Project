@@ -2,6 +2,8 @@ package domains;
 
 /**
  * This Class represents Action to do in searchable problem
+ * @author Matan Ashkenazi and Noee Cohen
+ * @version - 1.0
  */
 public class Action 
 {

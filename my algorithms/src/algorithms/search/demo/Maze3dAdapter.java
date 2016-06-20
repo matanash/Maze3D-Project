@@ -13,7 +13,8 @@ import model.maze3d.domains.Maze3dState;
 /**
  * This class adapting between Searchable Object to maze3d object
  * based on Object Adapter Design Pattern
- * @author MatanA
+ * @author Matan Ashkenazi and Noee Cohen
+ * @version - 1.0
  */
 public class Maze3dAdapter implements Searchable {
 	
@@ -31,24 +32,31 @@ public class Maze3dAdapter implements Searchable {
 	}
 	/**
 	 * get the wrapped maze3d object
-	 * @return
+	 * @return - the wrapped maze3d object
 	 */
 	public Maze3d getMaze3d() {
-		return maze3d;
+		return this.maze3d;
 	}
 	/**
 	 * set and wrap maze3d object in the adapter
-	 * @param maze3d
+	 * @param maze3d - the maze3d object to wrap
 	 */
 	public void setMaze3d(Maze3d maze3d) {
 		this.maze3d = maze3d;
 	}
+	/**
+	 * Get the Start state of any searchable problem
+	 * @return - state represent the start state of the problem
+	 */
 	@Override
 	public State getStartState() 
 	{
 		return new Maze3dState(maze3d.getStartPosition());
 	}
-
+	/**
+	 * Get the Goal state of any searchable problem
+	 * @return - state represent the start state of the problem
+	 */
 	@Override
 	public State getGoalState() {
 		return new Maze3dState(maze3d.getGoalPosition());
@@ -80,7 +88,11 @@ public class Maze3dAdapter implements Searchable {
 				return null;
 		}
 	}
-
+	/**
+	 * Get all possible action can be reach from known state of any searchable problem
+	 * @param state - represent known state in searchable problem
+	 * @return - Hash map that maps between any possible action to its desirable state 
+	 */
 	@Override
 	public HashMap<Action, State> getAllPossibleActions(State state) 
 	{

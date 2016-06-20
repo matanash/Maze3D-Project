@@ -26,17 +26,22 @@ import model.maze3d.Position;
 import mvc.controller.Controller;
 
 /**
- * 
- * @author Matan Ashkenazi & Noee Cohen
- *
+ * This Class represents Maze3D Model facade
+ * @author Matan Ashkenazi and Noee Cohen
+ * @version - 1.0
  */
-public class MyModel implements Model {
+public class MyModel implements Model 
+{
 
 	Controller ctrl;
 	HashMap<String, Maze3d> mazesMap;
 	HashMap<String, Solution> solutionMap;
 	private ArrayList<Thread> threads;
-
+	
+	/**
+	 * C'tor of MyModel Object
+	 * @param ctrl - the linked controller 
+	 */
 	public MyModel(Controller ctrl) {
 		this.ctrl = ctrl;
 		this.mazesMap = new HashMap<String, Maze3d>();
@@ -54,6 +59,7 @@ public class MyModel implements Model {
 
 	@Override
 	public String dir(String path) {
+		String str ="";
 		try {
 			ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", "dir", path);
 			builder.redirectErrorStream(true);
@@ -63,12 +69,12 @@ public class MyModel implements Model {
 			do {
 				line = r.readLine();
 				if (line!=null)
-					System.out.println(line);
+					str+=line+'\n';
 			}while (line!=null);
 		} catch (IOException e) {
 			e.getStackTrace();
 		}
-		return null;
+		return str;
 	}
 
 	/**
@@ -77,8 +83,7 @@ public class MyModel implements Model {
 	 * @param -
 	 *            name of maze , height of maze, length of maze , width of maze
 	 * @return - generated maze3d
-	 * @throws -
-	 *             Exception
+	 * @throws - Exception
 	 */
 	@Override
 	public void generate3dMaze(String name, int height, int length, int width) throws Exception {
@@ -91,7 +96,6 @@ public class MyModel implements Model {
 				try {
 					currentMaze3d = new MyMaze3dGenerator().generate(height, length, width);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				mazesMap.put(name, currentMaze3d);
@@ -104,11 +108,7 @@ public class MyModel implements Model {
 
 	@Override
 	public Maze3d display(String name) {
-		if (mazeExists(name))
 			return mazesMap.get(name);
-		else
-			System.out.println("Couldn't find maze!");
-		return null;
 	}
 
 	@Override
@@ -140,7 +140,6 @@ public class MyModel implements Model {
 			out = new MyCompressorOutputStream(new FileOutputStream(fileName));
 			out.write(mazesMap.get(name).toByteArray());
 			out.flush();
-			System.out.println("Maze " + name + " save to file " + fileName);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -149,7 +148,6 @@ public class MyModel implements Model {
 			try {
 				out.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -167,13 +165,12 @@ public class MyModel implements Model {
 			in = new MyDecompressorInputStream(new FileInputStream(fileName));
 			in.read(b);
 			mazesMap.put(name, new Maze3d(b));
-			System.out.println("Maze " + name + " loaded from file: " + fileName);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		} finally {
 			if (in != null)
 				try {
@@ -208,12 +205,6 @@ public class MyModel implements Model {
 
 	@Override
 	public void solveMaze(String name, String algorithm) {
-		if (!mazeExists(name))
-			System.out.println("There isn't such maze called " + name + " try solve another one.");
-		else if (!(algorithm.toUpperCase().equals("BFS") || algorithm.toUpperCase().equals("BREADTHFIRSTSEARCH")
-				|| algorithm.toUpperCase().equals("DFS")))
-			System.out.println("There isn't such algorithm called " + algorithm + ", try another one");
-		else {
 			Thread t = new Thread(new Runnable() {
 
 				@Override
@@ -224,19 +215,19 @@ public class MyModel implements Model {
 							sol = new DFSSearcher().search(new Maze3dAdapter(mazesMap.get(name)));
 							if (sol != null) {
 								solutionMap.put(name, sol);
-								System.out.println("The maze3d DFS based Solution is ready");
+								
 							}
 						} else if (algorithm.toUpperCase().equals("BREADTHFIRSTSEARCH")) {
 							sol = new BreadthFirstSearcher().search(new Maze3dAdapter(mazesMap.get(name)));
 							if (sol != null) {
 								solutionMap.put(name, sol);
-								System.out.println("The maze3d BreadthFirstSearch Solution based is ready");
+								
 							}
 						} else if (algorithm.toUpperCase().equals("BFS")) {
 							sol = new BFSSearcher().search(new Maze3dAdapter(mazesMap.get(name)));
 							if (sol != null) {
 								solutionMap.put(name, sol);
-								System.out.println("The maze3d BFS Solution based is ready");
+								
 							}
 						}
 					}
@@ -244,7 +235,7 @@ public class MyModel implements Model {
 			}, "solveMazeThread");
 			t.start();
 			this.threads.add(t);
-		}
+		
 	}
 
 	@Override

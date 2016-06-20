@@ -8,11 +8,15 @@ import model.maze3d.Position;
  * First the algorithm curves according Goal Position y Coordinate
  * Second the algorithm curves according Goal Position x Coordinate
  * Third the algorithm curves according Goal Position z Coordinate
+ * @author Matan Ashkenazi and Noee Cohen
+ * @version - 1.0
  */
 
 public class SimpleMaze3dGenerator extends CommonMaze3dGenerator 
 {
-
+	/**
+	 * Method which generate the maze , more formally this method find track from start to goal position
+	 */
 	@Override
 	public Maze3d generate(int height, int length, int width) throws Exception 
 	{

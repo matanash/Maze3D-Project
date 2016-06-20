@@ -3,9 +3,9 @@ package mvc.model;
 import algorithms.search.Solution;
 import model.maze3d.Maze3d;
 /**
- * this Interface define Maze3d Model functionality
- * @author MatanA
- *
+ * This Interface define Maze3d Model functionality
+ * @author Matan Ashkenazi and Noee Cohen
+ * @version - 1.0
  */
 public interface Model {
 	

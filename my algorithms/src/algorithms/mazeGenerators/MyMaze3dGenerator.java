@@ -7,12 +7,14 @@ import model.maze3d.Position;
 /**
  * MyMaze3dGenerator Concrete Class
  * This class Generate Maze according to DFS Algorithm
+ * @author Matan Ashkenazi and Noee Cohen
+ * @version - 1.0
  */
 
 public class MyMaze3dGenerator extends CommonMaze3dGenerator 
 {
 	/**
-	 * Method which generate the maze
+	 * Method which generate the maze according to DFS Algorithm
 	 */
 	@Override
 	public Maze3d generate(int height, int length, int width) throws Exception 

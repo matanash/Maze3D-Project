@@ -8,7 +8,8 @@ import model.maze3d.Direction;
 /**
  * This class adapting between Action Object to Direction object
  * based on Object Adapter Design Pattern
- * @author MatanA
+  * @author Matan Ashkenazi and Noee Cohen
+ * @version - 1.0
  */
 
 public class Maze3dAction extends Action implements Serializable{

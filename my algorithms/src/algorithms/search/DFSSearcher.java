@@ -9,9 +9,10 @@ import domains.State;
 
 
 /**
- * @author MatanA
  * This class is concrete class of Searcher interface
  * This class represents DFS Searcher that search Solution in a searchable problem according to DFS Algorithm
+ * @author Matan Ashkenazi and Noee Cohen
+ * @version - 1.0
  */
 public class DFSSearcher extends CommonSearcher {
 

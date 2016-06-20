@@ -8,8 +8,9 @@ import model.maze3d.Position;
 /**
  * This class adapting between State Object to Position object
  * based on Object Adapter Design Pattern
- * @author MatanA
- */
+ * @author Matan Ashkenazi and Noee Cohen
+ * @version - 1.0
+ */ 
 public class Maze3dState extends State implements Serializable {
 	
 	private static final long serialVersionUID = 1L;

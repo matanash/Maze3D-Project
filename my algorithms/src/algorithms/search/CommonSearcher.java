@@ -7,8 +7,8 @@ import domains.State;
 /**
  * This abstract class represents Common Searcher
  * This abstract class implements Searcher interface
- * @author MatanA
- *
+ * @author Matan Ashkenazi and Noee Cohen
+ * @version - 1.0
  */
 public abstract class CommonSearcher implements Searcher 
 {

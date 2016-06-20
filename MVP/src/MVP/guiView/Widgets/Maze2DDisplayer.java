@@ -21,12 +21,13 @@ public class Maze2DDisplayer extends Maze3DDisplayer {
 	
 	public Maze2DDisplayer(Composite parent, int style, Maze3d m3d) {
 		super(parent, style);
+		
 		this.setBackground(new Color(null, 255,255,255)); // WHITE
 		this.m3d = m3d;
-		this.mazeData = m3d.getCrossSectionByY(m3d.getStartPosition().getX());
-		this.setCharacterPosition2D(new Position2D(m3d.getStartPosition().getX(), m3d.getStartPosition().getZ()));
-		this.setCharacterPosition3D(m3d.getStartPosition());
-		this.cheese.setPosition3d(m3d.getGoalPosition());
+		this.mazeData = m3d.getCrossSectionByY(m3d.getStartPosition().getY());
+		this.character = new GameItem("resources/jerry_mouse.png", new Position2D(m3d.getStartPosition().getZ(), m3d.getStartPosition().getX()),m3d.getStartPosition());
+		this.target = new GameItem("resources/cheese.png", new Position2D(this.m3d.getGoalPosition().getZ(),this.m3d.getGoalPosition().getX()), this.m3d.getGoalPosition());
+
 	}
 
 	@Override
@@ -56,10 +57,10 @@ public class Maze2DDisplayer extends Maze3DDisplayer {
 						paintCube(dpoints, cheight, e);
 					}
 					
-					// draw the cheese image in goal position 
+					// draw the target image in the goal position 
 					if (i == m3d.getGoalPosition().getZ() && j == m3d.getGoalPosition().getX()
 							&& character.getPosition3d().getY()==m3d.getGoalPosition().getY()) {
-						cheese.draw(e,(int) Math.round(dpoints[0] + 2)+10,
+						target.draw(e,(int) Math.round(dpoints[0] + 2)+10,
 								(int) Math.round(dpoints[1] - cheight / 2 + 2), (int) Math.round((w0 + w1) / 3.5),
 								(int) Math.round(cellHeight /2));
 						
@@ -192,14 +193,14 @@ public class Maze2DDisplayer extends Maze3DDisplayer {
 
 	}
 
-	public boolean isIn2DMaze(Position2D pos) {
+	private boolean isIn2DMaze(Position2D pos) {
 		if (pos == null)
 			return false;
 		return (pos.getX() >= 0 && pos.getX() < this.mazeData[0].length && pos.getY() >= 0
 				&& pos.getY() < this.mazeData.length);
 	}
 
-	public boolean isPosition2DEmpty(Position2D pos) {
+	private boolean isPosition2DEmpty(Position2D pos) {
 		if (!isIn2DMaze(pos))
 			return false;
 
@@ -223,7 +224,7 @@ public class Maze2DDisplayer extends Maze3DDisplayer {
 							((Maze3dState) solution.getStates().get(i)).getCurrPosition().getZ());
 					setCharacterPosition3D(pos);
 					i++;
-
+					redraw();
 				} else {
 					timer.cancel();
 					timer.purge();
@@ -243,7 +244,7 @@ public class Maze2DDisplayer extends Maze3DDisplayer {
 	}
 	private void isWin()
 	{
-		if (character.getPosition3d().equals(cheese.getPosition3d())){
+		if (character.getPosition3d().equals(target.getPosition3d())){
 			MessageBox info =  new MessageBox(this.getShell(), SWT.ICON_INFORMATION); 
 			info.setMessage("You Win !!!");
 			info.setText("Information");

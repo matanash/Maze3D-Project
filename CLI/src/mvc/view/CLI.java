@@ -8,20 +8,21 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import mvc.controller.Command;
-
+/**
+ * This class represents CLI Object 
+ * @author Matan Ashkenazi and Noee Cohen
+ * @version - 1.0
+ */
 public class CLI implements Runnable {
 	private BufferedReader in;
 	private PrintWriter out;
 	private HashMap<String, Command> commands;
 
 	/**
-	 * CLI Constructor
-	 * 
-	 * @param in
-	 * @param out
-	 * @param commands
-	 * @param se
-	 * @param error
+	 * CLI C'tor
+	 * @param in - the BufferedReader to read from
+	 * @param out - the PrintWriter to write to
+	 * @param commands - the CLI commands HashMap
 	 */
 	public CLI(BufferedReader in, PrintWriter out, HashMap<String, Command> commands) {
 		this.in = in;
@@ -31,20 +32,19 @@ public class CLI implements Runnable {
 	}
 
 	/**
-	 * @param commands
-	 *            the commands to set
+	 * This method set the CLI Commands HasMap
+	 * @param commands- the commands HashMap to set
 	 */
 	public void setCommands(HashMap<String, Command> commands) {
 		this.commands = commands;
 	}
 
 	/**
-	 * launch run method
-	 * 
-	 * @throws Exception
+	 * launch run method and start the CLI View 
 	 */
 	public void run() {
 		try {
+			this.out.println("---------------Welcome to the MAZE 3D Game---------------");
 			start();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -52,10 +52,9 @@ public class CLI implements Runnable {
 	}
 
 	/**
-	 * @author Matan Ashkenazi and Noee Cohen
-	 * @return
+	 * This method launch the CLI and wait for user command
 	 */
-	public void start() throws Exception {
+	public void start() {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -103,7 +102,9 @@ public class CLI implements Runnable {
 		}, "io loop").start();
 
 	}
-
+	/**
+	 * This method print all commands help methods
+	 */
 	private void printAllCommands() {
 		for (Entry<String, Command> entry : commands.entrySet()) {
 			if (entry.getValue() != null)
@@ -111,4 +112,11 @@ public class CLI implements Runnable {
 		}
 	}
 
+	/**
+	 * This method get the PrintWriter data member of the CLI object
+	 * @return - the Printer Writer of the CLI object
+	 */
+	public PrintWriter getOut() {
+		return this.out;
+	}
 }

@@ -13,6 +13,11 @@ import io.MyCompressorOutputStream;
 import io.MyDecompressorInputStream;
 import model.maze3d.Maze3d;
 
+/**
+ * This class demonstrate Maze functionality
+ * @author Matan Ashkenazi and Noee Cohen
+ * @version - 1.0
+ */
 public class Demo 
 {
 	public static void main(String[] args) throws Exception 
@@ -20,12 +25,16 @@ public class Demo
 		testIO(new MyMaze3dGenerator());	
 		
 	}
+	/**
+	 * This is test IO Method simulate Save maze to file and read it to Maze3d Object 
+	 * @param mg - the Maze3d Generator algorithm to genertate the maze
+	 * @throws Exception - Generate Exception could be throw
+	 */
 	private static void testIO(Maze3dGenerator mg) throws Exception
 	{
 		try{
 			
 			Maze3d maze = mg.generate(3,4,4); //... generate it
-
 			// save it to a file
 			OutputStream out=new MyCompressorOutputStream(new FileOutputStream("1.maz"));
 			out.write(maze.toByteArray());

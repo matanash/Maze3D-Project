@@ -6,8 +6,8 @@ import domains.State;
 
 /**
  * This class represents Solution of searchable problem
- * @author MatanA
- *
+ * @author Matan Ashkenazi and Noee Cohen
+ * @version - 1.0
  */
 public class Solution implements Serializable {
 	/**
@@ -42,12 +42,22 @@ public class Solution implements Serializable {
 			str += '\n' + state.toString();
 		return str;
 	}
+	/**
+	 * @param state - state whose presence in this solution is to be tested
+	 * @return - true if this Solution contains the specified state
+	 */
 	public boolean contains(State state)
 	{
 		if (states.contains(state))
 			return true;
 		return false;
 	}
+	/**
+	 * Removes the first occurrence of the specified element from this list, if it is present.
+	 * If the Solution does not contain the state, it is unchanged. More formally, removes the state with the lowest index in the solution states list.
+	 * @param state - state to remove from the solution states list
+	 * @return - Returns true if this solution contained the specified state 
+	 */
 	public boolean remove(State state)
 	{
 		return states.remove(state);

@@ -6,10 +6,14 @@ import org.eclipse.swt.graphics.Image;
 import model.maze3d.Position;
 
 public class GameItem {
-	private static final String icon = "resources/cheese.png";
+	private final String icon ;
 	private Position2D position2d;
 	private Position Position3d;
-	
+	public GameItem(final String icon,Position2D position2d,Position position3d) {
+		this.icon = icon;
+		this.position2d = position2d;
+		this.Position3d = position3d;
+	}
 	public Position2D getPosition2d() {
 		return position2d;
 	}

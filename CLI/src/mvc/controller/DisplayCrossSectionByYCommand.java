@@ -2,49 +2,57 @@ package mvc.controller;
 
 import mvc.model.Model;
 import mvc.view.View;
-
+/**
+ * This class represent Display Cross Section By Y Coordinate Command
+ * @author Matan Ashkenazi and Noee Cohen
+ * @version - 1.0
+ */
 public class DisplayCrossSectionByYCommand extends CommonCommand {
 
-	public DisplayCrossSectionByYCommand(View v, Model m) {
-		super(v, m);
-		// TODO Auto-generated constructor stub
+	public DisplayCrossSectionByYCommand(View view, Model model) {
+		super(view, model);
 	}
 
 	@Override
 	public void doCommand(String[] args) throws Exception {
 		if (args.length != 2) {
-			System.out.println("Invalid arguments");
+			this.view.getOut().println("Invalid arguments");
+			this.view.getOut().flush();
 			this.help();
 		} else {
 			try {
 				printMaze2dBySection(model.displayCrossSectionByY(Integer.parseInt(args[0]), args[1]));
 			} catch (NumberFormatException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 
 	}
-
-	private static void printMaze2dBySection(int[][] matrix) {
+	
+	@Override
+	public void help() {
+		this.view.getOut().println("Displays cross section by <ySection> for maze3d <name> ." + '\n' + '\t'
+				+ "--> Syntax: display cross section by Y <ySection> <name>");
+		this.view.getOut().flush();
+	}
+	
+	/**
+	 * This method prints 2D Maze
+	 * @param matrix - the 2D Maze represented by Two-dimensional array
+	 */
+	private void printMaze2dBySection(int[][] matrix) {
 		System.out.println("The requested Maze Section is: ");
 		for (int i = 0; i < matrix.length; i++) {
 			for (int j = 0; j < matrix[0].length; j++) {
-				System.out.print(matrix[i][j] + " ");
+				this.view.getOut().println(matrix[i][j] + " ");
+				this.view.getOut().flush();
 			}
-			System.out.println();
+			this.view.getOut().println();
+			this.view.getOut().flush();
 		}
-		System.out.println();
+		this.view.getOut().println();
+		this.view.getOut().flush();
 	}
-
-	@Override
-	public void help() {
-		System.out.println("Displays cross section by <ySection> for maze3d <name> ." + '\n' + '\t'
-				+ "--> Syntax: display cross section by Y <ySection> <name>");
-
-	}
-
 }

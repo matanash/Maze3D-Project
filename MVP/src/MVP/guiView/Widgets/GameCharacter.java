@@ -1,4 +1,4 @@
-package MVP.guiView.Widgets;
+/*package MVP.guiView.Widgets;
 
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.graphics.Image;
@@ -31,3 +31,4 @@ public class GameCharacter {
 		e.gc.drawImage(image, 0, 0, image.getBounds().width, image.getBounds().height,destX,destY,destWidth,destHeight);
 	}
 }
+*/

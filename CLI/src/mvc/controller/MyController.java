@@ -4,44 +4,62 @@ import java.util.HashMap;
 
 import mvc.model.Model;
 import mvc.view.MyView;
-
+/**
+ * This class represents concrete Controller and responsible to link between the Model and the View facades .
+ * @author Matan Ashkenazi and Noee Cohen
+ * @version - 1.0
+ */
 public class MyController implements Controller 
 {
 
 	private MyView view;
 	private Model model;
 	HashMap<String, Command> commands;
-	
+
 	public MyController() {}
-	
+	/**
+	 * This method get the view object
+	 * @return - reference to the view
+	 */
 	public MyView getView() 
 	{
 		return this.view;
 	}
-
+	/**
+	 * This method set the model object
+	 * @param - the view to set
+	 */
 	public void setView(MyView view) 
 	{
 		this.view = view;
 	}
-
+	/**
+	 * This method get the model object
+	 * @return - reference to the model
+	 */
 	public Model getModel() 
 	{
 		return this.model;
 	}
-
+	/**
+	 * This method set the model object
+	 * @param - the model to set
+	 */
 	public void setModel(Model model) 
 	{
 		this.model = model;
 	}
 	
 	/**
-	 * @return the commands
+	 * This method get the commands HashMap the Controller hold
+	 * @return -the commands HashMap
 	 */
 	public HashMap<String, Command> getCommands() {
 		return this.commands;
 	}
 	
 	/**
+	 * This method set the commands HashMap the controller hold
 	 * @param commands the commands to set
 	 */
 	public void setCommands() {
@@ -49,7 +67,10 @@ public class MyController implements Controller
 		this.view.getCli().setCommands(commands);
 	}
 	
-
+	/**
+	 * This method initialize the HashMap of the possible Commands
+	 * @return - the commands HashMap after initialize
+	 */
 	public HashMap<String, Command> initializeCommands() 
 	{
 		HashMap<String, Command> commandsMap = new HashMap<String, Command>();
@@ -68,12 +89,6 @@ public class MyController implements Controller
 		commandsMap.put("display solution", new DisplaySolutionCommand(this.view, this.model));
 		commandsMap.put("exit", new ExitCommand(this.view,this.model));
 		return commandsMap;
-	}
-
-	@Override
-	public void display(String message) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

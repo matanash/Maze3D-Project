@@ -12,10 +12,12 @@ import model.maze3d.Maze3d;
 import model.maze3d.Position;
 
 public abstract class Maze3DDisplayer extends Composite{
-
-	protected GameCharacter character = new GameCharacter();
 	
-	protected GameItem cheese = new GameItem();
+	protected GameItem character;
+	
+	protected GameItem target ;
+	
+	protected Maze3d m3d;
 	
 	protected abstract void drawMaze(PaintEvent e);
 
@@ -23,16 +25,14 @@ public abstract class Maze3DDisplayer extends Composite{
 
 	protected abstract void goLevelUp();
 	
+	protected abstract void goLeft();
+
+	protected abstract void goRight();
+	
 	protected abstract void goDown();
 	
 	protected abstract void goUp();
 
-	protected abstract void goLeft();
-
-	protected abstract void goRight();
-
-	protected Maze3d m3d;
-	
 	public Maze3DDisplayer(Composite parent, int style) 
 	{
 		super(parent, style);
@@ -76,6 +76,8 @@ public abstract class Maze3DDisplayer extends Composite{
 		});
 	}
 	
+	public abstract void walkToGoalPosition(Solution solution);
+	
 	public Maze3d getMaze3d() {
 		return this.m3d;
 	}
@@ -84,11 +86,11 @@ public abstract class Maze3DDisplayer extends Composite{
 		this.m3d = m3d;
 	}
 	
-	public GameCharacter getGameCharacter() {
+	public GameItem getGameCharacter() {
 		return this.character;
 	}
 	
-	public void setGameCharacter(GameCharacter character) {
+	public void setGameItem(GameItem character) {
 		this.character = character;
 	}
 	
@@ -99,6 +101,5 @@ public abstract class Maze3DDisplayer extends Composite{
 		character.setPosition3d(position3d);
 	}
 	
-	public abstract void walkToGoalPosition(Solution solution);
 	
 }

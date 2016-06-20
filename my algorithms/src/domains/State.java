@@ -4,7 +4,8 @@ import java.io.Serializable;
 
 /**
  * This class represents State in Searchable problem
- * @author MatanA
+ * @author Matan Ashkenazi and Noee Cohen
+ * @version - 1.0
  */
 public class State implements Comparable<State>, Serializable
 {

@@ -11,7 +11,8 @@ import model.maze3d.Direction;
 
 
 /**
- * @author MatanA
+ * @author Matan Ashkenazi and Noee Cohen
+ * @version - 1.0
  * This class is concrete class of Searcher interface
  * This class represents Best First Searcher witch search Solution in a searchable problem according to Best First Search Algorithm
  */
